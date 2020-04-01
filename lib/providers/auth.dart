@@ -95,7 +95,7 @@ class Auth extends ChangeNotifier {
       //Store jwt claims in local variables
       _username = _parsedToken["sub"];
       print("username is: \n" + _username + "\n");
-      print("username is: \n" + _token + "\n");
+      print("token is: $_token");
 
 
       //don't need to store permission on phone, only if user is admin to show different interface
@@ -108,6 +108,8 @@ class Auth extends ChangeNotifier {
         body: _username,
       );
       _userId = int.tryParse(response.body);
+      print("userID is: $_userId");
+      // print("token is: \n" + _token + "\n");
 
 
       _expiryDate = DateTime.now().add(

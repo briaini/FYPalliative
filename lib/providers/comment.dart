@@ -5,6 +5,7 @@ class Comment {
   final int postId;
   final int userId;
   final String textBody;
+  // var Item;
   DateTime dateTime;
 
   Comment({
@@ -14,4 +15,23 @@ class Comment {
     this.userId,
     this.dateTime,
   });
+
+  int get getPostId {
+    return postId;
+  }
+
+  String get getTextBody {
+    return textBody;
+  }
+
+  @override
+  String toString() {
+    return
+    """
+    id: $id,
+    postId: $postId,
+    userId: $userId,
+    textBody: $textBody
+    """;
+  }
 }

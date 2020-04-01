@@ -10,7 +10,7 @@ class Item with ChangeNotifier {
   final String description;
   final String link_url;
   final String image_url;
-  List<Comment> comments;
+  List<Comment> comments = [];
 
   Item({
     this.id,
@@ -23,6 +23,18 @@ class Item with ChangeNotifier {
     this.comments,
   });
 
+  int get getId{
+    return id;
+  }
+
+  List<Comment> get getComments {
+    return comments;
+  }
+
+  void addComment(Comment comment) {
+    comments.add(comment);
+  }
+
   @override
   String toString() {
     return """Printing Item: 
@@ -34,6 +46,7 @@ class Item with ChangeNotifier {
       'description':'$description,
       'link_url':'$link_url,
       'image_url':'$image_url,
+      'comments':${comments.toString()}
     }    
     """;
   }

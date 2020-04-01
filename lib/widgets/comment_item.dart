@@ -27,17 +27,17 @@ class _CommentItemState extends State<CommentItem> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    widget._comment.imageUrl,
-                  ),
-                ),
-                SizedBox(width: 5),
-                Text(widget._comment.authorName),
+                // CircleAvatar(
+                //   backgroundImage: NetworkImage(
+                //     widget._comment.imageUrl,
+                //   ),
+                // // ),
+                // SizedBox(width: 5),
+                // Text(widget._comment.authorName),
               ],
             ),
             Text(
-              widget._comment.text,
+              widget._comment.getTextBody,
               textAlign: TextAlign.left,
             ),
             _replyButton

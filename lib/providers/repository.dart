@@ -10,6 +10,7 @@ class Repository with ChangeNotifier {
   final _token;
   final _userId;
   final Map<String, String> _mapToken = {};
+  List<Comment> _comments;
   // _mapToken['authorization'] = 'token';
 
   //{'authorization': _token};
@@ -64,6 +65,24 @@ class Repository with ChangeNotifier {
       final items = json.decode(response.body);
       final List<Item> _fetchedItems = [];
 
+      url = 'http://10.0.2.2:8080/users/$_userId/comments';
+      response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      final comments = json.decode(response.body);
+      List<Comment> fetchedComments = [];
+
+      comments.forEach((comment) {
+        fetchedComments.add(
+          Comment(
+            id: comment['id'],
+            textBody: comment['textBody'],
+            postId: comment["post"]["id"],
+          ),
+        );
+      });
+
       items.forEach((post) {
         _fetchedItems.add(
           Item(
@@ -74,77 +93,30 @@ class Repository with ChangeNotifier {
             description: post["description"],
             link_url: post["linkUrl"],
             image_url: post["imageUrl"],
-            
+            comments: [],
           ),
         );
       });
 
+      fetchedComments.forEach((comment) {
+        _fetchedItems.forEach((item) {
+            if(comment.getPostId == item.id) {
+              item.comments.add(comment);
+            }
+         });
+      });
+
       _repoItems = _fetchedItems;
 
-      // final itemComments = json.decode(response.body) as Map<String, dynamic>;
-
-      // itemDetailsResponse.forEach(
-      //   (id, itemMap) {
-      //     final List<Comment> _fetchedComments = [];
-      //     if(itemComments != null) {
-      //     if (itemComments[id] != null) {
-      //       itemComments[id]['comments'].forEach((key, map) {
-
-      //         _fetchedComments.add(Comment(
-      //           id: key,
-      //           text: map['commentText'],
-      //           // dateTime: map['dateTime'],
-      //           dateTime: DateTime.now(),
-      //           imageUrl: map['imageUrl'],
-      //           authorName: map['authorName'],
-      //         ));
-      //       });
-      //     }
-      //   }
-      //     _fetchedItems.add(
-      //       Item(
-      //         category: itemMap['category'],
-      //         description: itemMap['description'],
-      //         id: id,
-      //         media: itemMap['media'],
-      //         title: itemMap['title'],
-      //         linkUrl: itemMap['linkUrl'],
-      //         imageUrl: itemMap['imageUrl'],
-      //         comments: _fetchedComments,
-      //       ),
-      //     );
-      //   },
-      // );
-
       notifyListeners();
-
-      fetchComments();
     } catch (error) {
       print(error.toString());
     }
   }
 
-  Future<void> fetchComments() async {
-    var url = 'http://10.0.2.2:8080/users/$_userId/comments';
-    try {
-      var response = await http.post(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "userId": _userId,
-          },
-        ),
-      );
-      final items = json.decode(response.body);
-      print("fetching comments: $items");
-    } catch (e) {
-      e.toString();
-    }
-  }
-
   Future<void> saveComment(Comment comment) async {
-    final url = 'http://10.0.2.2:8080/$_userId/comments/';
+    final url =
+        'http://10.0.2.2:8080/users/$_userId/posts/${comment.postId}/comments';
     print("in saveComment: ${comment.postId}");
     try {
       final response = await http.post(
@@ -152,8 +124,6 @@ class Repository with ChangeNotifier {
         headers: tokenHeader,
         body: json.encode(
           {
-            // "userId": _,
-            "postId": comment.postId,
             "textBody": "testComment",
           },
         ),
