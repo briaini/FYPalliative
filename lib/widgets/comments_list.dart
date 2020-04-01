@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/auth.dart';
-import '../providers/comment.dart';
 import '../providers/repository.dart';
 import '../providers/item.dart';
 import './comment_item.dart';
@@ -17,7 +15,6 @@ class CommentsList extends StatefulWidget {
 }
 
 class _CommentsListState extends State<CommentsList> {
-  // var _replyBranchForm = false;
   var _isInit = true;
   var _isLoading = false;
 
@@ -43,13 +40,14 @@ class _CommentsListState extends State<CommentsList> {
   // }
 
   void saveComment(comment) {
-    Provider.of<Repository>(context)
-        .saveComment(comment);
+    Provider.of<Repository>(context).saveComment(comment);
   }
+
 
   @override
   Widget build(BuildContext context) {
     final _comments = widget._item.comments ?? [];
+
     // print('_' + widget._item.comments.toString());
     //    print('jsonMap' + widget._item.comments.toString());
 
@@ -83,47 +81,26 @@ class _CommentsListState extends State<CommentsList> {
     //     ),
     //     // child: , //can be used to add widget that doesn't update in consumer
     //   ),
-    return ExpansionTile(
-      leading: Icon(Icons.comment),
-      title: Text('Comments (${_comments.length})'),
-      children: List<Widget>.generate(
-        _comments.length,
-        (i) {
-          return Column(
-            children: <Widget>[
-              CommentItem(_comments[i]),
-              Divider(
-                height: 8,
-              ),
-            ],
-          );
-        },
-      )..add(
-          FlatButton(
-            onPressed: () => saveComment(
-              Comment(
-                postId: widget._item.id,
-                textBody: 'newSavedComment',
-              ),
-            ),
-            child: Text('Reply'),
+    return Column(
+      children: <Widget>[
+        ExpansionTile(
+          leading: Icon(Icons.comment),
+          title: Text('Comments (${_comments.length})'),
+          children: List<Widget>.generate(
+            widget._item.comments.length,
+            (i) {
+              return Column(
+                children: <Widget>[
+                  CommentItem(widget._item.comments[i]),
+                  Divider(
+                    height: 8,
+                  ),
+                ],
+              );
+            },
           ),
         ),
-      // trailing: Text(_comments.length.toString()),
+      ],
     );
-
-    // : Container(
-    //     height: 1,
-    //   );
-
-    //  ListView.separated(
-    //         padding: const EdgeInsets.all(8),
-    //         separatorBuilder: (_, i) => const Divider(),
-    //         itemCount: _comments.length,
-    //         itemBuilder: (_, i) {f
-    //           return CommentItem(_comments[i]);
-    //         },
-    //       )
-    //     : Container();
   }
 }

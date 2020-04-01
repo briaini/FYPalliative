@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 
 import './item.dart';
 import './comment.dart';
+import '../widgets/new_comment_modal.dart';
+
 
 class Repository with ChangeNotifier {
   final _token;
@@ -114,17 +116,25 @@ class Repository with ChangeNotifier {
     }
   }
 
+  void createComment(BuildContext context, Item item) {
+    showModalBottomSheet(
+      context: context,
+      builder: (bCtx) {
+        return NewCommentModal(item);
+      },
+    );
+  }
+
   Future<void> saveComment(Comment comment) async {
     final url =
         'http://10.0.2.2:8080/users/$_userId/posts/${comment.postId}/comments';
-    print("in saveComment: ${comment.postId}");
     try {
       final response = await http.post(
         url,
         headers: tokenHeader,
         body: json.encode(
           {
-            "textBody": "testComment",
+            "textBody": comment.textBody,
           },
         ),
       );
