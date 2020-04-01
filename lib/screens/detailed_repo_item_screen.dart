@@ -14,9 +14,7 @@ class DetailedRepoItemScreen extends StatelessWidget {
     print("inDetailedRepoItemScreen: ${item.id}");
 
     return Scaffold(
-      body: item.media == 'video'
-          ? VideoScreen(item)
-          : TextItemTabScreen(item),
+      body: item.media == 'video' ? VideoScreen(item) : TextItemTabScreen(item),
     );
   }
 }

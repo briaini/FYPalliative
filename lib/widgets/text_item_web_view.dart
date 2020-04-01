@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
+import 'package:webview_media/webview_flutter.dart';
 
 class TextItemWebView extends StatelessWidget {
   @override

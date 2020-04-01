@@ -23,7 +23,7 @@ dependencies:
   intl: ^0.15.8
   http: ^0.12.0+2
   shared_preferences: ^0.5.6+1
-  webview_flutter: ^0.3.19+9
+  # webview_flutter: ^0.3.19+9  this dependency is included in youtube_player_flutter, will throw duplicate class error if included
   youtube_player_flutter: ^6.0.3+2
   # json_serializable: ^3.2.5
 
