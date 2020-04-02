@@ -32,7 +32,6 @@ class Repository with ChangeNotifier {
     return {'authorization': _token};
   }
 
-  // Future<void> editRepoItem(Map<String, String> itemData) async {
   Future<void> editRepoItem(Item item) async {
     print('repo.editRepoItem\n\n');
     print(item.toString());
@@ -44,16 +43,17 @@ class Repository with ChangeNotifier {
         headers: tokenHeader,
         body: json.encode(
           {
-            'title': item.title,
-            'description': item.description,
-            'media': item.media,
-            'category': item.category,
-            'link_url': item.link_url,
-            'image_url': item.image_url,
+            "title": item.title,
+            "media": item.media,
+            "category": item.category,
+            "description": item.description,
+            "link_url": item.link_url,
+            "image_url": item.image_url,
           },
         ),
       );
       print("editRepo:" + response.body.toString() + "\n");
+      notifyListeners();
     } catch (error) {
       throw error;
     }

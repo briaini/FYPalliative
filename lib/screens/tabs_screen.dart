@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './repository_screen.dart';
 import './community_screen.dart';
 import './profile_screen.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/mdt_app_drawer.dart';
+import '../providers/auth.dart';
 
 class TabsScreen extends StatefulWidget {
   static const routeName = 'tabs-screen';
@@ -56,12 +59,11 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("tabs_screen._selectedPageIndex: " + _selectedPageIndex.toString());
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title']),
       ),
-      drawer: AppDrawer(),
+      drawer: Provider.of<Auth>(context).isMDT ? MdtAppDrawer() : AppDrawer(),
       body: 
       _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(

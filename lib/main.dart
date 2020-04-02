@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       //   value: Products(),
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-          title: 'MyShop',
+          title: 'Palliative',
           theme: ThemeData(
             primarySwatch: Colors.purple,
             accentColor: Colors.deepOrange,

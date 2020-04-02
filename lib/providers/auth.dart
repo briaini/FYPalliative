@@ -12,9 +12,14 @@ class Auth extends ChangeNotifier {
   DateTime _expiryDate;
   Timer _authTimer;
   bool _isAdmin = false;
+  bool _isMDT = false;
 
   bool get isAuth {
     return token != null;
+  }
+
+  bool get isMDT {
+    return _isMDT;
   }
 
   Map<String, String> get tokenHeader {
@@ -83,7 +88,8 @@ class Auth extends ChangeNotifier {
           "content-type": "application/json"
         },
         body: json.encode(
-          {"username": "rose", "password": "password"}, //TODO: change static
+          {"username": username, "password": password},
+          // {"username": "rose", "password": "password"},
         ),
       );
 
@@ -98,9 +104,11 @@ class Auth extends ChangeNotifier {
       print("token is: $_token");
 
 
-      //don't need to store permission on phone, only if user is admin to show different interface
       if (_parsedToken["authorities"].toString().contains("ADMIN")) {
         _isAdmin = true;
+      }
+      if (_parsedToken["authorities"].toString().contains("MDT")) {
+        _isMDT = true;
       }
 
       response = await http.post(
@@ -133,6 +141,7 @@ class Auth extends ChangeNotifier {
       );
       prefs.setString('userData', userData);
 
+      print("is MDT: " + _isMDT.toString());
       // print("token: " + _token);
       // print("auth__userId: " + _userId);
       // print("username: " + _username);
@@ -170,12 +179,13 @@ class Auth extends ChangeNotifier {
     _userId = null;
     _expiryDate = null;
     _isAdmin = false;
+    _isMDT = false;
     try {
       final prefs = await SharedPreferences.getInstance();
       prefs.remove('userData');
       prefs.clear();
     } catch (error) {
-      print(error.toString());
+      print("error clearing shared pref");
     }
     if (_authTimer != null) {
       _authTimer.cancel();
@@ -203,7 +213,6 @@ class Auth extends ChangeNotifier {
     if (payloadMap is! Map<String, dynamic>) {
       throw Exception('invalid payload');
     }
-    // print(payloadMap);
     return payloadMap;
   }
 

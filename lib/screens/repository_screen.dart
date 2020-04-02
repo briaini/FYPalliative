@@ -45,10 +45,10 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
     // print('reposcreen' + repo.items.toString());
 
     return _isLoading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : RepositoryList();
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : RepositoryList();
     // Container(
     // child: ListView.separated(
     //   padding: const EdgeInsets.all(8),

@@ -20,20 +20,12 @@ class AppDrawer extends StatelessWidget {
             title: Text('Palliative Care App'),
             automaticallyImplyLeading: false,
           ),
-          Divider(),
           ListTile(
             leading: Icon(Icons.library_books),
             title: Text('Suggested Content'),
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(TabsScreen.routeName),
           ),
-          Divider(),
-          // ListTile(
-          //   leading: Icon(Icons.edit),
-          //   title: Text('Community'),
-          //   onTap: () => Navigator.of(context)
-          //       .pushReplacementNamed(CommunityScreen.routeName),
-          // ),
           Divider(),
           ListTile(
             leading: Icon(Icons.person),
@@ -47,13 +39,6 @@ class AppDrawer extends StatelessWidget {
             title: Text('Settings'),
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(RepoFilterScreen.routeName),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('edit'),
-            onTap: () => Navigator.of(context)
-                .pushReplacementNamed(EditRepositoryItemScreen.routeName),
           ),
           Divider(),
           // ListTile(

@@ -53,7 +53,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
     super.dispose();
   }
 
-  _saveForm() {
+  Future<void> _saveForm() async {
     final isFormValid = _form.currentState.validate();
     if (!isFormValid) return;
     _form.currentState.save();
@@ -76,8 +76,30 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
       link_url: _savedValues['url'],
       image_url: _savedValues['url'],
     );
-
-    Provider.of<Repository>(context).editRepoItem(_newItem);
+    try{
+      await Provider.of<Repository>(context).editRepoItem(_newItem);
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Error Occurred!'),
+            content: Text('Something went wrong while creating post.'),
+            // content: Text(error.toString()), //shouldn't print error might contain info
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ),
+        );
+    }
+    setState(() {
+        _isLoading = false;
+      });
+    // Navigator.of(context).pop();
   }
 
   @override
