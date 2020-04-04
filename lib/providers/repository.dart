@@ -12,6 +12,7 @@ class Repository with ChangeNotifier {
   final _token;
   final _userId;
   final Map<String, String> _mapToken = {};
+  final _isMDT;
   List<Comment> _comments;
   // _mapToken['authorization'] = 'token';
 
@@ -26,7 +27,7 @@ class Repository with ChangeNotifier {
     'videos': false,
   };
 
-  Repository(this._token, this._userId, this._repoItems);
+  Repository(this._token, this._userId, this._isMDT, this._repoItems);
 
   Map<String, String> get tokenHeader {
     return {'authorization': _token};
@@ -60,7 +61,7 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> fetchItems() async {
-    var url = 'http://10.0.2.2:8080/users/$_userId/posts';
+    var url = _isMDT ? 'http://10.0.2.2:8080/posts' : 'http://10.0.2.2:8080/users/$_userId/posts';
 
     try {
       var response = await http.get(url, headers: tokenHeader);
@@ -68,6 +69,7 @@ class Repository with ChangeNotifier {
       final List<Item> _fetchedItems = [];
 
       url = 'http://10.0.2.2:8080/users/$_userId/comments';
+
       response = await http.get(
         url,
         headers: tokenHeader,

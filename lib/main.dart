@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (ctx, auth, previousRepoItems) => Repository(
             auth.token,
             auth.userId,
+            auth.isMDT,
             previousRepoItems == null ? [] : previousRepoItems.items,
           ),
         ),

@@ -61,7 +61,7 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video'),
+        title: Text(widget.item.title),
       ),
       body: Column(
               children: <Widget>[
