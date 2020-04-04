@@ -41,8 +41,8 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
     description: '',
     media: '',
     category: '',
-    link_url: '',
-    image_url: '',
+    linkUrl: '',
+    imageUrl: '',
   );
 
   @override
@@ -73,33 +73,33 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
       description: _savedValues['description'],
       media: _savedValues['media'],
       category: _savedValues['category'],
-      link_url: _savedValues['url'],
-      image_url: _savedValues['url'],
+      linkUrl: _savedValues['url'],
+      imageUrl: _savedValues['url'],
     );
-    try{
+    try {
       await Provider.of<Repository>(context).editRepoItem(_newItem);
     } catch (e) {
       showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('Error Occurred!'),
-            content: Text('Something went wrong while creating post.'),
-            // content: Text(error.toString()), //shouldn't print error might contain info
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Okay'),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              ),
-            ],
-          ),
-        );
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Error Occurred!'),
+          content: Text('Something went wrong while creating post.'),
+          // content: Text(error.toString()), //shouldn't print error might contain info
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        ),
+      );
     }
     setState(() {
-        _isLoading = false;
-      });
-    // Navigator.of(context).pop();
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -122,175 +122,175 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
           : Padding(
               padding: const EdgeInsets.all(16),
               child: Form(
-                  key: _form,
-                  child: ListView(
-                    children: <Widget>[
-                      TextFormField(
-                          initialValue: _initValues['title'],
-                          decoration: InputDecoration(
-                            labelText: 'Title',
-                          ),
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_mediaFocusNode);
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a title';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _savedValues['title'] = value;
-                            _editedItem = Item(
-                              // id: _editedItem.id,
-                              media: _editedItem.media,
-                              category: _editedItem.category,
-                              title: value,
-                              description: _editedItem.description,
-                              link_url: _editedItem.link_url,
-                              image_url: _editedItem.image_url,
-                            );
-                          }),
-                      TextFormField(
-                          focusNode: _mediaFocusNode,
-                          initialValue: _initValues['media'],
-                          decoration: InputDecoration(
-                            labelText: 'Media',
-                          ),
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_categoryFocusNode);
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter type of media [text, audio, video]';
-                            }
-                            var validMedia = ['video','text'];
-                            if(!validMedia.contains(value))
-                            // if (value.compareTo('video') != 0)
-                            // ||
-                            //     value.compareTo('audio') != 0 ||
-                            //     value.compareTo('text') != 0)
-                            {
-                              return 'Please enter type of media : text, audio, or video';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // _savedValues['media'] = value.trim();
-                            _savedValues['media'] = value.trim();
-                            _editedItem = Item(
-                              // id: _editedItem.id,
-                              media: value,
-                              category: _editedItem.category,
-                              title: _editedItem.title,
-                              description: _editedItem.description,
-                              link_url: _editedItem.link_url,
-                              image_url: _editedItem.image_url,
-                            );
-                          }),
-                      TextFormField(
-                          focusNode: _categoryFocusNode,
-                          initialValue: _initValues['Category'],
-                          decoration: InputDecoration(
-                            labelText: 'Category',
-                          ),
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_descriptionFocusNode);
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a category.';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _savedValues['category'] = value;
-                            _editedItem = Item(
-                              id: _editedItem.id,
-                              media: _editedItem.media,
-                              category: value,
-                              title: _editedItem.title,
-                              description: _editedItem.description,
-                              link_url: _editedItem.link_url,
-                              image_url: _editedItem.image_url,
-                            );
-                          }),
-                      TextFormField(
-                        initialValue: _initValues['description'],
+                key: _form,
+                child: ListView(
+                  children: <Widget>[
+                    TextFormField(
+                        initialValue: _initValues['title'],
                         decoration: InputDecoration(
-                          labelText: 'Description',
+                          labelText: 'Title',
                         ),
-                        focusNode: _descriptionFocusNode,
-                        maxLines: 3,
-                        keyboardType: TextInputType.multiline,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_mediaFocusNode);
+                        },
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Please enter a description';
+                            return 'Please enter a title';
                           }
-                        },
-                        onSaved: (value) {
-                          _savedValues['description'] = value;
-                          _editedItem = Item(
-                            id: _editedItem.id,
-                            media: _editedItem.media,
-                            category: _editedItem.category,
-                            title: _editedItem.title,
-                            description: value,
-                            link_url: _editedItem.link_url,
-                            image_url: _editedItem.image_url,
-                          );
-                        },
-                      ),
-                      TextFormField(
-                        initialValue: _initValues['url'],
-                        decoration: InputDecoration(
-                          labelText: 'URL',
-                        ),
-                        keyboardType: TextInputType.url,
-                        textInputAction: TextInputAction.done,
-                        // focusNode: ,
-                        // controller: _urlController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please provide a url.';
-                          }
-                          // if (!value.startsWith('http') &&
-                          //     !value.startsWith('https')) {
-                          //   return 'Please enter a valid url.';
-                          // }
-                          // if (!value.endsWith('.png') &&
-                          //     !value.endsWith('.jpg') &&
-                          //     !value.endsWith('.jpeg')) {
-                          //   return 'Please enter a valid url';
-                          // }
                           return null;
                         },
                         onSaved: (value) {
-                          _savedValues['url'] = value;
+                          _savedValues['title'] = value;
                           _editedItem = Item(
-                            id: _editedItem.id,
+                            // id: _editedItem.id,
                             media: _editedItem.media,
+                            category: _editedItem.category,
+                            title: value,
+                            description: _editedItem.description,
+                            linkUrl: _editedItem.linkUrl,
+                            imageUrl: _editedItem.imageUrl,
+                          );
+                        }),
+                    TextFormField(
+                        focusNode: _mediaFocusNode,
+                        initialValue: _initValues['media'],
+                        decoration: InputDecoration(
+                          labelText: 'Media',
+                        ),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_categoryFocusNode);
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter type of media [text, audio, video]';
+                          }
+                          var validMedia = ['video', 'text'];
+                          if (!validMedia.contains(value))
+                          // if (value.compareTo('video') != 0)
+                          // ||
+                          //     value.compareTo('audio') != 0 ||
+                          //     value.compareTo('text') != 0)
+                          {
+                            return 'Please enter type of media : text, audio, or video';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          // _savedValues['media'] = value.trim();
+                          _savedValues['media'] = value.trim();
+                          _editedItem = Item(
+                            // id: _editedItem.id,
+                            media: value,
                             category: _editedItem.category,
                             title: _editedItem.title,
                             description: _editedItem.description,
-                            // linkUrl: _editedItem.linkUrl,
-                            // imageUrl: _editedItem.imageUrl,
-                            link_url: value,
-                            image_url: value,
+                            linkUrl: _editedItem.linkUrl,
+                            imageUrl: _editedItem.imageUrl,
                           );
-                        },
+                        }),
+                    TextFormField(
+                        focusNode: _categoryFocusNode,
+                        initialValue: _initValues['Category'],
+                        decoration: InputDecoration(
+                          labelText: 'Category',
+                        ),
+                        textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
-                          _saveForm();
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocusNode);
                         },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter a category.';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _savedValues['category'] = value;
+                          _editedItem = Item(
+                            id: _editedItem.id,
+                            media: _editedItem.media,
+                            category: value,
+                            title: _editedItem.title,
+                            description: _editedItem.description,
+                            linkUrl: _editedItem.linkUrl,
+                            imageUrl: _editedItem.imageUrl,
+                          );
+                        }),
+                    TextFormField(
+                      initialValue: _initValues['description'],
+                      decoration: InputDecoration(
+                        labelText: 'Description',
                       ),
-                    ],
-                  )),
+                      focusNode: _descriptionFocusNode,
+                      maxLines: 3,
+                      keyboardType: TextInputType.multiline,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter a description';
+                        }
+                      },
+                      onSaved: (value) {
+                        _savedValues['description'] = value;
+                        _editedItem = Item(
+                          id: _editedItem.id,
+                          media: _editedItem.media,
+                          category: _editedItem.category,
+                          title: _editedItem.title,
+                          description: value,
+                          linkUrl: _editedItem.linkUrl,
+                          imageUrl: _editedItem.imageUrl,
+                        );
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: _initValues['url'],
+                      decoration: InputDecoration(
+                        labelText: 'URL',
+                      ),
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
+                      // focusNode: ,
+                      // controller: _urlController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please provide a url.';
+                        }
+                        // if (!value.startsWith('http') &&
+                        //     !value.startsWith('https')) {
+                        //   return 'Please enter a valid url.';
+                        // }
+                        // if (!value.endsWith('.png') &&
+                        //     !value.endsWith('.jpg') &&
+                        //     !value.endsWith('.jpeg')) {
+                        //   return 'Please enter a valid url';
+                        // }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _savedValues['url'] = value;
+                        _editedItem = Item(
+                          id: _editedItem.id,
+                          media: _editedItem.media,
+                          category: _editedItem.category,
+                          title: _editedItem.title,
+                          description: _editedItem.description,
+                          // linkUrl: _editedItem.linkUrl,
+                          // imageUrl: _editedItem.imageUrl,
+                          linkUrl: value,
+                          imageUrl: value,
+                        );
+                      },
+                      onFieldSubmitted: (_) {
+                        _saveForm();
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
     );
   }

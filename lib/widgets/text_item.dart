@@ -11,15 +11,16 @@ class TextItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("building text_item: ${item.id}");
+    print("image URL: $item");
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          item.image_url != null
+          item.imageUrl != null
               ? Container(
                   width: double.infinity,
                   height: 250,
                   child: Image.network(
-                    item.image_url,
+                    item.imageUrl,
                     fit: BoxFit.cover,
                   ),
                 )

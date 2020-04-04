@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import './repository_screen.dart';
 import './community_screen.dart';
 import './profile_screen.dart';
 import '../widgets/app_drawer.dart';
-import '../widgets/mdt_app_drawer.dart';
-import '../providers/auth.dart';
 
 class TabsScreen extends StatefulWidget {
   static const routeName = 'tabs-screen';

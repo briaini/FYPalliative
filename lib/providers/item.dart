@@ -8,8 +8,8 @@ class Item with ChangeNotifier {
   final String category;
   final String title;
   final String description;
-  final String link_url;
-  final String image_url;
+  final String linkUrl;
+  final String imageUrl;
   List<Comment> comments = [];
 
   Item({
@@ -18,8 +18,8 @@ class Item with ChangeNotifier {
     @required this.category,
     @required this.title,
     @required this.description,
-    @required this.link_url,
-    @required this.image_url,
+    @required this.linkUrl,
+    @required this.imageUrl,
     this.comments,
   });
 
@@ -44,8 +44,8 @@ class Item with ChangeNotifier {
       'category':'$category,
       'title':'$title,
       'description':'$description,
-      'link_url':'$link_url,
-      'image_url':'$image_url,
+      'linkUrl':'$linkUrl,
+      'imageUrl':'$linkUrl,
       'comments':${comments.toString()}
     }    
     """;

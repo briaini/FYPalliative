@@ -47,8 +47,8 @@ class Repository with ChangeNotifier {
             "media": item.media,
             "category": item.category,
             "description": item.description,
-            "link_url": item.link_url,
-            "image_url": item.image_url,
+            "link_url": item.linkUrl,
+            "image_url": item.imageUrl,
           },
         ),
       );
@@ -93,8 +93,8 @@ class Repository with ChangeNotifier {
             category: post["category"],
             title: post["title"],
             description: post["description"],
-            link_url: post["linkUrl"],
-            image_url: post["imageUrl"],
+            linkUrl: post["link_url"],
+            imageUrl: post["image_url"],
             comments: [],
           ),
         );

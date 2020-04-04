@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../providers/item.dart';
-
 class CommentItem extends StatefulWidget {
   final _comment;
 
