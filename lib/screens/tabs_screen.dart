@@ -63,7 +63,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title']),
       ),
-      drawer: Provider.of<Auth>(context).isMDT ? MdtAppDrawer() : AppDrawer(),
+      drawer: AppDrawer(),
       body: 
       _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(

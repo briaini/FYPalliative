@@ -1,4 +1,5 @@
 import 'package:FlutterFYP/screens/auth_screen.dart';
+import 'package:FlutterFYP/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,12 +24,21 @@ class MdtAppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
+            leading: Icon(Icons.home),
+            title: Text('home'),
+            onTap: () => Navigator.of(context)
+                .pushReplacementNamed(TabsScreen.routeName),
+          ),
+          Divider(),
+          ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () {
+              Provider.of<Auth>(context).logout();
               Navigator.of(context)
                   .pop(); //need to close drawer before logout, otherwise error
-              Provider.of<Auth>(context).logout();
+              Navigator.of(context).pushReplacementNamed('/');
+              Provider.of<Auth>(context, listen:false).logout();
             },
           ),
         ],

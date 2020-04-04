@@ -26,7 +26,7 @@ class Repository with ChangeNotifier {
     'videos': false,
   };
 
-  Repository(this._token, this._userId);
+  Repository(this._token, this._userId, this._repoItems);
 
   Map<String, String> get tokenHeader {
     return {'authorization': _token};

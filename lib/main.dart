@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (ctx, auth, previousRepoItems) => Repository(
             auth.token,
             auth.userId,
-            // previousRepoItems == null ? [] : previousRepoItems.items,
+            previousRepoItems == null ? [] : previousRepoItems.items,
           ),
         ),
         // ChangeNotifierProxyProvider<Auth, Item>(
@@ -64,14 +64,15 @@ class MyApp extends StatelessWidget {
           ),
           home: auth.isAuth
               ? TabsScreen()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (ctx, authResultSnapshot) =>
-                      authResultSnapshot.connectionState ==
-                              ConnectionState.waiting
-                          ? SplashScreen()
-                          : AuthScreen(),
-                ),
+          : AuthScreen(),
+//              : FutureBuilder(
+//                  future: auth.tryAutoLogin(),
+//                  builder: (ctx, authResultSnapshot) =>
+//                      authResultSnapshot.connectionState ==
+//                              ConnectionState.waiting
+//                          ? SplashScreen()
+//                          : AuthScreen(),
+//                ),
           routes: {
             DetailedRepoItemScreen.routeName: (ctx) => DetailedRepoItemScreen(),
             EditRepositoryItemScreen.routeName: (ctx) =>
