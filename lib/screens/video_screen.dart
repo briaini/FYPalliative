@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../providers/auth.dart';
 import '../widgets/comments_list.dart';
+import '../screens/share_with_patient_screen.dart';
 
 class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
@@ -57,21 +60,28 @@ class _VideoScreenState extends State<VideoScreen> {
   //   super.dispose();
   // }
 
+  void _goToShareWithPatientPage(){
+    Navigator.of(context).pushNamed(ShareWithPatientScreen.routename);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<Auth>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.item.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.share),
-            onPressed: null,
-          )
-        ],
+        actions: auth.isMDT
+            ? <Widget>[
+                IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: _goToShareWithPatientPage,
+                )
+              ]
+            : null,
       ),
-      body: Column(
-              children: <Widget>[
-                YoutubePlayer(
+      body: Column(children: <Widget>[
+        YoutubePlayer(
           key: ObjectKey(_controller),
           controller: _controller,
           showVideoProgressIndicator: true,
@@ -95,8 +105,7 @@ class _VideoScreenState extends State<VideoScreen> {
           ],
         ),
         CommentsList(widget.item),
-        ]
-      ),
+      ]),
     );
   }
 }

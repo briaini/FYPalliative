@@ -49,26 +49,5 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
                 child: CircularProgressIndicator(),
               )
             : RepositoryList();
-    // Container(
-    // child: ListView.separated(
-    //   padding: const EdgeInsets.all(8),
-    //   itemCount: items.length,
-    //   itemBuilder: (_, i) => ChangeNotifierProvider.value(
-    //     value: items[i],
-    //     child: RepositoryItem(),
-    //   ),
-    // return RepositoryItem();
-    // return GestureDetector(
-    //   child: ListTile(
-    //     title: Text(items[i].title),
-    //   ),
-    //   onTap: () => Navigator.of(context).pushNamed(
-    //     DetailedRepoItemScreen.routeName,
-    //     arguments: item.id,
-    //   ),
-    // );
-    //     separatorBuilder: (_, i) => const Divider(),
-    //   ),
-    // );
   }
 }

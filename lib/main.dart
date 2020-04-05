@@ -1,11 +1,12 @@
 import 'package:FlutterFYP/screens/auth_screen.dart';
+import 'package:FlutterFYP/screens/share_with_patient_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
 import './providers/repository.dart';
+import './providers/patients.dart';
 import './screens/tabs_screen.dart';
-import './screens/splash_screen.dart';
 import './screens/edit_repository_item_screen.dart';
 import './screens/detailed_repo_item_screen.dart';
 
@@ -29,12 +30,14 @@ class MyApp extends StatelessWidget {
             previousRepoItems == null ? [] : previousRepoItems.items,
           ),
         ),
-        // ChangeNotifierProxyProvider<Auth, Item>(
-        //   builder: (ctx, auth, previousItems) => Item(
-        //     auth.token,
-        //     auth.userId,
-        //   ),
-        // ),
+        ChangeNotifierProxyProvider<Auth, Patients>(
+          builder: (ctx, auth, previousPatients) => Patients(
+            auth.token,
+            auth.userId,
+            previousPatients == null ? [] : previousPatients.patients
+          ),
+
+        ),
         // ChangeNotifierProxyProvider<Auth, Item>(
         //   builder: (ctx, auth, previousItems) => Item(
         //     auth.token,
@@ -79,6 +82,7 @@ class MyApp extends StatelessWidget {
             EditRepositoryItemScreen.routeName: (ctx) =>
                 EditRepositoryItemScreen(),
             TabsScreen.routeName: (ctx) => TabsScreen(),
+            ShareWithPatientScreen.routename: (ctx) => ShareWithPatientScreen(),
           },
         ),
       ),
