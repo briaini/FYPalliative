@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/patient.dart';
 import '../providers/patients.dart';
 
 class SharePatientListItem extends StatelessWidget {
-  final patient;
   final postId;
   
-  SharePatientListItem(this.patient, this.postId);
+  SharePatientListItem(this.postId);
 
   @override
   Widget build(BuildContext context) {
-    var patientsProvider = Provider.of<Patients>(context, listen: false);
+    final patient = Provider.of<Patient>(context, listen: false);
+    final patientsProvider = Provider.of<Patients>(context, listen: false);
     return GestureDetector(
       child: ListTile(
         leading: Icon(Icons.healing),

@@ -17,7 +17,7 @@ class TextItemTabScreen extends StatefulWidget {
 class _TextItemTabScreen extends State<TextItemTabScreen> {
   void _goToShareWithPatientPage() {
     Navigator.of(context).pushNamed(
-      ShareWithPatientScreen.routename,
+      ShareWithPatientScreen.routeName,
       arguments: widget.item.id,
     );
   }

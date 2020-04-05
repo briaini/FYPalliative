@@ -1,14 +1,15 @@
-import 'package:FlutterFYP/screens/auth_screen.dart';
-import 'package:FlutterFYP/screens/share_with_patient_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
 import './providers/repository.dart';
 import './providers/patients.dart';
+import './screens/auth_screen.dart';
+import './screens/share_with_patient_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/edit_repository_item_screen.dart';
 import './screens/detailed_repo_item_screen.dart';
+import './screens/patients_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,11 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Auth, Patients>(
           builder: (ctx, auth, previousPatients) => Patients(
-            auth.token,
-            auth.userId,
-            previousPatients == null ? [] : previousPatients.patients
-          ),
-
+              auth.token,
+              auth.userId,
+              previousPatients == null ? [] : previousPatients.patients),
         ),
         // ChangeNotifierProxyProvider<Auth, Item>(
         //   builder: (ctx, auth, previousItems) => Item(
@@ -66,9 +65,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.deepOrange,
             fontFamily: 'Lato',
           ),
-          home: auth.isAuth
-              ? TabsScreen()
-          : AuthScreen(),
+          home: auth.isAuth ? TabsScreen() : AuthScreen(),
 //              : FutureBuilder(
 //                  future: auth.tryAutoLogin(),
 //                  builder: (ctx, authResultSnapshot) =>
@@ -82,7 +79,8 @@ class MyApp extends StatelessWidget {
             EditRepositoryItemScreen.routeName: (ctx) =>
                 EditRepositoryItemScreen(),
             TabsScreen.routeName: (ctx) => TabsScreen(),
-            ShareWithPatientScreen.routename: (ctx) => ShareWithPatientScreen(),
+            ShareWithPatientScreen.routeName: (ctx) => ShareWithPatientScreen(),
+            PatientsScreen.routeName: (ctx) => PatientsScreen(),
           },
         ),
       ),

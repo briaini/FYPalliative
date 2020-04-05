@@ -62,7 +62,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
   void _goToShareWithPatientPage() {
     Navigator.of(context).pushNamed(
-      ShareWithPatientScreen.routename,
+      ShareWithPatientScreen.routeName,
       arguments: widget.item.id,
     );
   }

@@ -6,9 +6,7 @@ import '../screens/edit_repository_item_screen.dart';
 import '../screens/tabs_screen.dart';
 import '../screens/repo_filter_screen.dart';
 import '../screens/test_screen.dart';
-
-// import '../screens/my_home_page_screen.dart';
-// import '../screens/oauth_test_screen.dart';
+import '../screens/patients_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -23,6 +21,20 @@ class AppDrawer extends StatelessWidget {
                   automaticallyImplyLeading: false,
                 ),
                 ListTile(
+                  leading: Icon(Icons.home),
+                  title: Text('home'),
+                  onTap: () => Navigator.of(context)
+                      .pushReplacementNamed(TabsScreen.routeName),
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.healing),
+                  title: Text('Patients'),
+                  onTap: () => Navigator.of(context)
+                      .pushReplacementNamed(PatientsScreen.routeName),
+                ),
+                Divider(),
+                ListTile(
                   leading: Icon(Icons.edit),
                   title: Text('edit'),
                   onTap: () {
@@ -30,13 +42,6 @@ class AppDrawer extends StatelessWidget {
                     Navigator.of(context)
                         .pushNamed(EditRepositoryItemScreen.routeName);
                   },
-                ),
-                Divider(),
-                ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text('home'),
-                  onTap: () => Navigator.of(context)
-                      .pushReplacementNamed(TabsScreen.routeName),
                 ),
                 Divider(),
                 ListTile(

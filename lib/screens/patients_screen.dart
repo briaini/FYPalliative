@@ -2,27 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
-import '../widgets/share_patient_list.dart';
+import '../widgets/patients_list.dart';
 
-class ShareWithPatientScreen extends StatefulWidget {
-  static const routeName = '/share-with-patient-screen';
+class PatientsScreen extends StatefulWidget {
+  static const routeName = '/patients-screen';
 
   @override
-  _ShareWithPatientScreenState createState() => _ShareWithPatientScreenState();
+  _PatientsScreenState createState() => _PatientsScreenState();
 }
 
-class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
+class _PatientsScreenState extends State<PatientsScreen> {
   var _isInit = true;
   var _isLoading = false;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      setState(
-        () {
-          _isLoading = true;
-        },
-      );
+      setState(() {
+        _isLoading = true;
+      });
       Provider.of<Patients>(context).fetchPatients().then(
         (_) {
           setState(() {
@@ -37,16 +35,13 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postId = ModalRoute.of(context).settings.arguments as int;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Patients"),
+        title: Text('Patients'),
       ),
       body: _isLoading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : SharePatientsList(postId),
+          ? Center(child: CircularProgressIndicator())
+          : PatientsList(),
     );
   }
 }
