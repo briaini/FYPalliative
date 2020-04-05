@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:FlutterFYP/providers/patients.dart';
 
-class ShareWithPatientScreen extends StatefulWidget {
+class   ShareWithPatientScreen extends StatefulWidget {
   static const routename = '/share-with-patient-screen';
 
   @override
@@ -37,6 +37,7 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final postId = ModalRoute.of(context).settings.arguments as int;
     return Scaffold(
       appBar: AppBar(
         title: Text("Patients"),
@@ -45,7 +46,7 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : PatientsList(),
+        : PatientsList(postId),
     );
   }
 }

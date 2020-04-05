@@ -19,7 +19,7 @@ class Patients with ChangeNotifier {
   List<Patient> get patients {
     return [..._patients];
   }
-  
+
   Future<void> fetchPatients() async {
     var url = 'http://10.0.2.2:8080/users/$_userId/patients';
     try {
@@ -32,14 +32,34 @@ class Patients with ChangeNotifier {
       if (extractedData == null) return;
       final List<Patient> loadedPatients = [];
       extractedData.forEach((patient) {
-        loadedPatients.add(Patient(
-          patient['id'],
-          patient['name'],
-        ));
+        loadedPatients.add(
+          Patient(
+            patient['id'],
+            patient['name'],
+            patient['posts'],
+          ),
+        );
       });
       _patients = loadedPatients;
     } catch (error) {
       print(error);
+    }
+  }
+
+  Future<void> linkPostToPatient(patientId, postId) async {
+    final url =
+        // 'http://10.0.2.2:8080/users/0/posts/31';
+        'http://10.0.2.2:8080/users/$patientId/posts/$postId';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+      );
+
+      notifyListeners();
+      print(response.body.toString());
+    } catch (error) {
+      throw error;
     }
   }
 }

@@ -60,8 +60,11 @@ class _VideoScreenState extends State<VideoScreen> {
   //   super.dispose();
   // }
 
-  void _goToShareWithPatientPage(){
-    Navigator.of(context).pushNamed(ShareWithPatientScreen.routename);
+  void _goToShareWithPatientPage() {
+    Navigator.of(context).pushNamed(
+      ShareWithPatientScreen.routename,
+      arguments: widget.item.id,
+    );
   }
 
   @override

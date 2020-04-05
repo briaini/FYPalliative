@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './repository_item.dart';
-import '../providers/repository.dart';
 import '../providers/patients.dart';
-import './patient_list_item.dart';
-
+import './share_patient_list_item.dart';
 
 class PatientsList extends StatefulWidget {
+  final postId;
+
+  PatientsList(this.postId);
+
   @override
   _PatientsListState createState() => _PatientsListState();
 }
@@ -40,8 +41,9 @@ class _PatientsListState extends State<PatientsList> {
           padding: const EdgeInsets.all(8),
           itemCount: patients.patients.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
-              value: patients.patients[i], 
-              child: PatientListItem(patients.patients[i])),
+            value: patients.patients[i],
+            child: SharePatientListItem(patients.patients[i], widget.postId),
+          ),
           separatorBuilder: (_, i) => const Divider(),
         ),
       ),

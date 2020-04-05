@@ -15,9 +15,11 @@ class TextItemTabScreen extends StatefulWidget {
 }
 
 class _TextItemTabScreen extends State<TextItemTabScreen> {
-
-  void _goToShareWithPatientPage(){
-    Navigator.of(context).pushNamed(ShareWithPatientScreen.routename);
+  void _goToShareWithPatientPage() {
+    Navigator.of(context).pushNamed(
+      ShareWithPatientScreen.routename,
+      arguments: widget.item.id,
+    );
   }
 
   @override
