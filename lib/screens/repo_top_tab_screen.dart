@@ -18,6 +18,12 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: null,
+            )
+          ],
           title: Text(widget.item.title),
           bottom: TabBar(
             tabs: <Widget>[
@@ -35,7 +41,6 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
             TextItem(widget.item),
             TextItemWebView(),
             // TextItem(widget.item),
-
           ],
         ),
       ),

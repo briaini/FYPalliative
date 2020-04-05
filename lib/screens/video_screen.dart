@@ -62,6 +62,12 @@ class _VideoScreenState extends State<VideoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.item.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: null,
+          )
+        ],
       ),
       body: Column(
               children: <Widget>[
