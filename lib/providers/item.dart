@@ -28,7 +28,7 @@ class Item with ChangeNotifier {
   }
 
   List<Comment> get getComments {
-    return comments;
+    return [...comments];
   }
 
   void addComment(Comment comment) {

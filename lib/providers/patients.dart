@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import './comment.dart';
 import './patient.dart';
 
 class Patients with ChangeNotifier {
@@ -32,15 +33,30 @@ class Patients with ChangeNotifier {
       final List<Patient> loadedPatients = [];
 
       extractedData.forEach((patient) {
+        var commentsData = patient['comments'] as List<dynamic>;
+        List<Comment> comments = [];
+        commentsData.forEach((comment) {
+          comments.add(
+            Comment(
+              id: comment['id'],
+              userId: comment['userId'],
+              textBody: comment['textBody'],
+              postId: comment['postId'],
+            ),
+          );
+        });
+
         loadedPatients.add(
           Patient(
             patient['id'],
             patient['name'],
             patient['posts'],
-            patient['comments'],
+            comments,
             patient['mdt'],
           ),
         );
+        // commentsData.clear();
+        // comments.clear();
       });
       _patients = loadedPatients;
     } catch (error) {
