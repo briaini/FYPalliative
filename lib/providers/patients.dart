@@ -27,16 +27,18 @@ class Patients with ChangeNotifier {
         url,
         headers: tokenHeader,
       );
-      print("fetching patients");
       final extractedData = json.decode(response.body) as List<dynamic>;
       if (extractedData == null) return;
       final List<Patient> loadedPatients = [];
+
       extractedData.forEach((patient) {
         loadedPatients.add(
           Patient(
             patient['id'],
             patient['name'],
             patient['posts'],
+            patient['comments'],
+            patient['mdt'],
           ),
         );
       });

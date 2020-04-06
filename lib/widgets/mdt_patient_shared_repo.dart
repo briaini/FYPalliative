@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/comment.dart';
 import '../providers/patient.dart';
-import '../providers/patients.dart';
+import '../providers/repository.dart';
 import '../widgets/repository_list.dart';
+import '../widgets/repository_item.dart';
+
 
 class MdtPatientSharedRepo extends StatefulWidget {
   // final patientId;
@@ -41,12 +44,20 @@ class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
   @override
   Widget build(BuildContext context) {
     final patient = Provider.of<Patient>(context);
+    final repo = Provider.of<Repository>(context);
 
-    return _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-              : Text(patient.posts.toString());
-            // : RepositoryList();
+    final posts = repo.items.where((element) => patient.posts.contains(element.id));
+    final comments = patient.comments;
+
+    return Container(
+        child: ListView.separated(
+          padding: const EdgeInsets.all(8),
+          itemCount: posts.length,
+          itemBuilder: (_, i) => ChangeNotifierProvider.value(
+              value: posts.elementAt(i), 
+              child: RepositoryItem()),
+          separatorBuilder: (_, i) => const Divider(),
+        ),
+      );
   }
 }
