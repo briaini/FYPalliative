@@ -10,6 +10,7 @@ import './screens/tabs_screen.dart';
 import './screens/edit_repository_item_screen.dart';
 import './screens/detailed_repo_item_screen.dart';
 import './screens/patients_screen.dart';
+import './screens/mdt_patient_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
             TabsScreen.routeName: (ctx) => TabsScreen(),
             ShareWithPatientScreen.routeName: (ctx) => ShareWithPatientScreen(),
             PatientsScreen.routeName: (ctx) => PatientsScreen(),
+            MdtPatientScreen.routeName: (ctx) => MdtPatientScreen(),
           },
         ),
       ),

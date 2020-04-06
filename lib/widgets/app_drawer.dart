@@ -30,8 +30,8 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.healing),
                   title: Text('Patients'),
-                  onTap: () => Navigator.of(context)
-                      .pushReplacementNamed(PatientsScreen.routeName),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(PatientsScreen.routeName),
                 ),
                 Divider(),
                 ListTile(
