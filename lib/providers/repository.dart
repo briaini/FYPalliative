@@ -77,12 +77,15 @@ class Repository with ChangeNotifier {
       final comments = json.decode(response.body);
       List<Comment> fetchedComments = [];
 
+      // print("comments \n $comments \n done");
+
       comments.forEach((comment) {
         fetchedComments.add(
           Comment(
             id: comment['id'],
             textBody: comment['textBody'],
-            postId: comment["post"]["id"],
+            postId: comment["postId"],
+            // postId: comment["post"]["id"],
           ),
         );
       });
