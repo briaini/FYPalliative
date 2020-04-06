@@ -123,7 +123,7 @@ class Auth extends ChangeNotifier {
       _expiryDate = DateTime.now().add(
         Duration(
           seconds: int.parse(
-            "100",
+            "1000",
           ),
         ),
       );

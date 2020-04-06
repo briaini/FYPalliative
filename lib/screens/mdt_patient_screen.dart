@@ -40,8 +40,8 @@ class InfoWidget extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            MdtPatientSharedRepo(),
             Text('hi'),
+            MdtPatientSharedRepo(),
           ],
         ),
       ),
