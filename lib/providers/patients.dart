@@ -4,12 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import './comment.dart';
+import './item.dart';
+import './group.dart';
 import './patient.dart';
 
 class Patients with ChangeNotifier {
   String _token;
   int _userId;
   List<Patient> _patients = [];
+  List<Group> _groups;
 
   Patients(this._token, this._userId, this._patients);
 
@@ -33,39 +36,62 @@ class Patients with ChangeNotifier {
       final List<Patient> loadedPatients = [];
 
       extractedData.forEach((patient) {
-        // var commentsData = patient['comments'] as List<dynamic>;
-        // List<Comment> comments = [];
-        // commentsData.forEach((comment) {
-        //   comments.add(
-        //     Comment(
-        //       id: comment['id'],
-        //       userId: comment['userId'],
-        //       textBody: comment['textBody'],
-        //       postId: comment['postId'],
-        //     ),
-        //   );
-        // });
-
         loadedPatients.add(
           Patient(
             patient['id'],
             patient['name'],
+            patient['mdtId'],
           ),
-          // Patient(
-          //   patient['id'],
-          //   patient['name'],
-          //   patient['posts'],
-          //   comments,
-          //   patient['mdt'],
-          // ),
         );
-        // commentsData.clear();
-        // comments.clear();
       });
       _patients = loadedPatients;
     } catch (error) {
       print(error);
     }
+  }
+
+  Future<void> fetchGroups() async {
+    var url = 'http://10.0.2.2:8080/mdt/$_userId/groups';
+    final List<Group> loadedGroups = [];
+    try {
+      final response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      final extractedData = json.decode(response.body) as List<dynamic>;
+      if (extractedData == null) return;
+      extractedData.forEach((group) {
+
+        loadedGroups.add(
+          Group(
+            group['id'],
+            group['name'],
+            group['members'],
+            (group['posts'] as List<dynamic>)
+                .map(
+                  (item) => Item(
+                    id: item['id'],
+                    media: item['media'],
+                    category: item['category'],
+                    title: item['title'],
+                    description: item['description'],
+                    linkUrl: item['link_url'],
+                    imageUrl: item['image_url'],
+                  ),
+                )
+                .toList(),
+          ),
+
+        );
+      });
+      _groups = loadedGroups;
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  List<Group> get groups {
+    return _groups;
   }
 
   Future<void> linkPostToPatient(patientId, postId) async {

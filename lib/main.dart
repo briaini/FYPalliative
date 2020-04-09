@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
               auth.userId,
               previousPatients == null ? [] : previousPatients.patients),
         ),
-        // ChangeNotifierProxyProvider<Auth, Item>(
-        //   builder: (ctx, auth, previousItems) => Item(
+        // ChangeNotifierProxyProvider<Auth, Patient>(
+        //   builder: (ctx, auth, previousItems) => Patient(
         //     auth.token,
         //     auth.userId,
         //   ),

@@ -23,6 +23,13 @@ class _PatientsScreenState extends State<PatientsScreen> {
       });
       Provider.of<Patients>(context).fetchPatients().then(
         (_) {
+          // setState(() {
+          //   // _isLoading = false;
+          // });
+        },
+      );
+      Provider.of<Patients>(context).fetchGroups().then(
+        (_) {
           setState(() {
             _isLoading = false;
           });

@@ -5,11 +5,12 @@ import './comment.dart';
 class Patient with ChangeNotifier {
   final int _id;
   final String _name;
+  final _mdt;
+
   // final _posts;
   // final _comments;
-  // final _mdt;
 
-  Patient(this._id, this._name);
+  Patient(this._id, this._name, this._mdt);
 
   // Patient(this._id, this._name, this._posts, this._comments, this._mdt);
 
@@ -19,6 +20,10 @@ class Patient with ChangeNotifier {
 
   get id {
     return _id;
+  }
+
+  get mdtId {
+    return _mdt;
   }
 
   get posts {
