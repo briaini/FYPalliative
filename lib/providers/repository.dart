@@ -68,27 +68,27 @@ class Repository with ChangeNotifier {
       final items = json.decode(response.body);
       final List<Item> _fetchedItems = [];
 
-      url = 'http://10.0.2.2:8080/users/$_userId/comments';
+      // url = 'http://10.0.2.2:8080/users/$_userId/comments';
 
-      response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
-      final comments = json.decode(response.body);
-      List<Comment> fetchedComments = [];
+      // response = await http.get(
+      //   url,
+      //   headers: tokenHeader,
+      // );
+      // final comments = json.decode(response.body);
+      // List<Comment> fetchedComments = [];
 
       // print("comments \n $comments \n done");
 
-      comments.forEach((comment) {
-        fetchedComments.add(
-          Comment(
-            id: comment['id'],
-            textBody: comment['textBody'],
-            postId: comment["postId"],
-            // postId: comment["post"]["id"],
-          ),
-        );
-      });
+      // comments.forEach((comment) {
+      //   fetchedComments.add(
+      //     Comment(
+      //       id: comment['id'],
+      //       textBody: comment['textBody'],
+      //       postId: comment["postId"],
+      //       // postId: comment["post"]["id"],
+      //     ),
+      //   );
+      // });
 
       items.forEach((post) {
         _fetchedItems.add(
@@ -105,13 +105,13 @@ class Repository with ChangeNotifier {
         );
       });
 
-      fetchedComments.forEach((comment) {
-        _fetchedItems.forEach((item) {
-            if(comment.getPostId == item.id) {
-              item.comments.add(comment);
-            }
-         });
-      });
+      // fetchedComments.forEach((comment) {
+      //   _fetchedItems.forEach((item) {
+      //       if(comment.getPostId == item.id) {
+      //         item.comments.add(comment);
+      //       }
+      //    });
+      // });
 
       _repoItems = _fetchedItems;
 

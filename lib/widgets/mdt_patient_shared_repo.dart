@@ -47,16 +47,16 @@ class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
     final repo = Provider.of<Repository>(context);
 
     final posts = repo.items.where((element) => patient.posts.contains(element.id));
-    List<Comment> comments = patient.comments;
+    // List<Comment> comments = patient.comments;
 
-    comments.forEach((comment) {
-      posts.forEach((post) {
-          if(comment.postId == post.id) {
-            post.addComment(comment);
-            print('match');
-          }
-       });
-    });
+    // comments.forEach((comment) {
+    //   posts.forEach((post) {
+    //       if(comment.postId == post.id) {
+    //         post.addComment(comment);
+    //         print('match');
+    //       }
+    //    });
+    // });
 
     return Container(
         child: ListView.separated(

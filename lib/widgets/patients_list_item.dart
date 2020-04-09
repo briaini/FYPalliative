@@ -14,10 +14,12 @@ class PatientsListItem extends StatelessWidget {
         leading: Icon(Icons.healing),
         title: Text(patient.name),
       ),
-      onTap: () => Navigator.of(context).pushNamed(
-          MdtPatientScreen.routeName,
-          arguments: patient,
-        ),
+      onTap: null
+      // () =>
+      //  Navigator.of(context).pushNamed(
+      //     MdtPatientScreen.routeName,
+      //     arguments: patient,
+        // ),
     );
   }
 }

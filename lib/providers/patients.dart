@@ -22,7 +22,7 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> fetchPatients() async {
-    var url = 'http://10.0.2.2:8080/users/$_userId/patients';
+    var url = 'http://10.0.2.2:8080/mdt/$_userId/patients';
     try {
       final response = await http.get(
         url,
@@ -33,27 +33,31 @@ class Patients with ChangeNotifier {
       final List<Patient> loadedPatients = [];
 
       extractedData.forEach((patient) {
-        var commentsData = patient['comments'] as List<dynamic>;
-        List<Comment> comments = [];
-        commentsData.forEach((comment) {
-          comments.add(
-            Comment(
-              id: comment['id'],
-              userId: comment['userId'],
-              textBody: comment['textBody'],
-              postId: comment['postId'],
-            ),
-          );
-        });
+        // var commentsData = patient['comments'] as List<dynamic>;
+        // List<Comment> comments = [];
+        // commentsData.forEach((comment) {
+        //   comments.add(
+        //     Comment(
+        //       id: comment['id'],
+        //       userId: comment['userId'],
+        //       textBody: comment['textBody'],
+        //       postId: comment['postId'],
+        //     ),
+        //   );
+        // });
 
         loadedPatients.add(
           Patient(
             patient['id'],
             patient['name'],
-            patient['posts'],
-            comments,
-            patient['mdt'],
           ),
+          // Patient(
+          //   patient['id'],
+          //   patient['name'],
+          //   patient['posts'],
+          //   comments,
+          //   patient['mdt'],
+          // ),
         );
         // commentsData.clear();
         // comments.clear();
