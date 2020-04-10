@@ -45,8 +45,10 @@ class _CommentsListState extends State<CommentsList> {
   @override
   Widget build(BuildContext context) {
     final group = Provider.of<Group>(context);
+    final item = Provider.of<Item>(context);
+
     
-     final comments = group.comments ?? [];
+     final comments = group.comments.where((comment) => comment.postId == item.id).toList() ?? [];
 
     // print('_' + widget._item.comments.toString());
     //    print('jsonMap' + widget._item.comments.toString());
