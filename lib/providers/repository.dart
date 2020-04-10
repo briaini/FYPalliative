@@ -139,7 +139,7 @@ class Repository with ChangeNotifier {
         headers: tokenHeader,
         body: json.encode(
           {
-            "textBody": "commentText",
+            "textBody": commentText,
             "postId": itemId,
             "subjectId": _userId,
           },
