@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../providers/item.dart';
 import '../providers/group.dart';
 import '../providers/repository.dart';
 import '../screens/text_item_tab_screen.dart';
 import '../screens/video_screen.dart';
+import '../widgets/new_comment_modal.dart';
 
 class DetailedRepoItemScreen extends StatelessWidget {
   static const routeName = '/detailed-repo-item-screen';
@@ -50,15 +52,25 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
     final item = Provider.of<Item>(context);
 
     return Scaffold(
-      body: item.media == 'video' ? VideoScreen(hasComments) : TextItemTabScreen(hasComments),
+      body: item.media == 'video'
+          ? VideoScreen(hasComments)
+          : TextItemTabScreen(hasComments),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () =>
-            Provider.of<Repository>(context).createComment(context, item),
-        // _createComment(context),
-        backgroundColor: Colors.purple,
-      ),
+      floatingActionButton: hasComments
+          ? FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                builder: (bCtx) {
+                  return NewCommentModal(Provider.of<Group>(context, listen: false).id, item.id);
+                },
+              ),
+
+              // Provider.of<Repository>(context).createComment(context, item),
+
+              backgroundColor: Colors.purple,
+            )
+          : null,
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:FlutterFYP/providers/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,19 +6,21 @@ import '../providers/repository.dart';
 class NewCommentModal extends StatefulWidget {
   @override
   _NewCommentModalState createState() => _NewCommentModalState();
-  final item;
-  NewCommentModal(this.item);
+  final itemId;
+  final groupId;
+
+  NewCommentModal(this.groupId, this.itemId);
 }
 
 class _NewCommentModalState extends State<NewCommentModal> {
   final _commentController = TextEditingController();
   
-  void _submitComment(){
+  void _submitComment(groupId, itemId){
     final commentText = _commentController.text;
     if(commentText.isEmpty)
       return;
-    // final comment = new Comment(postId: widget.item.getId, textBody: commentText);
-    // Provider.of<Repository>(context,listen: false).saveComment(comment);
+    // final comment = new Comment();
+    Provider.of<Repository>(context,listen: false).saveComment(groupId, itemId, commentText);
   }
 
 
@@ -40,13 +41,13 @@ class _NewCommentModalState extends State<NewCommentModal> {
               TextField(
                 decoration: InputDecoration(labelText: 'Comment'),
                 controller: _commentController,
-                onSubmitted: (_) => _submitComment(),
+                onSubmitted: (_) => _submitComment(widget.groupId, widget.itemId),
               ),
               RaisedButton(
                 child: Text('Add Comment'),
                 color: Theme.of(context).primaryColorDark,
                 textColor: Theme.of(context).buttonColor,
-                onPressed: _submitComment,
+                onPressed: () => _submitComment(widget.groupId, widget.itemId),
               ),
             ],
           ),

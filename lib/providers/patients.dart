@@ -114,7 +114,6 @@ class Patients with ChangeNotifier {
 
   Future<void> linkPostToPatient(patientId, postId) async {
     final url =
-        // 'http://10.0.2.2:8080/users/0/posts/31';
         'http://10.0.2.2:8080/users/$patientId/posts/$postId';
     try {
       final response = await http.post(

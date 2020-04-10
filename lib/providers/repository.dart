@@ -7,7 +7,6 @@ import './item.dart';
 import './comment.dart';
 import '../widgets/new_comment_modal.dart';
 
-
 class Repository with ChangeNotifier {
   final _token;
   final _userId;
@@ -61,7 +60,9 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> fetchItems() async {
-    var url = _isMDT ? 'http://10.0.2.2:8080/posts' : 'http://10.0.2.2:8080/users/$_userId/posts';
+    var url = _isMDT
+        ? 'http://10.0.2.2:8080/posts'
+        : 'http://10.0.2.2:8080/users/$_userId/posts';
 
     try {
       var response = await http.get(url, headers: tokenHeader);
@@ -121,25 +122,26 @@ class Repository with ChangeNotifier {
     }
   }
 
-  void createComment(BuildContext context, Item item) {
-    showModalBottomSheet(
-      context: context,
-      builder: (bCtx) {
-        return NewCommentModal(item);
-      },
-    );
-  }
+  // void createComment(BuildContext context, Item item) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (bCtx) {
+  //       return NewCommentModal(item);
+  //     },
+  //   );
+  // }
 
-  Future<void> saveComment(Comment comment) async {
-    final url =
-        'http://10.0.2.2:8080/users/$_userId/posts/${comment.postId}/comments';
+  Future<void> saveComment(groupId, itemId, commentText) async {
+    final url = 'http://10.0.2.2:8080/groups/$groupId/comments';
     try {
       final response = await http.post(
         url,
         headers: tokenHeader,
         body: json.encode(
           {
-            "textBody": comment.textBody,
+            "textBody": "commentText",
+            "postId": itemId,
+            "subjectId": _userId,
           },
         ),
       );

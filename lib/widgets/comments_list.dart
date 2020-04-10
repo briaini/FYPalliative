@@ -16,7 +16,7 @@ class _CommentsListState extends State<CommentsList> {
   var _isLoading = false;
 
   void saveComment(comment) {
-    Provider.of<Repository>(context).saveComment(comment);
+    // Provider.of<Repository>(context).saveComment(comment);
   }
 
   @override
