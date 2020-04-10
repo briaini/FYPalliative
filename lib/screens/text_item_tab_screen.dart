@@ -17,18 +17,17 @@ class TextItemTabScreen extends StatefulWidget {
 }
 
 class _TextItemTabScreen extends State<TextItemTabScreen> {
-  // void _goToShareWithPatientPage() {
-  //   Navigator.of(context).pushNamed(
-  //     ShareWithPatientScreen.routeName,
-  //     arguments: widget.item.id,
-  //   );
-  // }
+  void _goToShareWithPatientPage(item) {
+    Navigator.of(context).pushNamed(
+      ShareWithPatientScreen.routeName,
+      arguments: item,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: false);
     final item = Provider.of<Item>(context, listen: false);
-
 
     return DefaultTabController(
       length: 2,
@@ -38,8 +37,7 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
               ? <Widget>[
                   IconButton(
                     icon: Icon(Icons.share),
-                    onPressed: null
-                    // _goToShareWithPatientPage,
+                    onPressed: () => _goToShareWithPatientPage(item),
                   )
                 ]
               : null,
@@ -59,7 +57,6 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
           children: <Widget>[
             TextItem(widget.hasComments),
             TextItemWebView(),
-            // TextItem(widget.item),
           ],
         ),
       ),

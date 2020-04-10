@@ -64,30 +64,30 @@ class _VideoScreenState extends State<VideoScreen> {
     super.dispose();
   }
 
-  // void _goToShareWithPatientPage() {
-  //   Navigator.of(context).pushNamed(
-  //     ShareWithPatientScreen.routeName,
-  //     arguments: widget.item.id,
-  //   );
-  // }
+  void _goToShareWithPatientPage(item) {
+    Navigator.of(context).pushNamed(
+      ShareWithPatientScreen.routeName,
+      arguments: item,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final auth = Provider.of<Auth>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
     // final group = Provider.of<Group>(context);
     final item = Provider.of<Item>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(item.title),
-        // actions: auth.isMDT
-        //     ? <Widget>[
-        //         IconButton(
-        //           icon: Icon(Icons.share),
-        //           onPressed: _goToShareWithPatientPage,
-        //         )
-        //       ]
-        //     : null,
+        actions: auth.isMDT
+            ? <Widget>[
+                IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: () => _goToShareWithPatientPage(item),
+                )
+              ]
+            : null,
       ),
       body: Column(children: <Widget>[
         YoutubePlayer(

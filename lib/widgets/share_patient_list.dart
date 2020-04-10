@@ -5,10 +5,6 @@ import '../providers/patients.dart';
 import './share_patient_list_item.dart';
 
 class SharePatientsList extends StatefulWidget {
-  final postId;
-
-  SharePatientsList(this.postId);
-
   @override
   _SharePatientsListState createState() => _SharePatientsListState();
 }
@@ -24,7 +20,7 @@ class _SharePatientsListState extends State<SharePatientsList> {
           itemCount: patients.patients.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
             value: patients.patients[i],
-            child: SharePatientListItem(widget.postId),
+            child: SharePatientListItem(),
           ),
           separatorBuilder: (_, i) => const Divider(),
         ),

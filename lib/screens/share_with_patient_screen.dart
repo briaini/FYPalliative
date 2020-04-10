@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/item.dart';
 import '../providers/patients.dart';
 import '../widgets/share_patient_list.dart';
 
@@ -37,7 +38,7 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postId = ModalRoute.of(context).settings.arguments as int;
+    final item = ModalRoute.of(context).settings.arguments as Item;
     return Scaffold(
       appBar: AppBar(
         title: Text("Patients"),
@@ -46,7 +47,10 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : SharePatientsList(postId),
+        : ChangeNotifierProvider.value(
+            value: item,
+            child: SharePatientsList(),
+          )
     );
   }
 }
