@@ -36,7 +36,7 @@ class TextItem extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          CommentsList(item),
+          CommentsList(),
           // Expanded(
           //   child: CommentsList(),
           // ),

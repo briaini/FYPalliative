@@ -35,7 +35,7 @@ class _CommentItemState extends State<CommentItem> {
               ],
             ),
             Text(
-              widget._comment.getTextBody,
+              widget._comment.textBody,
               textAlign: TextAlign.left,
             ),
             _replyButton

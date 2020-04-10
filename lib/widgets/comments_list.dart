@@ -3,12 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../providers/repository.dart';
 import '../providers/item.dart';
+import '../providers/group.dart';
 import './comment_item.dart';
 
 class CommentsList extends StatefulWidget {
-  final _comments;
-
-  CommentsList(this._comments);
 
   @override
   _CommentsListState createState() => _CommentsListState();
@@ -46,7 +44,9 @@ class _CommentsListState extends State<CommentsList> {
 
   @override
   Widget build(BuildContext context) {
-     final comments = widget._comments ?? [];
+    final group = Provider.of<Group>(context);
+    
+     final comments = group.comments ?? [];
 
     // print('_' + widget._item.comments.toString());
     //    print('jsonMap' + widget._item.comments.toString());
