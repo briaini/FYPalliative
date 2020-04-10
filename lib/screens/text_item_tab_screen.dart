@@ -3,28 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import '../providers/item.dart';
 import '../widgets/text_item_web_view.dart';
 import '../widgets/text_item.dart';
 
 class TextItemTabScreen extends StatefulWidget {
-  final item;
+  final hasComments;
 
-  TextItemTabScreen(this.item);
+  TextItemTabScreen(this.hasComments);
+
   @override
   _TextItemTabScreen createState() => _TextItemTabScreen();
 }
 
 class _TextItemTabScreen extends State<TextItemTabScreen> {
-  void _goToShareWithPatientPage() {
-    Navigator.of(context).pushNamed(
-      ShareWithPatientScreen.routeName,
-      arguments: widget.item.id,
-    );
-  }
+  // void _goToShareWithPatientPage() {
+  //   Navigator.of(context).pushNamed(
+  //     ShareWithPatientScreen.routeName,
+  //     arguments: widget.item.id,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: false);
+    final item = Provider.of<Item>(context, listen: false);
+
 
     return DefaultTabController(
       length: 2,
@@ -34,11 +38,12 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
               ? <Widget>[
                   IconButton(
                     icon: Icon(Icons.share),
-                    onPressed: _goToShareWithPatientPage,
+                    onPressed: null
+                    // _goToShareWithPatientPage,
                   )
                 ]
               : null,
-          title: Text(widget.item.title),
+          title: Text(item.title),
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
@@ -52,7 +57,7 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
         ),
         body: TabBarView(
           children: <Widget>[
-            TextItem(widget.item),
+            TextItem(widget.hasComments),
             TextItemWebView(),
             // TextItem(widget.item),
           ],

@@ -7,9 +7,11 @@ import '../screens/detailed_repo_item_screen.dart';
 class RepositoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final itemProvider = Provider.of<Item>(context, listen: false);
-    final itemMedia = itemProvider.media;
-    final itemTitle = itemProvider.title;
+    final item = Provider.of<Item>(context);
+    final itemMedia = item.media;
+    final itemTitle = item.title;
+
+    Map<String, dynamic> args = {"item": item};
 
     return GestureDetector(
       child: itemMedia == "video"
@@ -24,16 +26,7 @@ class RepositoryItem extends StatelessWidget {
             ),
       onTap: () => Navigator.of(context).pushNamed(
         DetailedRepoItemScreen.routeName,
-        arguments: Item(
-          id: itemProvider.id,
-          media: itemMedia,
-          category: itemProvider.category,
-          title: itemTitle,
-          description: itemProvider.description,
-          linkUrl: itemProvider.linkUrl,
-          imageUrl: itemProvider.imageUrl,
-          comments: itemProvider.comments,
-        ),
+        arguments: args,
       ),
     );
   }

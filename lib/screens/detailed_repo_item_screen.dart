@@ -13,23 +13,26 @@ class DetailedRepoItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
-    final group = args['group'] as Group;
+    Group group;
+    if (args.containsKey("group")) group = args['group'] as Group;
     final item = args['item'] as Item;
 
-    // final group = args['group'] as Group;
-    // final item = ModalRoute.of(context).settings.arguments as Item;
-
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: group,
-        ),
-        ChangeNotifierProvider.value(
-          value: item,
-        ),
-      ],
-      child: DetailedRepoItemScreenWithProv(),
-    );
+    return group == null
+        ? ChangeNotifierProvider.value(
+            value: item,
+            child: DetailedRepoItemScreenWithProv(false),
+          )
+        : MultiProvider(
+            providers: [
+              ChangeNotifierProvider.value(
+                value: group,
+              ),
+              ChangeNotifierProvider.value(
+                value: item,
+              ),
+            ],
+            child: DetailedRepoItemScreenWithProv(true),
+          );
 
     // return ChangeNotifierProvider.value(
     //   value: item,
@@ -39,12 +42,15 @@ class DetailedRepoItemScreen extends StatelessWidget {
 }
 
 class DetailedRepoItemScreenWithProv extends StatelessWidget {
+  final hasComments;
+
+  DetailedRepoItemScreenWithProv(this.hasComments);
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
 
     return Scaffold(
-      body: item.media == 'video' ? VideoScreen() : TextItemTabScreen(item),
+      body: item.media == 'video' ? VideoScreen(hasComments) : TextItemTabScreen(hasComments),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

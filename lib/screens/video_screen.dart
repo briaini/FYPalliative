@@ -12,6 +12,10 @@ import '../screens/share_with_patient_screen.dart';
 class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
 
+  final hasComments;
+
+  VideoScreen(this.hasComments);
+
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
@@ -29,7 +33,7 @@ class _VideoScreenState extends State<VideoScreen> {
       initialVideoId: 'T6FEuBFckp8',
       flags: YoutubePlayerFlags(
         autoPlay: false,
-        // forceHideAnnotation: true,
+        forceHideAnnotation: true,
       ),
     );
     // ..addListener(() {
@@ -39,26 +43,26 @@ class _VideoScreenState extends State<VideoScreen> {
     //         _videoMetaData = _controller.metadata;
     //       });
     //     }
-    //   });
+      // });
 
     // _videoMetaData = YoutubeMetaData();
     // _playerState = PlayerState.unknown;
   }
 
-  // @override
-  // void deactivate() {
-  //   // Pauses video while navigating to next page.
-  //   _controller.pause();
-  //   super.deactivate();
-  // }
+  @override
+  void deactivate() {
+    // Pauses video while navigating to next page.
+    _controller.pause();
+    super.deactivate();
+  }
 
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   // _idController.dispose();
-  //   // _seekToController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _controller.dispose();
+    // _idController.dispose();
+    // _seekToController.dispose();
+    super.dispose();
+  }
 
   // void _goToShareWithPatientPage() {
   //   Navigator.of(context).pushNamed(
@@ -69,10 +73,9 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Auth>(context, listen: false);
-    final group = Provider.of<Group>(context);
+    // final auth = Provider.of<Auth>(context, listen: false);
+    // final group = Provider.of<Group>(context);
     final item = Provider.of<Item>(context);
-
 
     return Scaffold(
       appBar: AppBar(
@@ -110,7 +113,7 @@ class _VideoScreenState extends State<VideoScreen> {
             FullScreenButton(),
           ],
         ),
-        CommentsList(),
+        widget.hasComments ? CommentsList() : Container(),
       ]),
     );
   }
