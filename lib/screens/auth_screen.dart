@@ -15,29 +15,23 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
-    // transformConfig.translate(-10.0);
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              // gradient: FlutterGradient.colorfulPeach(),
               gradient: LinearGradient(
                 colors: [
-                  // Colors.purple,
-                  // Colors.pink.shade500,
-                  // Colors.pink,
-                  // Colors.orange,
-                  // Colors.orange[300],
-                  // Colors.orange[200],
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  Color.fromRGBO(135, 206, 250, 1).withOpacity(0.7),
+                  Color.fromRGBO(0, 191, 255, 1).withOpacity(1),
+
+                  // Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
+                  // Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                stops: [0.1, 0.9,],
+                stops: [0.4, 0.9,],
               ),
             ),
           ),
@@ -50,17 +44,14 @@ class AuthScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
+                    flex:1,
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(
-                            -10.0), //.. allows us to return what preview method returns
-                      // ..translate(-10.0),  //use .. because translate returns void but we need the Matrix4 obj returned by rotationZ
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 60.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepPurple.withOpacity(0.9),
+                        color: Colors.indigo.withOpacity(0.5),
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 8,
@@ -265,7 +256,8 @@ class _AuthCardState extends State<AuthCard> {
                     ),
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.indigo.shade400,
+                    // color: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).primaryTextTheme.button.color,
                   ),
                 FlatButton(
@@ -274,7 +266,7 @@ class _AuthCardState extends State<AuthCard> {
                   onPressed: _switchAuthMode,
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                  textColor: Colors.indigo.shade400,
                 ),
               ],
             ),
