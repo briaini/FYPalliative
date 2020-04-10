@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/group.dart';
-import '../widgets/repository_item.dart';
+import '../widgets/shared_repository_item.dart';
 
 
 class MdtPatientSharedRepo extends StatefulWidget {
@@ -23,7 +23,7 @@ class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
           itemCount: group.posts.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
               value: group.posts.elementAt(i), 
-              child: RepositoryItem()),
+              child: SharedRepositoryItem()),
           separatorBuilder: (_, i) => const Divider(),
         ),
       );

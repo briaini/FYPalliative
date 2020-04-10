@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
  
 import '../providers/group.dart';
 import '../widgets/mdt_patient_shared_repo.dart';
+import '../widgets/mdt_overview.dart';
+
 
 class MdtPatientScreen extends StatelessWidget {
   static const routeName = '/mdt-patient-screen';
@@ -40,7 +42,7 @@ class InfoWidget extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            Text('hi'),
+            MdtOverview(),
             MdtPatientSharedRepo(),
           ],
         ),

@@ -6,9 +6,9 @@ import '../providers/item.dart';
 import './comment_item.dart';
 
 class CommentsList extends StatefulWidget {
-  final Item _item;
+  final _comments;
 
-  CommentsList(this._item);
+  CommentsList(this._comments);
 
   @override
   _CommentsListState createState() => _CommentsListState();
@@ -46,7 +46,7 @@ class _CommentsListState extends State<CommentsList> {
 
   @override
   Widget build(BuildContext context) {
-    final _comments = widget._item.comments ?? [];
+     final comments = widget._comments ?? [];
 
     // print('_' + widget._item.comments.toString());
     //    print('jsonMap' + widget._item.comments.toString());
@@ -85,13 +85,13 @@ class _CommentsListState extends State<CommentsList> {
       children: <Widget>[
         ExpansionTile(
           leading: Icon(Icons.comment),
-          title: Text('Comments (${_comments.length})'),
+          title: Text('Comments (${comments.length})'),
           children: List<Widget>.generate(
-            widget._item.comments.length,
+            comments.length,
             (i) {
               return Column(
                 children: <Widget>[
-                  CommentItem(widget._item.comments[i]),
+                  CommentItem(comments[i]),
                   Divider(
                     height: 8,
                   ),

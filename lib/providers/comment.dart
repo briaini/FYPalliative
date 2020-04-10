@@ -1,37 +1,39 @@
 import 'package:flutter/foundation.dart';
 
 class Comment {
-  final int id;
-  final int postId;
-  final int userId;
-  final String textBody;
-  // var Item;
-  DateTime dateTime;
+  final _id;
+  final _subjectId;
+  final _textBody;
+  final _postId;
+  final _parentCommentId;
 
-  Comment({
-    this.id,
-    @required this.postId,
-    @required this.textBody,
-    this.userId,
-    this.dateTime,
-  });
+  // DateTime dateTime;
 
-  int get getPostId {
-    return postId;
+  Comment(
+    this._id,
+    this._subjectId,
+    this._textBody,
+    this._postId,
+    this._parentCommentId,
+  );
+
+  int get id {
+    return _id;
   }
 
-  String get getTextBody {
-    return textBody;
+  int get subjectId {
+    return _subjectId;
   }
 
-  @override
-  String toString() {
-    return
-    """
-    id: $id,
-    postId: $postId,
-    userId: $userId,
-    textBody: $textBody
-    """;
+  String get textBody {
+    return _textBody;
+  }
+
+  int get postId {
+    return _postId;
+  }
+
+  int get parentCommentId {
+    return _parentCommentId;
   }
 }

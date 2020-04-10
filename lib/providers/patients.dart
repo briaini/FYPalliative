@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/user_dao.dart';
 import './comment.dart';
 import './item.dart';
 import './group.dart';
@@ -61,12 +62,19 @@ class Patients with ChangeNotifier {
       final extractedData = json.decode(response.body) as List<dynamic>;
       if (extractedData == null) return;
       extractedData.forEach((group) {
-
         loadedGroups.add(
           Group(
             group['id'],
             group['name'],
-            group['members'],
+            (group['members'] as List<dynamic>)
+                .map(
+                  (user) => UserDAO(
+                    user['id'],
+                    user['name'],
+                    user['role'],
+                  ),
+                )
+                .toList(),
             (group['posts'] as List<dynamic>)
                 .map(
                   (item) => Item(
@@ -80,8 +88,18 @@ class Patients with ChangeNotifier {
                   ),
                 )
                 .toList(),
+            (group['recipient']['comments'] as List<dynamic>)
+                .map(
+                  (comment) => Comment(
+                    comment['id'],
+                    comment['subjectId'],
+                    comment['textBody'],
+                    comment['postId'],
+                    comment['parentCommentId'],
+                  ),
+                )
+                .toList(),
           ),
-
         );
       });
       _groups = loadedGroups;

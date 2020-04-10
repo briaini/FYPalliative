@@ -18,8 +18,8 @@ class _NewCommentModalState extends State<NewCommentModal> {
     final commentText = _commentController.text;
     if(commentText.isEmpty)
       return;
-    final comment = new Comment(postId: widget.item.getId, textBody: commentText);
-    Provider.of<Repository>(context,listen: false).saveComment(comment);
+    // final comment = new Comment(postId: widget.item.getId, textBody: commentText);
+    // Provider.of<Repository>(context,listen: false).saveComment(comment);
   }
 
 
