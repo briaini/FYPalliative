@@ -19,6 +19,10 @@ class DetailedRepoItemScreen extends StatelessWidget {
     if (args.containsKey("group")) group = args['group'] as Group;
     final item = args['item'] as Item;
 
+    if(!Provider.of<Auth>(context).isMDT){
+      group = Provider.of<Repository>(context).group;
+    }
+
     return group == null
         ? ChangeNotifierProvider.value(
             value: item,

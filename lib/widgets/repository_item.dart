@@ -10,7 +10,6 @@ class RepositoryItem extends StatelessWidget {
     final item = Provider.of<Item>(context);
     final itemMedia = item.media;
     final itemTitle = item.title;
-
     Map<String, dynamic> args = {"item": item};
 
     return GestureDetector(

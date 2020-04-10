@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import './group.dart';
 import './item.dart';
 import './comment.dart';
+import '../models/user_dao.dart';
 import '../widgets/new_comment_modal.dart';
 
 class Repository with ChangeNotifier {
@@ -13,6 +15,7 @@ class Repository with ChangeNotifier {
   final Map<String, String> _mapToken = {};
   final _isMDT;
   List<Comment> _comments;
+  Group _group;
   // _mapToken['authorization'] = 'token';
 
   //{'authorization': _token};
@@ -56,6 +59,65 @@ class Repository with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       throw error;
+    }
+  }
+
+  Future<void> fetchGroup() async {
+    var url = 'http://10.0.2.2:8080/users/$_userId/groups';
+    try {
+      final response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      final group = json.decode(response.body) as Map<String, dynamic>;
+      print('hello');
+      print(group.toString());
+      if (group == null){
+        print("group is null");
+        return;
+      }
+      var loadedGroup =
+          Group(
+            group['id'],
+            group['name'],
+            (group['members'] as List<dynamic>)
+                .map(
+                  (user) => UserDAO(
+                    user['id'],
+                    user['name'],
+                    user['role'],
+                  ),
+                )
+                .toList(),
+            (group['posts'] as List<dynamic>)
+                .map(
+                  (item) => Item(
+                    id: item['id'],
+                    media: item['media'],
+                    category: item['category'],
+                    title: item['title'],
+                    description: item['description'],
+                    linkUrl: item['link_url'],
+                    imageUrl: item['image_url'],
+                  ),
+                )
+                .toList(),
+            (group['recipient']['comments'] as List<dynamic>)
+                .map(
+                  (comment) => Comment(
+                    comment['id'],
+                    comment['subjectId'],
+                    comment['textBody'],
+                    comment['postId'],
+                    comment['parentCommentId'],
+                  ),
+                )
+                .toList(),
+        );
+        _group = loadedGroup;
+        _repoItems = _group.posts;
+    } catch (error) {
+      print(error);
     }
   }
 
@@ -150,6 +212,10 @@ class Repository with ChangeNotifier {
     } catch (error) {
       throw error;
     }
+  }
+
+  Group get group {
+    return _group;
   }
 
   Item findById(String id) {
