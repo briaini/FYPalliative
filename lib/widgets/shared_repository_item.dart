@@ -13,8 +13,8 @@ class SharedRepositoryItem extends StatelessWidget {
     final itemMedia = item.media;
     final itemTitle = item.title;
 
-    Map<String, dynamic> args = {"item":item, "group":group};
-    
+    Map<String, dynamic> args = {"item": item, "group": group};
+
     return GestureDetector(
       child: itemMedia == "video"
           ? ListTile(
@@ -23,6 +23,7 @@ class SharedRepositoryItem extends StatelessWidget {
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
             )
           : ListTile(
+              leading: Icon(Icons.import_contacts),
               title:
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
             ),

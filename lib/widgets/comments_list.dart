@@ -39,9 +39,10 @@ class _CommentsListState extends State<CommentsList> {
               return Column(
                 children: <Widget>[
                   CommentItem(comments[i]),
-                  Divider(
-                    height: 8,
-                  ),
+                  if (i != comments.length-1)
+                    Divider(
+                      height: 8,
+                    ),
                 ],
               );
             },
