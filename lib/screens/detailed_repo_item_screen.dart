@@ -69,10 +69,7 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
                   return NewCommentModal(Provider.of<Group>(context, listen: false).id, item.id);
                 },
               ),
-
-              // Provider.of<Repository>(context).createComment(context, item),
-
-              backgroundColor: Colors.purple,
+              backgroundColor: Theme.of(context).accentColor.withAlpha(225),
             )
           : null,
     );

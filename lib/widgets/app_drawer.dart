@@ -22,7 +22,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(Icons.home),
-                  title: Text('home'),
+                  title: Text('Home'),
                   onTap: () => Navigator.of(context)
                       .pushReplacementNamed(TabsScreen.routeName),
                 ),
@@ -72,13 +72,6 @@ class AppDrawer extends StatelessWidget {
                     Navigator.of(context)
                         .pushReplacementNamed(TabsScreen.routeName);
                   },
-                ),
-                Divider(),
-                ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text('My Profile'),
-                  onTap: () => Navigator.of(context)
-                      .pushReplacementNamed(TestScreen.routeName),
                 ),
                 Divider(),
                 ListTile(

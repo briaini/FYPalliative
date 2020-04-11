@@ -27,25 +27,6 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': 'Profile',
       },
     ];
-  // List<Map<String, Object>> _pages;
-  // @override
-  // void initState() {
-  //   _pages = [
-  //     {
-  //       'page': RepositoryScreen(),
-  //       'title': 'Repository',
-  //     },
-  //     {
-  //       'page': CommunityScreen(),
-  //       'title': 'Community',
-  //     },
-  //     {
-  //       'page': ProfileScreen(),
-  //       'title': 'Profile',
-  //     },
-  //   ];
-  //   super.initState();
-  // }
 
   void _selectPage(int index) {
     //automatically receives index of tab page
@@ -66,14 +47,14 @@ class _TabsScreenState extends State<TabsScreen> {
       bottomNavigationBar: BottomNavigationBar(
           onTap: _selectPage,
           backgroundColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.limeAccent,
+          unselectedItemColor: Theme.of(context).unselectedWidgetColor,
+          selectedItemColor: Colors.white,
           currentIndex: _selectedPageIndex,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
               title: Text('Repo'),
-              icon: Icon(Icons.library_books),
+              icon: Icon(Icons.folder),
               backgroundColor: Theme.of(context).primaryColor,
             ),
             BottomNavigationBarItem(

@@ -16,6 +16,7 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
+      //to stop scrolling
       // resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
@@ -23,15 +24,15 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
+                  Color.fromRGBO(100, 175, 250, 1).withOpacity(0.7),
                   Color.fromRGBO(135, 206, 250, 1).withOpacity(0.7),
                   Color.fromRGBO(0, 191, 255, 1).withOpacity(1),
-
                   // Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
                   // Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                stops: [0.4, 0.9,],
+                stops: [0.2, 0.5, 0.8,],
               ),
             ),
           ),
@@ -51,7 +52,7 @@ class AuthScreen extends StatelessWidget {
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 60.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.indigo.withOpacity(0.5),
+                        color: Theme.of(context).primaryColor.withOpacity(0.8),
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 8,
@@ -256,8 +257,7 @@ class _AuthCardState extends State<AuthCard> {
                     ),
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    color: Colors.indigo.shade400,
-                    // color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).primaryTextTheme.button.color,
                   ),
                 FlatButton(
@@ -266,7 +266,7 @@ class _AuthCardState extends State<AuthCard> {
                   onPressed: _switchAuthMode,
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Colors.indigo.shade400,
+                  textColor: Theme.of(context).primaryColorDark,
                 ),
               ],
             ),

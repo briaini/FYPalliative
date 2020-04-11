@@ -20,6 +20,7 @@ class RepositoryItem extends StatelessWidget {
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
             )
           : ListTile(
+              leading: Icon(Icons.import_contacts),
               title:
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
             ),

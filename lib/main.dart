@@ -44,26 +44,13 @@ class MyApp extends StatelessWidget {
         //     auth.userId,
         //   ),
         // ),
-
-        // ChangeNotifierProvider.value(
-        //   value: Item(),
-        // ),
-        // ChangeNotifierProxyProvider<Auth, Orders>(
-        //   builder: (ctx, auth, previousOrders) => Orders(
-        //     auth.token,
-        //     auth.userId,
-        //     previousOrders == null ? [] : previousOrders.orders,
-        //   ),
-        // )
       ],
-      // return ChangeNotifierProvider.value(  //.value should be used in list or grid
-      //   value: Products(),
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
           title: 'Palliative',
           theme: ThemeData(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
+            primarySwatch: Colors.indigo,
+            accentColor: Colors.indigoAccent,
             fontFamily: 'Lato',
           ),
           home: auth.isAuth ? TabsScreen() : AuthScreen(),
