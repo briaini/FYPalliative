@@ -1,13 +1,15 @@
+import 'package:FlutterFYP/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../providers/auth.dart';
-import '../providers/group.dart';
+import '../providers/repository.dart';
 import '../providers/item.dart';
 
 import '../widgets/comments_list.dart';
 import '../screens/share_with_patient_screen.dart';
+import '../screens/edit_repository_item_screen.dart';
 
 class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
@@ -43,7 +45,7 @@ class _VideoScreenState extends State<VideoScreen> {
     //         _videoMetaData = _controller.metadata;
     //       });
     //     }
-      // });
+    // });
 
     // _videoMetaData = YoutubeMetaData();
     // _playerState = PlayerState.unknown;
@@ -83,8 +85,19 @@ class _VideoScreenState extends State<VideoScreen> {
         actions: auth.isMDT
             ? <Widget>[
                 IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context).primaryIconTheme.color,
+                  ),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    EditRepositoryItemScreen.routeName,
+                    arguments: item.id,
+                  ),
+                ),
+                IconButton(
                   icon: Icon(Icons.share),
                   onPressed: () => _goToShareWithPatientPage(item),
+                  color: Theme.of(context).primaryIconTheme.color,
                 )
               ]
             : null,

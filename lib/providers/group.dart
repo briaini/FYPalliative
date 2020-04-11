@@ -45,6 +45,6 @@ class Group with ChangeNotifier {
   }
 
   List<Comment>get comments {
-    return _comments;
+    return _comments ?? [];
   }
 }

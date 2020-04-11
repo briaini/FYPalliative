@@ -35,17 +35,49 @@ class Repository with ChangeNotifier {
     return {'authorization': _token};
   }
 
-  Future<void> editRepoItem(Item item) async {
+  Future<void> addRepoItem(Item item) async {
     print('repo.editRepoItem\n\n');
     print(item.toString());
 
     final url = 'http://10.0.2.2:8080/posts/';
+    print(item.linkUrl);
+    print(item.imageUrl);
     try {
       final response = await http.post(
         url,
         headers: tokenHeader,
         body: json.encode(
           {
+            "title": item.title,
+            "media": item.media,
+            "category": item.category,
+            "description": item.description,
+            "link_url": item.linkUrl,
+            "image_url": item.imageUrl,
+          },
+        ),
+      );
+      print("editRepo:" + response.body.toString() + "\n");
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> updateRepoItem(Item item) async {
+    print('repo.updateRepoItem\n');
+    print(item.toString());
+
+    final url = 'http://10.0.2.2:8080/posts/';
+    print(item.linkUrl);
+    print(item.imageUrl);
+    try {
+      final response = await http.put(
+        url,
+        headers: tokenHeader,
+        body: json.encode(
+          {
+            "id": item.id,
             "title": item.title,
             "media": item.media,
             "category": item.category,
@@ -218,7 +250,7 @@ class Repository with ChangeNotifier {
     return _group;
   }
 
-  Item findById(String id) {
+  Item findById(id) {
     return _repoItems.firstWhere((element) => element.id == id);
   }
 

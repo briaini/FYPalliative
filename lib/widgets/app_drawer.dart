@@ -36,7 +36,7 @@ class AppDrawer extends StatelessWidget {
                 Divider(),
                 ListTile(
                   leading: Icon(Icons.edit),
-                  title: Text('edit'),
+                  title: Text('Add Repo Item'),
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context)

@@ -137,11 +137,12 @@ class Auth extends ChangeNotifier {
           'userId': _userId,
           'username': _username,
           'expiryDate': _expiryDate.toIso8601String(),
+          'isMDT': _isMDT,
         },
       );
       prefs.setString('userData', userData);
 
-      print("is MDT: " + _isMDT.toString());
+      // print("is MDT: " + _isMDT.toString());
       // print("token: " + _token);
       // print("auth__userId: " + _userId);
       // print("username: " + _username);
@@ -166,6 +167,7 @@ class Auth extends ChangeNotifier {
     _token = extractedUserData['token'];
     _userId = extractedUserData['userId'];
     _expiryDate = expiryDate;
+    _isMDT = extractedUserData['isMDT'];
 
     _autoLogout();
     notifyListeners();

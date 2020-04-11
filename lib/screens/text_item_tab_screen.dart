@@ -2,6 +2,7 @@ import 'package:FlutterFYP/screens/share_with_patient_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './edit_repository_item_screen.dart';
 import '../providers/auth.dart';
 import '../providers/item.dart';
 import '../widgets/text_item_web_view.dart';
@@ -35,6 +36,16 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
         appBar: AppBar(
           actions: auth.isMDT
               ? <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context).primaryIconTheme.color,
+                  ),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    EditRepositoryItemScreen.routeName,
+                    arguments: item.id,
+                  ),
+                ),
                   IconButton(
                     icon: Icon(Icons.share),
                     onPressed: () => _goToShareWithPatientPage(item),

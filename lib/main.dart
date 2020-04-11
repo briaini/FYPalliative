@@ -11,6 +11,8 @@ import './screens/edit_repository_item_screen.dart';
 import './screens/detailed_repo_item_screen.dart';
 import './screens/patients_screen.dart';
 import './screens/mdt_patient_screen.dart';
+import './screens/splash_screen.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -53,15 +55,18 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.indigoAccent,
             fontFamily: 'Lato',
           ),
-          home: auth.isAuth ? TabsScreen() : AuthScreen(),
-//              : FutureBuilder(
-//                  future: auth.tryAutoLogin(),
-//                  builder: (ctx, authResultSnapshot) =>
-//                      authResultSnapshot.connectionState ==
-//                              ConnectionState.waiting
-//                          ? SplashScreen()
-//                          : AuthScreen(),
-//                ),
+          home: auth.isAuth
+              ? TabsScreen()
+              :
+              //  AuthScreen(),
+              FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             DetailedRepoItemScreen.routeName: (ctx) => DetailedRepoItemScreen(),
             EditRepositoryItemScreen.routeName: (ctx) =>

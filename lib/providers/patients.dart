@@ -109,7 +109,7 @@ class Patients with ChangeNotifier {
   }
 
   List<Group> get groups {
-    return _groups;
+    return _groups ?? [];
   }
 
   Future<void> linkPostToPatient(patientId, postId) async {
