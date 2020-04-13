@@ -29,17 +29,26 @@ class TextItem extends StatelessWidget {
                   ),
                 )
               : Container(),
-          SizedBox(
-            height: 10,
+          Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Text(item.title, textAlign: TextAlign.center,),
+              SizedBox(
+                height: 10,
+              ),
+              Text(item.description, textAlign: TextAlign.justify, ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
           ),
-          Text(item.title),
-          SizedBox(
-            height: 10,
-          ),
-          Text(item.description),
-          SizedBox(
-            height: 10,
-          ),
+        ),
           hasComments ? CommentsList() : Container(),
           // Expanded(
           //   child: CommentsList(),

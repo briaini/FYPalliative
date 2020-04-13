@@ -126,6 +126,26 @@ class _VideoScreenState extends State<VideoScreen> {
             FullScreenButton(),
           ],
         ),
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Text(item.title, textAlign: TextAlign.center,),
+              SizedBox(
+                height: 10,
+              ),
+              Text(item.description, textAlign: TextAlign.justify, ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ),
         widget.hasComments ? CommentsList() : Container(),
       ]),
     );
