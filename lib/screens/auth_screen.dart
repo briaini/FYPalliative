@@ -12,6 +12,8 @@ enum AuthMode { Signup, Login }
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
 
+  
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -148,7 +150,6 @@ class _AuthCardState extends State<AuthCard> {
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
-      // switch(error.toString()) {}
       if (error.toString().contains('EMAIL_EXISTS')) {
         errorMessage = 'This email is already in use.';
       } else if (error.toString().contains('INVALID_EMAIL')) {

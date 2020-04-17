@@ -154,9 +154,11 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> fetchItems() async {
-    var url = _isMDT
-        ? 'http://10.0.2.2:8080/posts'
-        : 'http://10.0.2.2:8080/users/$_userId/posts';
+    var url = 'http://10.0.2.2:8080/posts';
+    // _isMDT
+        // ? 'http://10.0.2.2:8080/posts'
+        // : 
+        // 'http://10.0.2.2:8080/users/$_userId/posts';
 
     try {
       var response = await http.get(url, headers: tokenHeader);

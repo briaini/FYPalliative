@@ -18,6 +18,11 @@ class Auth extends ChangeNotifier {
     return token != null;
   }
 
+  bool get isAdmin {
+    return _isAdmin;
+    ;
+  }
+
   bool get isMDT {
     return _isMDT;
   }
@@ -89,7 +94,6 @@ class Auth extends ChangeNotifier {
         },
         body: json.encode(
           {"username": username, "password": password},
-          // {"username": "rose", "password": "password"},
         ),
       );
 
@@ -102,7 +106,6 @@ class Auth extends ChangeNotifier {
       _username = _parsedToken["sub"];
       print("username is: \n" + _username + "\n");
       print("token is: $_token");
-
 
       if (_parsedToken["authorities"].toString().contains("ADMIN")) {
         _isAdmin = true;
@@ -118,7 +121,6 @@ class Auth extends ChangeNotifier {
       _userId = int.tryParse(response.body);
       print("userID is: $_userId");
       // print("token is: \n" + _token + "\n");
-
 
       _expiryDate = DateTime.now().add(
         Duration(
@@ -138,6 +140,7 @@ class Auth extends ChangeNotifier {
           'username': _username,
           'expiryDate': _expiryDate.toIso8601String(),
           'isMDT': _isMDT,
+          'isAdmin': _isAdmin,
         },
       );
       prefs.setString('userData', userData);
@@ -146,7 +149,7 @@ class Auth extends ChangeNotifier {
       // print("token: " + _token);
       // print("auth__userId: " + _userId);
       // print("username: " + _username);
-      // print("expiry: " + _expiryDate.toString());    
+      // print("expiry: " + _expiryDate.toString());
     } catch (e) {
       print("ERROR Auth");
       e.toString();
@@ -168,6 +171,7 @@ class Auth extends ChangeNotifier {
     _userId = extractedUserData['userId'];
     _expiryDate = expiryDate;
     _isMDT = extractedUserData['isMDT'];
+    _isAdmin = extractedUserData['isAdmin'];
 
     _autoLogout();
     notifyListeners();
