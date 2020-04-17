@@ -13,15 +13,20 @@ class Auth extends ChangeNotifier {
   Timer _authTimer;
   bool _isAdmin = false;
   bool _isMDT = false;
+  String _role;
 
   bool get isAuth {
     return token != null;
   }
 
+  String get role {
+    return _role ;
+  }
+
   bool get isAdmin {
     return _isAdmin;
-    ;
   }
+
 
   bool get isMDT {
     return _isMDT;
@@ -83,6 +88,7 @@ class Auth extends ChangeNotifier {
 
   Future<void> authenticate(String username, String password) async {
     Map<String, dynamic> _parsedToken;
+    String roler;
     try {
       var url = 'http://10.0.2.2:8080/login';
       var response = await http.post(
@@ -108,10 +114,13 @@ class Auth extends ChangeNotifier {
       print("token is: $_token");
 
       if (_parsedToken["authorities"].toString().contains("ADMIN")) {
+        roler = "ADMIN";
         _isAdmin = true;
-      }
-      if (_parsedToken["authorities"].toString().contains("MDT")) {
+      } else if (_parsedToken["authorities"].toString().contains("MDT")) {
+        roler = "MDT";
         _isMDT = true;
+      } else {
+        roler = "PATIENT";
       }
 
       response = await http.post(
@@ -119,6 +128,7 @@ class Auth extends ChangeNotifier {
         body: _username,
       );
       _userId = int.tryParse(response.body);
+      _role = roler;
       print("userID is: $_userId");
       // print("token is: \n" + _token + "\n");
 
@@ -129,6 +139,7 @@ class Auth extends ChangeNotifier {
           ),
         ),
       );
+      // _role = "ADMIN";
       _autoLogout();
       notifyListeners();
 
@@ -141,6 +152,7 @@ class Auth extends ChangeNotifier {
           'expiryDate': _expiryDate.toIso8601String(),
           'isMDT': _isMDT,
           'isAdmin': _isAdmin,
+          'role': _role,
         },
       );
       prefs.setString('userData', userData);
@@ -154,6 +166,7 @@ class Auth extends ChangeNotifier {
       print("ERROR Auth");
       e.toString();
     }
+    // _role = "ADMIN";
   }
 
   Future<bool> tryAutoLogin() async {
@@ -172,6 +185,7 @@ class Auth extends ChangeNotifier {
     _expiryDate = expiryDate;
     _isMDT = extractedUserData['isMDT'];
     _isAdmin = extractedUserData['isAdmin'];
+    _role = extractedUserData['role'];
 
     _autoLogout();
     notifyListeners();
@@ -186,6 +200,7 @@ class Auth extends ChangeNotifier {
     _expiryDate = null;
     _isAdmin = false;
     _isMDT = false;
+    _role = null;
     try {
       final prefs = await SharedPreferences.getInstance();
       prefs.remove('userData');

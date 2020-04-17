@@ -22,18 +22,24 @@ class Patients with ChangeNotifier {
   }
 
   List<Patient> get patients {
-    return [..._patients];
+    return _patients;
   }
 
   Future<void> fetchPatients() async {
     var url = 'http://10.0.2.2:8080/mdt/$_userId/patients';
+    print('tester');
+    print(url);
     try {
       final response = await http.get(
         url,
         headers: tokenHeader,
       );
       final extractedData = json.decode(response.body) as List<dynamic>;
-      if (extractedData == null) return;
+      if (extractedData == null){ 
+        print("extracted patients null");
+        _patients = [];
+        return;
+      }
       final List<Patient> loadedPatients = [];
 
       extractedData.forEach((patient) {
@@ -52,7 +58,9 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> fetchGroups() async {
+    print("tst group");
     var url = 'http://10.0.2.2:8080/mdt/$_userId/groups';
+    print(url);
     final List<Group> loadedGroups = [];
     try {
       final response = await http.get(
@@ -60,7 +68,10 @@ class Patients with ChangeNotifier {
         headers: tokenHeader,
       );
       final extractedData = json.decode(response.body) as List<dynamic>;
-      if (extractedData == null) return;
+      if (extractedData == null){
+          _groups = [];
+        return;
+      }
       extractedData.forEach((group) {
         loadedGroups.add(
           Group(
