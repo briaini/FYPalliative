@@ -1,9 +1,10 @@
+import 'package:FlutterFYP/screens/admin_group_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user_dao.dart';
 import '../providers/group.dart';
-import '../screens/mdt_patient_screen.dart';
+import '../screens/admin_group_detail_screen.dart';
 
 class GroupsListItem extends StatelessWidget {
   @override
@@ -16,11 +17,10 @@ class GroupsListItem extends StatelessWidget {
         leading: Icon(Icons.group),
         title: Text(group.name),
       ),
-      onTap: null
-      // () => Navigator.of(context).pushNamed(
-      //   MdtPatientScreen.routeName,
-      //   arguments: group,
-      // ),
+      onTap: () => Navigator.of(context).pushNamed(
+        AdminGroupDetailScreen.routeName,
+        arguments: group,
+      ),
     );
   }
 }

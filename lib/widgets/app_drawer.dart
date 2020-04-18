@@ -1,3 +1,4 @@
+import 'package:FlutterFYP/screens/edit_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,16 @@ class AppDrawer extends StatelessWidget {
             title: Text('Patients'),
             onTap: () =>
                 Navigator.of(context).pushNamed(PatientsScreen.routeName),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.add),
+            title: Text('Add User'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .pushNamed(EditUserScreen.routeName);
+            },
           ),
           Divider(),
           ListTile(

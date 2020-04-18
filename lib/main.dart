@@ -1,5 +1,7 @@
+import 'package:FlutterFYP/screens/admin_group_detail_screen.dart';
 import 'package:FlutterFYP/screens/admin_read_groups_screen.dart';
 import 'package:FlutterFYP/screens/edit_group_screen.dart';
+import 'package:FlutterFYP/screens/edit_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,6 @@ import './screens/detailed_repo_item_screen.dart';
 import './screens/patients_screen.dart';
 import './screens/mdt_patient_screen.dart';
 import './screens/splash_screen.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -79,6 +80,8 @@ class MyApp extends StatelessWidget {
             PatientsScreen.routeName: (ctx) => PatientsScreen(),
             MdtPatientScreen.routeName: (ctx) => MdtPatientScreen(),
             AdminReadGroupsScreen.routeName: (ctx) => AdminReadGroupsScreen(),
+            AdminGroupDetailScreen.routeName: (ctx) => AdminGroupDetailScreen(),
+            EditUserScreen.routeName: (ctx) => EditUserScreen(),
           },
         ),
       ),
