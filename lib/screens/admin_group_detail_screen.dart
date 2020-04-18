@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/patients.dart';
 import '../providers/group.dart';
 import '../widgets/mdt_patient_shared_repo.dart';
 import '../widgets/mdt_overview.dart';
+import './admin_all_users_screen.dart';
 
 enum GroupOptions {
-  Member,
+  User,
   Post,
 }
 
@@ -43,7 +45,9 @@ class _AdminGroupDetailScreenInfoState
           PopupMenuButton(
             onSelected: (GroupOptions selectedValue) {
               setState(() {
-                if (selectedValue == GroupOptions.Member) {
+                if (selectedValue == GroupOptions.User) {
+                  Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: group.id);
+                  // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
                 } else {}
               });
             },
@@ -51,7 +55,7 @@ class _AdminGroupDetailScreenInfoState
             itemBuilder: (_) => [
               PopupMenuItem(
                 child: Text('Add Member'),
-                value: GroupOptions.Member,
+                value: GroupOptions.User,
               ),
               PopupMenuItem(
                 child: Text('Add Post'),

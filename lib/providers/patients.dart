@@ -13,6 +13,7 @@ class Patients with ChangeNotifier {
   String _token;
   int _userId;
   List<Patient> _patients = [];
+  List<UserDAO> _users = [];
   List<Group> _groups;
 
   Patients(this._token, this._userId, this._patients);
@@ -25,9 +26,45 @@ class Patients with ChangeNotifier {
     return _patients;
   }
 
+  List<UserDAO> get users {
+    return _users;
+  }
+
+  Future<void> fetchUsers() async {
+    var url = 'http://10.0.2.2:8080/users';
+    print(url);
+    try {
+      final response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      final extractedData = json.decode(response.body) as List<dynamic>;
+      if (extractedData == null) {
+        print("extracted patients null");
+        _users = [];
+        return;
+      }
+      final List<UserDAO> loadedUsers = [];
+
+      extractedData.forEach((user) {
+        loadedUsers.add(
+          UserDAO(
+            user['id'],
+            user['username'],
+            user['role'],
+          ),
+        );
+      });
+      _users = loadedUsers;
+      print('feteched users ...........................');
+      print(_users);
+    } catch (error) {
+      print(error);
+    }
+  }
+
   Future<void> fetchPatients() async {
     var url = 'http://10.0.2.2:8080/mdt/$_userId/patients';
-    print('tester');
     print(url);
     try {
       final response = await http.get(
@@ -144,6 +181,20 @@ class Patients with ChangeNotifier {
 
   List<Group> get groups {
     return _groups ?? [];
+  }
+
+  Future<void> linkUserToGroup(groupId, userId) async {
+    final url = 'http://10.0.2.2:80/groups/58/users/0';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+      );
+      notifyListeners();
+      print(response.body.toString());
+    } catch (error) {
+      throw error;
+    }
   }
 
   Future<void> linkPostToPatient(patientId, postId) async {
