@@ -35,7 +35,7 @@ class Patients with ChangeNotifier {
         headers: tokenHeader,
       );
       final extractedData = json.decode(response.body) as List<dynamic>;
-      if (extractedData == null){ 
+      if (extractedData == null) {
         print("extracted patients null");
         _patients = [];
         return;
@@ -57,6 +57,27 @@ class Patients with ChangeNotifier {
     }
   }
 
+  Future<void> addGroup(newGroup) async {
+    var url = 'http://10.0.2.2:8080/groups';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+        body: json.encode(
+          {
+            "name": newGroup['name'],
+            "isMdt": newGroup['isMdt'],
+          },
+        ),
+      );
+      notifyListeners();
+      print(response.body.toString());
+    } catch (e) {
+      print("Error adding group");
+    }
+  }
+
+//TODO: implement user specific groups in backend, currently fetching all groups
   Future<void> fetchGroups() async {
     print("tst group");
     var url = 'http://10.0.2.2:8080/mdt/$_userId/groups';
@@ -68,8 +89,8 @@ class Patients with ChangeNotifier {
         headers: tokenHeader,
       );
       final extractedData = json.decode(response.body) as List<dynamic>;
-      if (extractedData == null){
-          _groups = [];
+      if (extractedData == null) {
+        _groups = [];
         return;
       }
       extractedData.forEach((group) {
@@ -99,17 +120,19 @@ class Patients with ChangeNotifier {
                   ),
                 )
                 .toList(),
-            (group['recipient']['comments'] as List<dynamic>)
-                .map(
-                  (comment) => Comment(
-                    comment['id'],
-                    comment['subjectId'],
-                    comment['textBody'],
-                    comment['postId'],
-                    comment['parentCommentId'],
-                  ),
-                )
-                .toList(),
+            group['recipient'] == null
+                ? []
+                : (group['recipient']['comments'] as List<dynamic>)
+                    .map(
+                      (comment) => Comment(
+                        comment['id'],
+                        comment['subjectId'],
+                        comment['textBody'],
+                        comment['postId'],
+                        comment['parentCommentId'],
+                      ),
+                    )
+                    .toList(),
           ),
         );
       });
@@ -124,8 +147,7 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkPostToPatient(patientId, postId) async {
-    final url =
-        'http://10.0.2.2:8080/users/$patientId/posts/$postId';
+    final url = 'http://10.0.2.2:8080/users/$patientId/posts/$postId';
     try {
       final response = await http.post(
         url,

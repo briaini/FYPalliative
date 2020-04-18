@@ -5,8 +5,9 @@ import '../providers/auth.dart';
 import '../screens/edit_repository_item_screen.dart';
 import '../screens/tabs_screen.dart';
 import '../screens/repo_filter_screen.dart';
-import '../screens/test_screen.dart';
+import '../screens/edit_group_screen.dart';
 import '../screens/patients_screen.dart';
+import '../screens/admin_read_groups_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget _buildAdminDrawer(BuildContext context) {
@@ -29,6 +30,26 @@ class AppDrawer extends StatelessWidget {
             title: Text('Patients'),
             onTap: () =>
                 Navigator.of(context).pushNamed(PatientsScreen.routeName),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.group),
+            title: Text('Groups'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .pushNamed(AdminReadGroupsScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.group_add),
+            title: Text('Add Group'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .pushNamed(EditGroupScreen.routeName);
+            },
           ),
           Divider(),
           ListTile(

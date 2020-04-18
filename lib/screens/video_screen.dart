@@ -82,7 +82,7 @@ class _VideoScreenState extends State<VideoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(item.title),
-        actions: auth.isMDT
+        actions: auth.isMDT || auth.isAdmin
             ? <Widget>[
                 IconButton(
                   icon: Icon(

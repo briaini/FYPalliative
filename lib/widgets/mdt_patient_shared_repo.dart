@@ -12,7 +12,6 @@ class MdtPatientSharedRepo extends StatefulWidget {
 }
 
 class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
-
   @override
   Widget build(BuildContext context) {
     final group = Provider.of<Group>(context);

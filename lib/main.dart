@@ -1,3 +1,5 @@
+import 'package:FlutterFYP/screens/admin_read_groups_screen.dart';
+import 'package:FlutterFYP/screens/edit_group_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,12 +71,14 @@ class MyApp extends StatelessWidget {
                 ),
           routes: {
             DetailedRepoItemScreen.routeName: (ctx) => DetailedRepoItemScreen(),
+            EditGroupScreen.routeName: (ctx) => EditGroupScreen(),
             EditRepositoryItemScreen.routeName: (ctx) =>
                 EditRepositoryItemScreen(),
             TabsScreen.routeName: (ctx) => TabsScreen(),
             ShareWithPatientScreen.routeName: (ctx) => ShareWithPatientScreen(),
             PatientsScreen.routeName: (ctx) => PatientsScreen(),
             MdtPatientScreen.routeName: (ctx) => MdtPatientScreen(),
+            AdminReadGroupsScreen.routeName: (ctx) => AdminReadGroupsScreen(),
           },
         ),
       ),

@@ -34,7 +34,7 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          actions: auth.isMDT
+          actions: auth.isMDT || auth.isAdmin
               ? <Widget>[
                 IconButton(
                   icon: Icon(
