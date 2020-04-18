@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/repository.dart';
+
+enum Role { patient, mdt, admin }
+enum AccountNonLocked { locked, unlocked }
+enum AccountNonExpired { expired, nonexpired }
+enum CredentialsNonExpired { expired, nonexpired }
+enum AccountEnabled { disabled, enabled }
+
 class EditUserScreen extends StatefulWidget {
   static const routeName = '/edit-user-screen';
   @override
@@ -9,7 +17,15 @@ class EditUserScreen extends StatefulWidget {
 
 class _EditUserScreenState extends State<EditUserScreen> {
   final _form = GlobalKey<FormState>();
+  final _passwordFocusNode = FocusNode();
   var _isLoading = false;
+
+  Role _roleValue = Role.patient;
+  AccountNonLocked _accountNonLockedValue = AccountNonLocked.unlocked;
+  AccountNonExpired _accountNonExpiredValue = AccountNonExpired.nonexpired;
+  CredentialsNonExpired _credentialsNonExpiredValue =
+      CredentialsNonExpired.nonexpired;
+  AccountEnabled _accountEnabledValue = AccountEnabled.enabled;
 
   Map<String, dynamic> _initValues = {
     'username': '',
@@ -22,7 +38,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   };
 
   Map<String, dynamic> _editedValues = {
-    'id': '',
+    'id': null,
     'username': '',
     'password': '',
     'role': '',
@@ -35,7 +51,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   @override
   void dispose() {
     //dispose focusNodes, controllers...
-    // .dispose();
+    _passwordFocusNode.dispose();
     super.dispose();
   }
 
@@ -56,16 +72,43 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   Future<void> _saveForm() async {
     if (!_form.currentState.validate()) return;
-    _form.currentState.save();
     setState(() {
       _isLoading = true;
     });
-    if(_editedValues['id'] != null) {
+    _form.currentState.save();
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    if (_editedValues['id'] != null) {
       //implement update user
     } else {
+      // print(_editedValues);
       //add user
-
+      try {
+        await Provider.of<Repository>(context, listen: false)
+            .createUser(_editedValues);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Error Occurred!'),
+            content: Text('Something went wrong while creating user.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -73,14 +116,275 @@ class _EditUserScreenState extends State<EditUserScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit User'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.save), onPressed: _saveForm),
+        ],
       ),
       body: Container(
         child: Form(
           key: _form,
           child: ListView(
             children: <Widget>[
-              // TextFormField(),
-
+              TextFormField(
+                initialValue: _initValues['username'],
+                decoration: InputDecoration(labelText: 'Username'),
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  Focus.of(context).requestFocus(_passwordFocusNode);
+                },
+                validator: (value) {
+                  if (value.isEmpty) return "Please enter value";
+                  return null;
+                },
+                onSaved: (value) {
+                  _editedValues['username'] = value;
+                },
+              ),
+              TextFormField(
+                focusNode: _passwordFocusNode,
+                initialValue: _initValues['password'],
+                decoration: InputDecoration(labelText: 'Password'),
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) {
+                  Focus.of(context).requestFocus();
+                },
+                validator: (value) {
+                  if (value.isEmpty) return "Please enter value";
+                  return null;
+                },
+                onSaved: (value) {
+                  _editedValues['password'] = value;
+                },
+              ),
+              Column(
+                children: <Widget>[
+                  Card(
+                    child: Column(
+                      children: <Widget>[
+                        Text('Role'),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: Role.patient,
+                                  groupValue: _roleValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['role'] = "PATIENT";
+                                      _roleValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Patient'),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: Role.mdt,
+                                  groupValue: _roleValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['role'] = "MDT";
+                                      _roleValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('MDT'),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: Role.admin,
+                                  groupValue: _roleValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['role'] = "ADMIN";
+                                      _roleValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Admin'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: <Widget>[
+                        Text('AccountNonLocked'),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: AccountNonLocked.locked,
+                                  groupValue: _accountNonLockedValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['accountNonLocked'] = 0;
+                                      _accountNonLockedValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Locked')
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: AccountNonLocked.unlocked,
+                                  groupValue: _accountNonLockedValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['accountNonLocked'] = 1;
+                                      _accountNonLockedValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('NonLocked')
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: <Widget>[
+                        Text('AccountNonExpired'),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: AccountNonExpired.expired,
+                                  groupValue: _accountNonExpiredValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['accountNonExpired'] = 0;
+                                      _accountNonExpiredValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Expired'),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: AccountNonExpired.nonexpired,
+                                  groupValue: _accountNonExpiredValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['accountNonExpired'] = 1;
+                                      _accountNonExpiredValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('NonExpired')
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: <Widget>[
+                        Text('CredentialsNonExpired'),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: CredentialsNonExpired.expired,
+                                  groupValue: _credentialsNonExpiredValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['credentialsNonExpired'] = 0;
+                                      _credentialsNonExpiredValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Expired')
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: CredentialsNonExpired.nonexpired,
+                                  groupValue: _credentialsNonExpiredValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['credentialsNonExpired'] = 1;
+                                      _credentialsNonExpiredValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('NonExpired'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: <Widget>[
+                        Text('Enabled'),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: AccountEnabled.disabled,
+                                  groupValue: _accountEnabledValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['enabled'] = 0;
+                                      _accountEnabledValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('NonEnabled'),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: AccountEnabled.enabled,
+                                  groupValue: _accountEnabledValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedValues['enabled'] = 1;
+                                      _accountEnabledValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Enabled'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

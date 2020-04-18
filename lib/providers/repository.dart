@@ -35,13 +35,25 @@ class Repository with ChangeNotifier {
     return {'authorization': _token};
   }
 
+  Future<void> createUser(userMap) async {
+    // print(userMap);
+    final url = 'http://10.0.2.2:8080/users/';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+        body: json.encode(userMap),
+      );
+    } catch (e) {
+      print("error creating user");
+    }
+  }
+
   Future<void> addRepoItem(Item item) async {
     print('repo.editRepoItem\n\n');
     print(item.toString());
 
     final url = 'http://10.0.2.2:8080/posts/';
-    print(item.linkUrl);
-    print(item.imageUrl);
     try {
       final response = await http.post(
         url,
@@ -104,50 +116,49 @@ class Repository with ChangeNotifier {
       final group = json.decode(response.body) as Map<String, dynamic>;
       print('hello');
       print(group.toString());
-      if (group == null){
+      if (group == null) {
         print("group is null");
         return;
       }
-      var loadedGroup =
-          Group(
-            group['id'],
-            group['name'],
-            (group['members'] as List<dynamic>)
-                .map(
-                  (user) => UserDAO(
-                    user['id'],
-                    user['name'],
-                    user['role'],
-                  ),
-                )
-                .toList(),
-            (group['posts'] as List<dynamic>)
-                .map(
-                  (item) => Item(
-                    id: item['id'],
-                    media: item['media'],
-                    category: item['category'],
-                    title: item['title'],
-                    description: item['description'],
-                    linkUrl: item['link_url'],
-                    imageUrl: item['image_url'],
-                  ),
-                )
-                .toList(),
-            (group['recipient']['comments'] as List<dynamic>)
-                .map(
-                  (comment) => Comment(
-                    comment['id'],
-                    comment['subjectId'],
-                    comment['textBody'],
-                    comment['postId'],
-                    comment['parentCommentId'],
-                  ),
-                )
-                .toList(),
-        );
-        _group = loadedGroup;
-        _repoItems = _group.posts;
+      var loadedGroup = Group(
+        group['id'],
+        group['name'],
+        (group['members'] as List<dynamic>)
+            .map(
+              (user) => UserDAO(
+                user['id'],
+                user['name'],
+                user['role'],
+              ),
+            )
+            .toList(),
+        (group['posts'] as List<dynamic>)
+            .map(
+              (item) => Item(
+                id: item['id'],
+                media: item['media'],
+                category: item['category'],
+                title: item['title'],
+                description: item['description'],
+                linkUrl: item['link_url'],
+                imageUrl: item['image_url'],
+              ),
+            )
+            .toList(),
+        (group['recipient']['comments'] as List<dynamic>)
+            .map(
+              (comment) => Comment(
+                comment['id'],
+                comment['subjectId'],
+                comment['textBody'],
+                comment['postId'],
+                comment['parentCommentId'],
+              ),
+            )
+            .toList(),
+      );
+      _group = loadedGroup;
+      _repoItems = _group.posts;
     } catch (error) {
       print(error);
     }
@@ -156,9 +167,9 @@ class Repository with ChangeNotifier {
   Future<void> fetchItems() async {
     var url = 'http://10.0.2.2:8080/posts';
     // _isMDT
-        // ? 'http://10.0.2.2:8080/posts'
-        // : 
-        // 'http://10.0.2.2:8080/users/$_userId/posts';
+    // ? 'http://10.0.2.2:8080/posts'
+    // :
+    // 'http://10.0.2.2:8080/users/$_userId/posts';
 
     try {
       var response = await http.get(url, headers: tokenHeader);
