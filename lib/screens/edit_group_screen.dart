@@ -16,6 +16,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   var _isInit = true;
   var _isLoading = false;
+
   Map<String, dynamic> _initValues = {
     'name': '',
     'isMdt': null,
@@ -63,7 +64,6 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     } else {
       //add group
       try {
-        print('atetempting to savvem');
         await Provider.of<Patients>(context, listen: false)
             .addGroup(_editedGroup);
       } catch (e) {
