@@ -6,6 +6,8 @@ import '../providers/group.dart';
 import '../widgets/mdt_patient_shared_repo.dart';
 import '../widgets/mdt_overview.dart';
 import './admin_all_users_screen.dart';
+import './admin_all_posts_screen.dart';
+
 
 enum GroupOptions {
   User,
@@ -48,7 +50,9 @@ class _AdminGroupDetailScreenInfoState
                 if (selectedValue == GroupOptions.User) {
                   Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: group.id);
                   // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
-                } else {}
+                } else {
+                  Navigator.of(context).pushNamed(AdminAllPostsScreen.routeName, arguments: group.id);
+                }
               });
             },
             icon: Icon(Icons.more_vert),

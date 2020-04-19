@@ -5,12 +5,12 @@ import '../providers/auth.dart';
 import './repository_item.dart';
 import '../providers/repository.dart';
 
-class RepositoryList extends StatefulWidget {
+class AdminRepositoryList extends StatefulWidget {
   @override
-  _RepositoryListState createState() => _RepositoryListState();
+  _AdminRepositoryListState createState() => _AdminRepositoryListState();
 }
 
-class _RepositoryListState extends State<RepositoryList> {
+class _AdminRepositoryListState extends State<AdminRepositoryList> {
   var _isInit = true;
   var _isLoading = false;
 
