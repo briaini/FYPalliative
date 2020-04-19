@@ -10,6 +10,7 @@ import './providers/repository.dart';
 import './providers/patients.dart';
 import './screens/admin_all_posts_screen.dart';
 import './screens/admin_all_users_screen.dart';
+import './screens/admin_user_overview_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/share_with_patient_screen.dart';
 import './screens/tabs_screen.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
           routes: {
             AdminAllUsersScreen.routeName: (ctx) => AdminAllUsersScreen(),
             AdminAllPostsScreen.routeName: (ctx) => AdminAllPostsScreen(),
+            AdminUserOverviewScreen.routeName: (ctx) => AdminUserOverviewScreen(),
             DetailedRepoItemScreen.routeName: (ctx) => DetailedRepoItemScreen(),
             EditGroupScreen.routeName: (ctx) => EditGroupScreen(),
             EditRepositoryItemScreen.routeName: (ctx) =>

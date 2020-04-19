@@ -34,9 +34,7 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final groupId = ModalRoute.of(context).settings.arguments as int;
-    final args = {"groupId": groupId};
-
+    final args = ModalRoute.of(context).settings.arguments as Map<String,dynamic>;
     return Scaffold(
       appBar: AppBar(
         title: Text('Users'),

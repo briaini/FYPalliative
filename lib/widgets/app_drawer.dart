@@ -1,4 +1,3 @@
-import 'package:FlutterFYP/screens/edit_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +8,8 @@ import '../screens/repo_filter_screen.dart';
 import '../screens/edit_group_screen.dart';
 import '../screens/patients_screen.dart';
 import '../screens/admin_read_groups_screen.dart';
+import '../screens/admin_all_users_screen.dart';
+import '../screens/edit_user_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget _buildAdminDrawer(BuildContext context) {
@@ -28,9 +29,9 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.healing),
-            title: Text('Patients'),
+            title: Text('Users'),
             onTap: () =>
-                Navigator.of(context).pushNamed(PatientsScreen.routeName),
+                Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: {"fromdrawer":1}),
           ),
           Divider(),
           ListTile(

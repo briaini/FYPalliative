@@ -48,7 +48,7 @@ class _AdminGroupDetailScreenInfoState
             onSelected: (GroupOptions selectedValue) {
               setState(() {
                 if (selectedValue == GroupOptions.User) {
-                  Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: group.id);
+                  Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: {"groupId":group.id});
                   // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
                 } else {
                   Navigator.of(context).pushNamed(AdminAllPostsScreen.routeName, arguments: group.id);

@@ -24,7 +24,8 @@ class _UsersListState extends State<UsersList> {
           itemCount: patients.users.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
             value:  patients.users[i],
-            child: UserListItem(widget.args['groupId']),
+            child: 
+              UserListItem(widget.args),
           ),
           separatorBuilder: (_, i) => const Divider(),
         ),
