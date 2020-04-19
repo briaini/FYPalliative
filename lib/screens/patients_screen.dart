@@ -21,13 +21,14 @@ class _PatientsScreenState extends State<PatientsScreen> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Patients>(context).fetchPatients().then(
-        (_) {
-          // setState(() {
-          //   // _isLoading = false;
-          // });
-        },
-      );
+      Provider.of<Patients>(context).fetchPatients();
+      // .then(
+      //   (_) {
+      // setState(() {
+      //   // _isLoading = false;
+      // });
+      //   },
+      // );
       Provider.of<Patients>(context).fetchGroups().then(
         (_) {
           setState(() {
@@ -47,7 +48,9 @@ class _PatientsScreenState extends State<PatientsScreen> {
         title: Text('Patients'),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : PatientsList(),
     );
   }
