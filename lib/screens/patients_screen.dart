@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../providers/patients.dart';
 import '../widgets/patients_list.dart';
 
@@ -22,23 +23,26 @@ class _PatientsScreenState extends State<PatientsScreen> {
         _isLoading = true;
       });
       Provider.of<Patients>(context).fetchPatients();
-      // .then(
-      //   (_) {
-      // setState(() {
-      //   // _isLoading = false;
-      // });
-      //   },
-      // );
-      Provider.of<Patients>(context).fetchGroups().then(
-        (_) {
-          setState(() {
-            _isLoading = false;
-          });
-        },
-      );
+      if (Provider.of<Auth>(context, listen: false).isAdmin) {
+        Provider.of<Patients>(context).fetchGroups().then(
+          (_) {
+            setState(() {
+              _isLoading = false;
+            });
+          },
+        );
+      } else {
+        Provider.of<Patients>(context).fetchMyGroups().then(
+          (_) {
+            setState(() {
+              _isLoading = false;
+            });
+          },
+        );
+      }
+      _isInit = false;
+      super.didChangeDependencies();
     }
-    _isInit = false;
-    super.didChangeDependencies();
   }
 
   @override
