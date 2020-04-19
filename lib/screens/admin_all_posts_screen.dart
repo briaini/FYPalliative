@@ -36,6 +36,7 @@ class _AdminAllPostsScreenState extends State<AdminAllPostsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final groupId = ModalRoute.of(context).settings.arguments as int;
     return Scaffold(
       appBar: AppBar(
         title: Text('Posts'),
@@ -44,7 +45,7 @@ class _AdminAllPostsScreenState extends State<AdminAllPostsScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : AdminRepositoryList(),
+          : AdminRepositoryList(groupId),
     );
   }
 }

@@ -5,12 +5,17 @@ import '../providers/item.dart';
 import '../screens/detailed_repo_item_screen.dart';
 
 class RepositoryItem extends StatelessWidget {
+  var adminGroupId;
+
+  RepositoryItem([this.adminGroupId]);
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
     final itemMedia = item.media;
     final itemTitle = item.title;
-    Map<String, dynamic> args = {"item": item};
+    print('test in repositoryItem: $adminGroupId');
+    Map<String, dynamic> args =
+        adminGroupId == null ? {"item": item} : {"item": item, "submarine": adminGroupId};
 
     return GestureDetector(
       child: itemMedia == "video"

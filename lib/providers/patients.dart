@@ -213,4 +213,20 @@ class Patients with ChangeNotifier {
       throw error;
     }
   }
+
+  Future<void> linkPostToGroup(groupId, postId) async {
+    print('groupId: $groupId \n postId: $postId');
+    final url = 'http://10.0.2.2:8080/groups/$groupId/posts/$postId';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+      );
+
+      notifyListeners();
+      print(response.body.toString());
+    } catch (error) {
+      throw error;
+    }
+  }
 }

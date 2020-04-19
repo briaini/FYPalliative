@@ -14,9 +14,10 @@ import '../screens/edit_repository_item_screen.dart';
 class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
 
+  var groupId;
   final hasComments;
 
-  VideoScreen(this.hasComments);
+  VideoScreen(this.hasComments, [groupId]);
 
   @override
   _VideoScreenState createState() => _VideoScreenState();

@@ -16,8 +16,11 @@ class DetailedRepoItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     Group group;
+    var adminGroupId;
     if (args.containsKey("group")) group = args['group'] as Group;
     final item = args['item'] as Item;
+    if(args.containsKey("submarine")) adminGroupId = args['submarine'] as int;
+    print('test in detailedrepotitemScreen: $adminGroupId');
 
     if(!Provider.of<Auth>(context).isMDT){
       group = Provider.of<Repository>(context).group;
@@ -26,7 +29,7 @@ class DetailedRepoItemScreen extends StatelessWidget {
     return group == null
         ? ChangeNotifierProvider.value(
             value: item,
-            child: DetailedRepoItemScreenWithProv(false),
+            child: DetailedRepoItemScreenWithProv(false, adminGroupId),
           )
         : MultiProvider(
             providers: [
@@ -49,16 +52,18 @@ class DetailedRepoItemScreen extends StatelessWidget {
 
 class DetailedRepoItemScreenWithProv extends StatelessWidget {
   final hasComments;
+  var groupId;
 
-  DetailedRepoItemScreenWithProv(this.hasComments);
+  DetailedRepoItemScreenWithProv(this.hasComments, [this.groupId]);
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
+    print('test detailedrepoitemscreenwithProv $groupId');
 
     return Scaffold(
       body: item.media == 'video'
-          ? VideoScreen(hasComments)
-          : TextItemTabScreen(hasComments),
+          ? (groupId == null ? VideoScreen(hasComments) : VideoScreen(hasComments, groupId))
+          : (groupId == null ? TextItemTabScreen(hasComments): TextItemTabScreen(hasComments, groupId)),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: hasComments
           ? FloatingActionButton(

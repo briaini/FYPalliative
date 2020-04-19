@@ -6,6 +6,8 @@ import './repository_item.dart';
 import '../providers/repository.dart';
 
 class AdminRepositoryList extends StatefulWidget {
+  final _groupId;
+  AdminRepositoryList(this._groupId);
   @override
   _AdminRepositoryListState createState() => _AdminRepositoryListState();
 }
@@ -16,6 +18,7 @@ class _AdminRepositoryListState extends State<AdminRepositoryList> {
 
   @override
   Widget build(BuildContext context) {
+    print('test in adminRepoList ${widget._groupId}');
     return Consumer<Repository>(
       builder: (ctx, repo, child) => Container(
         child: ListView.separated(
@@ -23,7 +26,7 @@ class _AdminRepositoryListState extends State<AdminRepositoryList> {
           itemCount: repo.items.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
               value: repo.items[i], 
-              child: RepositoryItem()),
+              child: RepositoryItem(widget._groupId)),
           separatorBuilder: (_, i) => const Divider(),
         ),
       ),
