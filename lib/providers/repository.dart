@@ -50,9 +50,6 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> addRepoItem(Item item) async {
-    print('repo.editRepoItem\n\n');
-    print(item.toString());
-
     final url = 'http://10.0.2.2:8080/posts/';
     try {
       final response = await http.post(
@@ -69,7 +66,6 @@ class Repository with ChangeNotifier {
           },
         ),
       );
-      print("editRepo:" + response.body.toString() + "\n");
       notifyListeners();
     } catch (error) {
       throw error;
@@ -77,12 +73,8 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> updateRepoItem(Item item) async {
-    print('repo.updateRepoItem\n');
-    print(item.toString());
-
     final url = 'http://10.0.2.2:8080/posts/';
-    print(item.linkUrl);
-    print(item.imageUrl);
+
     try {
       final response = await http.put(
         url,
@@ -114,8 +106,6 @@ class Repository with ChangeNotifier {
         headers: tokenHeader,
       );
       final group = json.decode(response.body) as Map<String, dynamic>;
-      print('hello');
-      print(group.toString());
       if (group == null) {
         print("group is null");
         return;

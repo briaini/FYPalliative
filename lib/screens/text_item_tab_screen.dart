@@ -31,7 +31,6 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: false);
     final item = Provider.of<Item>(context, listen: false);
-    print('test in texttabscreen: ${widget.groupId}');
 
     return DefaultTabController(
       length: 2,
@@ -52,8 +51,7 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                   IconButton(
                       icon: Icon(Icons.share),
                       onPressed: widget.groupId == null
-                          ? () => print('group id not null: $widget.groupId')
-                          //_goToShareWithPatientPage(item)
+                          ? () => _goToShareWithPatientPage(item)
                           : () {
                               showDialog(
                                   //returning showDialog returns Future for us
@@ -81,9 +79,6 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                                         ],
                                       ));
                             }
-
-                      // Provider.of<Patients>(context)
-                      //     .linkPostToGroup(widget.groupId, item.id),
                       )
                 ]
               : null,

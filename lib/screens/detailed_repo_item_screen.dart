@@ -58,7 +58,6 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
-    print('test detailedrepoitemscreenwithProv $groupId');
 
     return Scaffold(
       body: item.media == 'video'

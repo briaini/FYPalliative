@@ -54,14 +54,6 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final repo = Provider.of<Repository>(context);
-    // final items = repo.items;
-    // rsepo.items;
-
-    // print("reposcreen" + items.toString());
-    // repoItems = repo.items;
-
-    // print('reposcreen' + repo.items.toString());
 
     return _isLoading
         ? Center(

@@ -13,7 +13,6 @@ class RepositoryItem extends StatelessWidget {
     final item = Provider.of<Item>(context);
     final itemMedia = item.media;
     final itemTitle = item.title;
-    print('test in repositoryItem: $adminGroupId');
     Map<String, dynamic> args =
         adminGroupId == null ? {"item": item} : {"item": item, "submarine": adminGroupId};
 

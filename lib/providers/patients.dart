@@ -32,7 +32,6 @@ class Patients with ChangeNotifier {
 
   Future<void> fetchUsers() async {
     var url = 'http://10.0.2.2:8080/users';
-    print(url);
     try {
       final response = await http.get(
         url,
@@ -56,7 +55,6 @@ class Patients with ChangeNotifier {
         );
       });
       _users = loadedUsers;
-      print('feteched users ...........................');
       print(_users);
     } catch (error) {
       print(error);
@@ -116,9 +114,7 @@ class Patients with ChangeNotifier {
 
 //TODO: implement user specific groups in backend, currently fetching all groups
   Future<void> fetchGroups() async {
-    print("tst group");
     var url = 'http://10.0.2.2:8080/mdt/$_userId/groups';
-    print(url);
     final List<Group> loadedGroups = [];
     try {
       final response = await http.get(
@@ -184,8 +180,6 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkUserToGroup(groupId, userId) async {
-    print('groupid: $groupId');
-    print('userid: $userId');
     final url = 'http://10.0.2.2:8080/groups/$groupId/users/$userId';
     try {
       final response = await http.post(
@@ -215,7 +209,6 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkPostToGroup(groupId, postId) async {
-    print('groupId: $groupId \n postId: $postId');
     final url = 'http://10.0.2.2:8080/groups/$groupId/posts/$postId';
     try {
       final response = await http.post(

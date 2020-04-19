@@ -1,10 +1,9 @@
-import 'package:FlutterFYP/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../providers/auth.dart';
-import '../providers/repository.dart';
+import '../providers/patients.dart';
 import '../providers/item.dart';
 
 import '../widgets/comments_list.dart';
@@ -17,7 +16,7 @@ class VideoScreen extends StatefulWidget {
   var groupId;
   final hasComments;
 
-  VideoScreen(this.hasComments, [groupId]);
+  VideoScreen(this.hasComments, [this.groupId]);
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -97,7 +96,35 @@ class _VideoScreenState extends State<VideoScreen> {
                 ),
                 IconButton(
                   icon: Icon(Icons.share),
-                  onPressed: () => _goToShareWithPatientPage(item),
+                  onPressed: widget.groupId == null
+                      ? () => _goToShareWithPatientPage(item)
+                      : () {
+                          showDialog(
+                              //returning showDialog returns Future for us
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                    title: Text('Are you sure?'),
+                                    content: Text(
+                                        'Do you want to share post(${item.id}) with group: :${widget.groupId}?'),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text('No'),
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop(false);
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text('Yes'),
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop(true);
+                                          Provider.of<Patients>(context)
+                                              .linkPostToGroup(
+                                                  widget.groupId, item.id);
+                                        },
+                                      ),
+                                    ],
+                                  ));
+                        },
                   color: Theme.of(context).primaryIconTheme.color,
                 )
               ]
@@ -131,16 +158,21 @@ class _VideoScreenState extends State<VideoScreen> {
           padding: EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            
             children: <Widget>[
               SizedBox(
                 height: 10,
               ),
-              Text(item.title, textAlign: TextAlign.center,),
+              Text(
+                item.title,
+                textAlign: TextAlign.center,
+              ),
               SizedBox(
                 height: 10,
               ),
-              Text(item.description, textAlign: TextAlign.justify, ),
+              Text(
+                item.description,
+                textAlign: TextAlign.justify,
+              ),
               SizedBox(
                 height: 10,
               ),
