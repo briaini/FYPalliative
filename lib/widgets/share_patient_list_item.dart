@@ -16,12 +16,14 @@ class SharePatientListItem extends StatelessWidget {
         leading: Icon(Icons.healing),
         title: Text(patient.name),
       ),
-      onTap: () {showDialog(
+      onTap: () {
+        showDialog(
           //returning showDialog returns Future for us
           context: context,
           builder: (ctx) => AlertDialog(
             title: Text('Are you sure?'),
-            content: Text('Do you want to share post(${item.id}) with ${patient.id}:${patient.name}?'),
+            content: Text(
+                'Do you want to share post(${item.id}) with ${patient.id}:${patient.name}?'),
             actions: <Widget>[
               FlatButton(
                 child: Text('No'),
@@ -38,7 +40,8 @@ class SharePatientListItem extends StatelessWidget {
               ),
             ],
           ),
-        );},
+        );
+      },
     );
   }
 }

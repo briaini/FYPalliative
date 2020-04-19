@@ -35,6 +35,7 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
   @override
   Widget build(BuildContext context) {
     final groupId = ModalRoute.of(context).settings.arguments as int;
+    final args = {"groupId": groupId};
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +43,7 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : UsersList(),
+          : UsersList(args),
     );
   }
 }

@@ -184,7 +184,9 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkUserToGroup(groupId, userId) async {
-    final url = 'http://10.0.2.2:80/groups/58/users/0';
+    print('groupid: $groupId');
+    print('userid: $userId');
+    final url = 'http://10.0.2.2:8080/groups/$groupId/users/$userId';
     try {
       final response = await http.post(
         url,

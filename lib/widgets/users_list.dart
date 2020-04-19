@@ -7,6 +7,9 @@ import './user_list_item.dart';
 
 
 class UsersList extends StatefulWidget {
+  final args;
+  UsersList(this.args);
+
   @override
   _UsersListState createState() => _UsersListState();
 }
@@ -21,7 +24,7 @@ class _UsersListState extends State<UsersList> {
           itemCount: patients.users.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
             value:  patients.users[i],
-            child: UserListItem(),
+            child: UserListItem(widget.args['groupId']),
           ),
           separatorBuilder: (_, i) => const Divider(),
         ),
