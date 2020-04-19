@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../providers/item.dart';
 import '../providers/patients.dart';
 import '../widgets/share_patient_list.dart';
@@ -24,13 +25,21 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
           _isLoading = true;
         },
       );
-      Provider.of<Patients>(context).fetchPatients().then(
-        (_) {
-          setState(() {
-            _isLoading = false;
-          });
-        },
-      );
+      Provider.of<Auth>(context, listen: false).isAdmin
+          ? Provider.of<Patients>(context).fetchGroups().then(
+              (_) {
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+            )
+          : Provider.of<Patients>(context).fetchPatients().then(
+              (_) {
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+            );
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -40,17 +49,16 @@ class _ShareWithPatientScreenState extends State<ShareWithPatientScreen> {
   Widget build(BuildContext context) {
     final item = ModalRoute.of(context).settings.arguments as Item;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Patients"),
-      ),
-      body: _isLoading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : ChangeNotifierProvider.value(
-            value: item,
-            child: SharePatientsList(),
-          )
-    );
+        appBar: AppBar(
+          title: Text(Provider.of<Auth>(context, listen: false).isAdmin ? "Groups" : "Patients"),
+        ),
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ChangeNotifierProvider.value(
+                value: item,
+                child: SharePatientsList(),
+              ));
   }
 }
