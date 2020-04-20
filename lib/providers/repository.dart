@@ -30,7 +30,7 @@ class Repository with ChangeNotifier {
   //   'videos': false,
   // };
 
-  var _repoFiltersMap = {'All':true};
+  var _repoFiltersMap = {'All': true};
 
   Repository(this._token, this._userId, this._isMDT, this._repoItems);
 
@@ -94,7 +94,6 @@ class Repository with ChangeNotifier {
           },
         ),
       );
-      print("editRepo:" + response.body.toString() + "\n");
       notifyListeners();
     } catch (error) {
       throw error;
@@ -150,6 +149,15 @@ class Repository with ChangeNotifier {
             )
             .toList(),
       );
+
+      loadedGroup.posts.forEach((post) {
+        if (!_categories.contains(post.category))
+          _repoFiltersMap[post.category] = true;
+      });
+
+      // _categories.forEach((category) {
+      //   _repoFiltersMap[category] = true;
+      // });
       _group = loadedGroup;
       _repoItems = _group.posts;
     } catch (error) {
@@ -221,9 +229,6 @@ class Repository with ChangeNotifier {
       _categories.forEach((category) {
         _repoFiltersMap[category] = true;
       });
-
-      print("***************************************");
-      print(_repoFiltersMap);
 
       notifyListeners();
     } catch (error) {
