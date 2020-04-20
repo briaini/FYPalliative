@@ -31,7 +31,6 @@ class Patients with ChangeNotifier {
 
   List<UserDAO> get patientusers {
     _patientusers = _users.where((element) => element.role == 'PATIENT').toList();
-    print(_patientusers);
     return _patientusers;
   }
 
@@ -39,9 +38,7 @@ class Patients with ChangeNotifier {
 
 
   List<UserDAO> get mdtworkers {
-    print("%%%%%%%%%%%%%%%%%%%%%%%");
     _mdtusers = _users.where((element) => element.role == 'MDT').toList();
-    print(_mdtusers);
     return _mdtusers;
   }
 

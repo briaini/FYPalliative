@@ -1,8 +1,12 @@
+import 'package:FlutterFYP/models/user_dao.dart';
 import 'package:FlutterFYP/widgets/my_tab_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import './test_screen.dart';
+import '../widgets/admin_detailed_overview_mdt_user.dart';
+import '../widgets/admin_detailed_overview_patient_user.dart';
+
 
 class AdminUserOverviewScreen extends StatefulWidget {
   static const routeName = '/admin-user-overview-screen';
@@ -21,14 +25,16 @@ class _AdminUserOverviewScreenState extends State<AdminUserOverviewScreen> {
   };
   @override
   Widget build(BuildContext context) {
+    final user = ModalRoute.of(context).settings.arguments as UserDAO;
+    final isMDT = user.role == "MDT";
     // return DefaultTabController(
     //   length: 2,
     //   child:
-       return Scaffold(
-          appBar: AppBar(
-            title: Text('User Overview'),
-          ),
-          body: Center(child: Text('OVERWHO'),)
-       );
+   return ChangeNotifierProvider.value(
+        value: user,
+        child: isMDT
+            ? AdminDetailedOverviewMdtUser()
+            : AdminDetailedOverviewPatientUser(),
+    );
   }
 }

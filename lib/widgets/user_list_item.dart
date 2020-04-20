@@ -28,7 +28,7 @@ class UserListItem extends StatelessWidget {
         ),
         onTap: fromDrawer
             ? () => Navigator.of(context)
-                .pushNamed(AdminUserOverviewScreen.routeName)
+                .pushNamed(AdminUserOverviewScreen.routeName, arguments: user)
             : () {
                 showDialog(
                   //returning showDialog returns Future for us
