@@ -258,6 +258,7 @@ class Repository with ChangeNotifier {
   }
 
   List<Item> get items {
+    // _repoItems.sort((a,b) => a.category.compareTo(b.category));
     return [..._repoItems];
   }
 
