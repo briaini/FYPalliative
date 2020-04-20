@@ -26,7 +26,7 @@ class UserListItem extends StatelessWidget {
 
     return GestureDetector(
         child: ListTile(
-          leading: Icon(Icons.person_add),
+          leading: Icon(fromDrawer ? Icons.person : Icons.person_add),
           title: Text(user.name),
         ),
         onTap: fromDrawer

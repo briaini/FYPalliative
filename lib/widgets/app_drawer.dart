@@ -22,46 +22,9 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text('Repo Items'),
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(TabsScreen.routeName),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.healing),
-            title: Text('Users'),
-            onTap: () =>
-                Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: {"fromdrawer":1}),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.add),
-            title: Text('Add User'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushNamed(EditUserScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.group),
-            title: Text('Groups'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushNamed(AdminReadGroupsScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.group_add),
-            title: Text('Add Group'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushNamed(EditGroupScreen.routeName);
-            },
           ),
           Divider(),
           ListTile(
@@ -71,6 +34,41 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.of(context)
                   .pushNamed(EditRepositoryItemScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Users'),
+            onTap: () => Navigator.of(context).pushNamed(
+                AdminAllUsersScreen.routeName,
+                arguments: {"fromdrawer": 1}),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.person_add),
+            title: Text('Add User'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(EditUserScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.group),
+            title: Text('Groups'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(AdminReadGroupsScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.group_add),
+            title: Text('Add Group'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(EditGroupScreen.routeName);
             },
           ),
           Divider(),
