@@ -20,14 +20,17 @@ class Repository with ChangeNotifier {
 
   //{'authorization': _token};
 
+  var _categories = [];
   var _repoItems = [];
-  var _repoFiltersMap = {
-    'articles': true,
-    'audio': true,
-    'news': false,
-    'stories': false,
-    'videos': false,
-  };
+  // var _repoFiltersMap = {
+  //   'articles': true,
+  //   'audio': true,
+  //   'news': false,
+  //   'stories': false,
+  //   'videos': false,
+  // };
+
+  var _repoFiltersMap = {'All':true};
 
   Repository(this._token, this._userId, this._isMDT, this._repoItems);
 
@@ -201,6 +204,8 @@ class Repository with ChangeNotifier {
             comments: [],
           ),
         );
+        if (!_categories.contains(post["category"]))
+          _categories.add(post["category"]);
       });
 
       // fetchedComments.forEach((comment) {
@@ -212,6 +217,13 @@ class Repository with ChangeNotifier {
       // });
 
       _repoItems = _fetchedItems;
+
+      _categories.forEach((category) {
+        _repoFiltersMap[category] = true;
+      });
+
+      print("***************************************");
+      print(_repoFiltersMap);
 
       notifyListeners();
     } catch (error) {

@@ -14,19 +14,96 @@ class _RepositoryListState extends State<RepositoryList> {
   var _isInit = true;
   var _isLoading = false;
 
+  
+
+  // final categories = {
+  //   'All': true,
+  //   'Excercise': true,
+  //   'Pain': true,
+  //   'Stress': true
+  // };
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<Repository>(
-      builder: (ctx, repo, child) => Container(
-        child: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: repo.items.length,
-          itemBuilder: (_, i) => ChangeNotifierProvider.value(
-              value: repo.items[i], 
-              child: RepositoryItem()),
-          separatorBuilder: (_, i) => const Divider(),
+    final categories = Provider.of<Repository>(context).repositoryFilters;
+    return Column(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              boxShadow: kElevationToShadow[3]),
+          height: 25,
+          // color: Theme.of(context).primaryColor,
+          child: Row(
+              children: categories.keys
+                  .map((category) => GestureDetector(
+                        child: Container(
+                          child: Text(
+                            category,
+                            textAlign: TextAlign.center,
+                          ),
+                          decoration: BoxDecoration(
+                              color: categories[category]
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).primaryColorLight,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: kElevationToShadow[1]),
+                          height: 20,
+                          width: 75,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (category.contains('All')) {
+                              categories[category] = !categories[category];
+                              categories.updateAll((key, value) =>
+                                  categories[key] = categories[category]);
+                            } else
+                              categories['$category'] =
+                                  !categories['$category'];
+                            if (categories.values.elementAt(0) == false &&
+                                categories.values
+                                        .where((val) => val == false)
+                                        .length ==
+                                    1)
+                              categories['All'] = true;
+                            else if (categories.containsValue(false))
+                              categories['All'] = false;
+                            Provider.of<Repository>(context).saveRepositoryFilters(categories);
+                          });
+                        },
+                      ))
+                  .toList()),
         ),
-      ),
+        Container(
+          height: 545,
+          child: Consumer<Repository>(
+            builder: (ctx, repo, child) => Container(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: repo.items
+                    .where((item) => categories.keys
+                        .where((element) => categories[element] == true)
+                        .toList()
+                        .contains(item.category))
+                    .toList()
+                    .length,
+                itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                  // value: repo.items[i],
+                  value: repo.items
+                      .where((item) => categories.keys
+                          .where((element) => categories[element] == true)
+                          .toList()
+                          .contains(item.category))
+                      .toList()[i],
+                  child: RepositoryItem(),
+                ),
+                separatorBuilder: (_, i) => const Divider(),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
