@@ -142,7 +142,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
           )
         ],
       ),
-      drawer: AppDrawer(),
+      // drawer: AppDrawer(),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),

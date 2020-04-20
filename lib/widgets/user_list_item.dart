@@ -19,10 +19,7 @@ class UserListItem extends StatelessWidget {
     // final List<UserDAO> members = group.members;
     // final patient = members.singleWhere((member) => member.role == "PATIENT");
     final user = Provider.of<UserDAO>(context);
-
     final fromDrawer = args.containsKey('fromdrawer') ?? 0;
-
-    print('fromVlaue: $fromDrawer');
 
     return GestureDetector(
         child: ListTile(

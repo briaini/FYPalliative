@@ -15,6 +15,8 @@ class Patients with ChangeNotifier {
   List<Patient> _patients = [];
   List<UserDAO> _users = [];
   List<Group> _groups;
+  List<UserDAO> _mdtusers = [];
+  List<UserDAO> _patientusers = [];
 
   Patients(this._token, this._userId, this._patients);
 
@@ -24,6 +26,23 @@ class Patients with ChangeNotifier {
 
   List<Patient> get patients {
     return _patients;
+  }
+  
+
+  List<UserDAO> get patientusers {
+    _patientusers = _users.where((element) => element.role == 'PATIENT').toList();
+    print(_patientusers);
+    return _patientusers;
+  }
+
+
+
+
+  List<UserDAO> get mdtworkers {
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    _mdtusers = _users.where((element) => element.role == 'MDT').toList();
+    print(_mdtusers);
+    return _mdtusers;
   }
 
   List<UserDAO> get users {

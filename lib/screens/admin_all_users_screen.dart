@@ -34,14 +34,44 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments as Map<String,dynamic>;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Users'),
+    final args =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Users'),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                text: 'Medical',
+                icon: Icon(Icons.local_hospital),
+              ),
+              Tab(
+                text: 'Patient',
+                icon: Icon(Icons.healing),
+              ),
+            ],
+          ),
+        ),
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            :
+            // : UsersList(args),
+            TabBarView(
+                children: <Widget>[
+                  UsersList(
+                    args, true,
+
+                    // "mdt",
+                  ),
+                  UsersList(
+                    args, false,
+                    // "patients",
+                  ),
+                ],
+              ),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : UsersList(args),
     );
   }
 }
