@@ -1,4 +1,3 @@
-import 'package:FlutterFYP/screens/admin_all_users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,37 +25,34 @@ class UserListItem extends StatelessWidget {
           leading: Icon(fromDrawer ? Icons.person : Icons.person_add),
           title: Text(user.name),
         ),
-        onTap: fromDrawer
-            ? () => Navigator.of(context)
-                .pushNamed(AdminUserOverviewScreen.routeName, arguments: user)
-            : () {
-                showDialog(
-                  //returning showDialog returns Future for us
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    title: Text('Are you sure?'),
-                    content: Text(
-                        'Do you want to add user (${user.id}) to group ${args['groupId']}?'),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('No'),
-                        onPressed: () {
-                          Navigator.of(ctx).pop(false);
-                        },
-                      ),
-                      FlatButton(
-                        child: Text('Yes'),
-                        onPressed: () {
-                          Navigator.of(ctx).pop(true);
-                          // patientsProvider.linkUser(patient.id, item.id);
-                          Provider.of<Patients>(context, listen: false)
-                              .linkUserToGroup(args['groupId'], user.id);
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
+        onTap: () {
+          showDialog(
+            //returning showDialog returns Future for us
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text(
+                  'Do you want to add user (${user.id}) to group ${args['groupId']}?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop(false);
+                  },
+                ),
+                FlatButton(
+                  child: Text('Yes'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop(true);
+                    // patientsProvider.linkUser(patient.id, item.id);
+                    Provider.of<Patients>(context, listen: false)
+                        .linkUserToGroup(args['groupId'], user.id);
+                  },
+                ),
+              ],
+            ),
+          );
+        }
         // Navigator.of(context).pushNamed(
         //   MdtPatientScreen.routeName,
         // arguments: group,

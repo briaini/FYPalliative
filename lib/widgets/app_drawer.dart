@@ -8,7 +8,7 @@ import '../screens/repo_filter_screen.dart';
 import '../screens/edit_group_screen.dart';
 import '../screens/patients_screen.dart';
 import '../screens/admin_read_groups_screen.dart';
-import '../screens/admin_all_users_screen.dart';
+import '../screens/admin_all_user_detailed_screen.dart';
 import '../screens/edit_user_screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -41,8 +41,8 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.person),
             title: Text('Users'),
             onTap: () => Navigator.of(context).pushNamed(
-                AdminAllUsersScreen.routeName,
-                arguments: {"fromdrawer": 1}),
+              AdminAllUserDetailedScreen.routeName,
+            ),
           ),
           Divider(),
           ListTile(

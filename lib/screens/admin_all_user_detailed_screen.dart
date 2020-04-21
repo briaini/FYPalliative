@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
-import '../widgets/users_list.dart';
+import '../widgets/detailed_user_list.dart';
 
-class AdminAllUsersScreen extends StatefulWidget {
-  static const routeName = '/admin-all-users-screen';
+class AdminAllUserDetailedScreen extends StatefulWidget {
+  static const routeName = '/admin-all-user-detailed-screen';
   @override
-  _AdminAllUsersScreenState createState() => _AdminAllUsersScreenState();
+  _AdminAllUserDetailedScreenState createState() =>
+      _AdminAllUserDetailedScreenState();
 }
 
-class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
+class _AdminAllUserDetailedScreenState
+    extends State<AdminAllUserDetailedScreen> {
   var _isInit = true;
   var _isLoading = false;
 
@@ -20,7 +22,7 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Patients>(context).fetchUsers().then(
+      Provider.of<Patients>(context).fetchGroups().then(
         (_) {
           setState(() {
             _isLoading = false;
@@ -34,13 +36,10 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Users'),
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
@@ -55,20 +54,11 @@ class _AdminAllUsersScreenState extends State<AdminAllUsersScreen> {
           ),
         ),
         body: _isLoading
-            ? Center(child: CircularProgressIndicator())
-            :
-            // : UsersList(args),
-            TabBarView(
+            ? CircularProgressIndicator()
+            : TabBarView(
                 children: <Widget>[
-                  UsersList(
-                    args, true,
-
-                    // "mdt",
-                  ),
-                  UsersList(
-                    args, false,
-                    // "patients",
-                  ),
+                  DetailedUserList(),
+                  DetailedUserList(),
                 ],
               ),
       ),

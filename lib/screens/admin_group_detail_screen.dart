@@ -5,7 +5,7 @@ import '../providers/patients.dart';
 import '../providers/group.dart';
 import '../widgets/mdt_patient_shared_repo.dart';
 import '../widgets/mdt_overview.dart';
-import './admin_all_users_screen.dart';
+import './admin_all_users_add_screen.dart';
 import './admin_all_posts_screen.dart';
 
 
@@ -48,7 +48,7 @@ class _AdminGroupDetailScreenInfoState
             onSelected: (GroupOptions selectedValue) {
               setState(() {
                 if (selectedValue == GroupOptions.User) {
-                  Navigator.of(context).pushNamed(AdminAllUsersScreen.routeName, arguments: {"groupId":group.id});
+                  Navigator.of(context).pushNamed(AdminAllUsersAddScreen.routeName, arguments: {"groupId":group.id});
                   // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
                 } else {
                   Navigator.of(context).pushNamed(AdminAllPostsScreen.routeName, arguments: group.id);
