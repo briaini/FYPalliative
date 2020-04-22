@@ -7,7 +7,8 @@ class MdtOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final group = Provider.of<Group>(context);
-    return ListView.separated(
+    return 
+    group.members.length == 0 ? Center(child: Text("No Group Members"),) : ListView.separated(
       padding: EdgeInsets.all(8),
       itemCount: group.members.length,
       itemBuilder: (_, i) => ListTile(

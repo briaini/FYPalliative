@@ -160,6 +160,7 @@ class Repository with ChangeNotifier {
       // });
       _group = loadedGroup;
       _repoItems = _group.posts;
+      print("PPPPPPPPPPPPPPPPPPPPPPPPPPPOsts\n${_repoItems.toString()}");
     } catch (error) {
       print(error);
     }

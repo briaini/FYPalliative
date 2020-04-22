@@ -14,8 +14,6 @@ class _RepositoryListState extends State<RepositoryList> {
   var _isInit = true;
   var _isLoading = false;
 
-  
-
   // final categories = {
   //   'All': true,
   //   'Excercise': true,
@@ -26,6 +24,7 @@ class _RepositoryListState extends State<RepositoryList> {
   @override
   Widget build(BuildContext context) {
     final categories = Provider.of<Repository>(context).repositoryFilters;
+
     return Column(
       children: <Widget>[
         Container(

@@ -17,7 +17,7 @@ class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
     final group = Provider.of<Group>(context);
 
     return Container(
-        child: ListView.separated(
+        child: group.posts.length == 0 ? Center(child: Text("No Group Posts"),) : ListView.separated(
           padding: const EdgeInsets.all(8),
           itemCount: group.posts.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(

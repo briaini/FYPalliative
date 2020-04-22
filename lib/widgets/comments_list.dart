@@ -28,27 +28,31 @@ class _CommentsListState extends State<CommentsList> {
         group.comments.where((comment) => comment.postId == item.id).toList() ??
             [];
 
-    return Column(
-      children: <Widget>[
-        ExpansionTile(
-          leading: Icon(Icons.comment),
-          title: Text('Comments (${comments.length})'),
-          children: List<Widget>.generate(
-            comments.length,
-            (i) {
-              return Column(
-                children: <Widget>[
-                  CommentItem(comments[i]),
-                  if (i != comments.length-1)
-                    Divider(
-                      height: 8,
-                    ),
-                ],
-              );
-            },
-          ),
-        ),
-      ],
-    );
+    return (comments.length < 1)
+        ? Center(
+            child: Text('No Comments'),
+          )
+        : Column(
+            children: <Widget>[
+              ExpansionTile(
+                leading: Icon(Icons.comment),
+                title: Text('Comments (${comments.length})'),
+                children: List<Widget>.generate(
+                  comments.length,
+                  (i) {
+                    return Column(
+                      children: <Widget>[
+                        CommentItem(comments[i]),
+                        if (i != comments.length - 1)
+                          Divider(
+                            height: 8,
+                          ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
   }
 }
