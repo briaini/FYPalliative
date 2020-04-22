@@ -40,6 +40,16 @@ class Patients with ChangeNotifier {
     return _groups.where((group) => group.isMdt && group.members.any((user) => user.role=="PATIENT")).toList() ?? [];
   }
 
+List<Group> findGroupsByMdtId(id) {
+
+  print('findinggruopbyid');
+  print(id);
+  print(_groups.where((group) => group.isMdt && group.members.any((user) => user.id==id)).toList().toString());
+
+    return _groups.where((group) => group.isMdt && group.members.any((user) => user.id==id)).toList() ?? [];
+  }
+
+
   List<UserDAO> get patientusers {
     _patientusers =
         _users.where((element) => element.role == 'PATIENT').toList();

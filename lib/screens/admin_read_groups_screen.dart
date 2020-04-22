@@ -1,3 +1,4 @@
+import 'package:FlutterFYP/models/user_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,13 +37,14 @@ class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final optionalMdtWorker = ModalRoute.of(context).settings.arguments as UserDAO;
     return Scaffold(
       appBar: AppBar(
         title: Text('Groups'),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : GroupsList(),
+          : optionalMdtWorker == null ? GroupsList() : GroupsList(optionalMdtWorker),
     );
   }
 }
