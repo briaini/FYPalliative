@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import './comment.dart';
 import './item.dart';
+import '../models/user_dao.dart';
 
 class Group with ChangeNotifier {
   final _id;
@@ -9,6 +10,7 @@ class Group with ChangeNotifier {
   final _members;
   final List<Item> _posts;
   final _comments;
+  final _mdt;
 
   Group(
     this._id,
@@ -16,6 +18,7 @@ class Group with ChangeNotifier {
     this._members,
     this._posts,
     this._comments,
+    this._mdt,
   );
 
   @override
@@ -28,6 +31,10 @@ class Group with ChangeNotifier {
     """;
   }
 
+  get isMdt {
+    return _mdt;
+  }
+
   get id {
     return _id;
   }
@@ -36,7 +43,7 @@ class Group with ChangeNotifier {
     return _name;
   }
 
-  get members {
+  List<UserDAO> get members {
     return _members;
   }
 

@@ -27,15 +27,24 @@ class Patients with ChangeNotifier {
   List<Patient> get patients {
     return _patients;
   }
-  
 
-  List<UserDAO> get patientusers {
-    _patientusers = _users.where((element) => element.role == 'PATIENT').toList();
-    return _patientusers;
+  List<Group> get groups {
+    return _groups ?? [];
   }
 
+  List<Group> get mdtGroups {
+    return _groups.where((group) => group.isMdt).toList() ?? [];
+  }
 
+  List<Group> get mdtGroupsWithPatient {
+    return _groups.where((group) => group.isMdt && group.members.any((user) => user.role=="PATIENT")).toList() ?? [];
+  }
 
+  List<UserDAO> get patientusers {
+    _patientusers =
+        _users.where((element) => element.role == 'PATIENT').toList();
+    return _patientusers;
+  }
 
   List<UserDAO> get mdtworkers {
     _mdtusers = _users.where((element) => element.role == 'MDT').toList();
@@ -182,6 +191,7 @@ class Patients with ChangeNotifier {
                       ),
                     )
                     .toList(),
+            group['mdt'],
           ),
         );
       });
@@ -244,6 +254,7 @@ class Patients with ChangeNotifier {
                       ),
                     )
                     .toList(),
+            group['mdt'],
           ),
         );
       });
@@ -251,10 +262,6 @@ class Patients with ChangeNotifier {
     } catch (error) {
       print(error);
     }
-  }
-
-  List<Group> get groups {
-    return _groups ?? [];
   }
 
   Future<void> linkUserToGroup(groupId, userId) async {

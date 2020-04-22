@@ -15,14 +15,18 @@ class DetailedUserList extends StatefulWidget {
 class _DetailedUserListState extends State<DetailedUserList> {
   @override
   Widget build(BuildContext context) {
+    print('yett');
+    print(Provider.of<Patients>(context).mdtGroupsWithPatient.length.toString());
+    print(Provider.of<Patients>(context).mdtGroupsWithPatient.toString());
+    print('deet');
     return Consumer<Patients>(
       builder: (ctx, patients, child) => Container(
         child: 
             ListView.separated(
                 padding: EdgeInsets.all(8),
-                itemCount: patients.groups.length,
+                itemCount: patients.mdtGroupsWithPatient.length,
                 itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                  value: patients.groups[i],
+                  value: patients.mdtGroupsWithPatient[i],
                   child: DetailedUserListItem(),
                 ),
                 separatorBuilder: (_, i) => const Divider(),

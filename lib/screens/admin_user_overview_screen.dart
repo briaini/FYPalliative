@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/admin_detailed_overview_mdt_user.dart';
-import '../widgets/admin_detailed_overview_patient_user.dart';
+import '../screens/mdt_patient_screen.dart';
 
 
 class AdminUserOverviewScreen extends StatefulWidget {
@@ -33,8 +33,9 @@ class _AdminUserOverviewScreenState extends State<AdminUserOverviewScreen> {
    return ChangeNotifierProvider.value(
         value: user,
         child: isMDT
-            ? AdminDetailedOverviewMdtUser()
-            : AdminDetailedOverviewPatientUser(),
+            ? AdminDetailedOverviewMdtUser():
+            MdtPatientScreen(),  //here
+            // : AdminDetailedOverviewPatientUser(),
     );
   }
 }

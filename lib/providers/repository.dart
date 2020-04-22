@@ -148,6 +148,7 @@ class Repository with ChangeNotifier {
               ),
             )
             .toList(),
+        group['mdt'],
       );
 
       loadedGroup.posts.forEach((post) {
