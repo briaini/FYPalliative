@@ -24,6 +24,7 @@ class Patients with ChangeNotifier {
     return {'authorization': _token};
   }
 
+//patients only returns users/patients assigned to a specific mdt worker
   List<Patient> get patients {
     return _patients;
   }
@@ -37,18 +38,46 @@ class Patients with ChangeNotifier {
   }
 
   List<Group> get mdtGroupsWithPatient {
-    return _groups.where((group) => group.isMdt && group.members.any((user) => user.role=="PATIENT")).toList() ?? [];
+    return _groups
+            .where((group) =>
+                group.isMdt &&
+                group.members.any((user) => user.role == "PATIENT"))
+            .toList() ??
+        [];
   }
 
-List<Group> findGroupsByMdtId(id) {
+  List<Group> findGroupsByMdtId(id) {
+    print('findinggruopbyid');
+    print(id);
+    print(_groups
+        .where((group) =>
+            group.isMdt && group.members.any((user) => user.id == id))
+        .toList()
+        .toString());
 
-  print('findinggruopbyid');
-  print(id);
-  print(_groups.where((group) => group.isMdt && group.members.any((user) => user.id==id)).toList().toString());
-
-    return _groups.where((group) => group.isMdt && group.members.any((user) => user.id==id)).toList() ?? [];
+    return _groups
+            .where((group) =>
+                group.isMdt && group.members.any((user) => user.id == id))
+            .toList() ??
+        [];
   }
 
+  List<UserDAO> get unassignedPatientUsers {
+    final mdtGroupsWithPatient = _groups
+        .where((group) =>
+            group.isMdt && group.members.any((user) => user.role == "PATIENT"))
+        .toList();
+
+    final assignedPatientIds = mdtGroupsWithPatient
+        .map((e) =>
+            e.members.singleWhere((element) => element.role == "PATIENT").id)
+        .toList();
+
+    return users
+        .where((user) =>
+            user.role == "PATIENT" && !assignedPatientIds.contains(user.id))
+        .toList();
+  }
 
   List<UserDAO> get patientusers {
     _patientusers =

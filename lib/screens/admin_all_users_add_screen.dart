@@ -20,6 +20,7 @@ class _AdminAllUsersAddScreenState extends State<AdminAllUsersAddScreen> {
       setState(() {
         _isLoading = true;
       });
+      Provider.of<Patients>(context).fetchGroups();
       Provider.of<Patients>(context).fetchUsers().then(
         (_) {
           setState(() {

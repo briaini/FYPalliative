@@ -19,8 +19,7 @@ class _UsersListState extends State<UsersList> {
   Widget build(BuildContext context) {
     return Consumer<Patients>(
       builder: (ctx, patients, child) => Container(
-        child: 
-        widget.isMDT
+        child: widget.isMDT
             ? ListView.separated(
                 padding: EdgeInsets.all(8),
                 itemCount: patients.mdtworkers.length,
@@ -30,15 +29,23 @@ class _UsersListState extends State<UsersList> {
                 ),
                 separatorBuilder: (_, i) => const Divider(),
               )
-            : ListView.separated(
-                padding: EdgeInsets.all(8),
-                itemCount: patients.patientusers.length,
-                itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                  value: patients.patientusers[i],
-                  child: UserListItem(widget.args),
-                ),
-                separatorBuilder: (_, i) => const Divider(),
-              ),
+            : patients.unassignedPatientUsers.isEmpty
+                ? Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      padding: EdgeInsets.all(50),
+                      child: Text('No unassigned patients'),
+                    ),
+                  )
+                : ListView.separated(
+                    padding: EdgeInsets.all(8),
+                    itemCount: patients.unassignedPatientUsers.length,
+                    itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                      value: patients.unassignedPatientUsers[i],
+                      child: UserListItem(widget.args),
+                    ),
+                    separatorBuilder: (_, i) => const Divider(),
+                  ),
       ),
     );
   }
