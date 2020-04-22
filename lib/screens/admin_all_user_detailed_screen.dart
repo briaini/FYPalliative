@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
 import '../widgets/detailed_user_list.dart';
+import '../widgets/detailed_mdt_user_list.dart';
+
 
 class AdminAllUserDetailedScreen extends StatefulWidget {
   static const routeName = '/admin-all-user-detailed-screen';
@@ -22,6 +24,7 @@ class _AdminAllUserDetailedScreenState
       setState(() {
         _isLoading = true;
       });
+      Provider.of<Patients>(context).fetchUsers();
       Provider.of<Patients>(context).fetchGroups().then(
         (_) {
           setState(() {
@@ -57,8 +60,8 @@ class _AdminAllUserDetailedScreenState
             ? CircularProgressIndicator()
             : TabBarView(
                 children: <Widget>[
-                  DetailedUserList(),
-                  DetailedUserList(),
+                  DetailedMdtUserList(), //Mdt will be list of PatientUsers
+                  DetailedUserList(), //PatientUsers [Tabs: Mdt team & Recommended Posts]
                 ],
               ),
       ),
