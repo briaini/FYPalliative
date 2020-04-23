@@ -17,9 +17,9 @@ class _PatientsListState extends State<PatientsList> {
       builder: (ctx, patients, child) => Container(
         child: ListView.separated(
           padding: EdgeInsets.all(8),
-          itemCount: patients.groups.length,
+          itemCount: patients.mdtGroupsWithPatient.length,
           itemBuilder: (_, i) => ChangeNotifierProvider.value(
-            value:  patients.groups[i],
+            value:  patients.mdtGroupsWithPatient[i],
             child: PatientsListItem(),
           ),
           separatorBuilder: (_, i) => const Divider(),
