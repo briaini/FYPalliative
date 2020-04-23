@@ -15,10 +15,6 @@ class DetailedUserList extends StatefulWidget {
 class _DetailedUserListState extends State<DetailedUserList> {
   @override
   Widget build(BuildContext context) {
-    print('yett');
-    print(Provider.of<Patients>(context).mdtGroupsWithPatient.length.toString());
-    print(Provider.of<Patients>(context).mdtGroupsWithPatient.toString());
-    print('deet');
     return Consumer<Patients>(
       builder: (ctx, patients, child) => Container(
         child: 

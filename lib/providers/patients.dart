@@ -77,6 +77,7 @@ class Patients with ChangeNotifier {
         .where((user) =>
             user.role == "PATIENT" && !assignedPatientIds.contains(user.id))
         .toList();
+    // return users;
   }
 
   List<UserDAO> get patientusers {

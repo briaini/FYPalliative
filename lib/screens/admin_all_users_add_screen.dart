@@ -35,6 +35,7 @@ class _AdminAllUsersAddScreenState extends State<AdminAllUsersAddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //{groupid:x}
     final args =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return DefaultTabController(
@@ -58,17 +59,17 @@ class _AdminAllUsersAddScreenState extends State<AdminAllUsersAddScreen> {
         body: _isLoading
             ? Center(child: CircularProgressIndicator())
             :
-            // : UsersList(args),
             TabBarView(
                 children: <Widget>[
                   UsersList(
                     args, true,
-
-                    // "mdt",
+                    // mdtworker,
+                    //args contains {groupid:x}
                   ),
                   UsersList(
                     args, false,
-                    // "patients",
+                    //patients,
+                    //args contains {groupid:x}
                   ),
                 ],
               ),

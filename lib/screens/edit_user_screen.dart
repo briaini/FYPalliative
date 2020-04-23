@@ -41,7 +41,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
     'id': null,
     'username': '',
     'password': '',
-    'role': '',
+    'role': 'PATIENT',
     'accountNonExpired': 1,
     'accountNonLocked': 1,
     'credentialsNonExpired': 1,
