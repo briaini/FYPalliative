@@ -36,7 +36,7 @@ class _VideoScreenState extends State<VideoScreen> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'T6FEuBFckp8',
+      initialVideoId: Provider.of<Item>(context, listen: false).linkUrl,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         forceHideAnnotation: true,
