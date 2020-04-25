@@ -2,6 +2,7 @@ import 'package:FlutterFYP/screens/admin_group_detail_screen.dart';
 import 'package:FlutterFYP/screens/admin_read_groups_screen.dart';
 import 'package:FlutterFYP/screens/edit_group_screen.dart';
 import 'package:FlutterFYP/screens/edit_user_screen.dart';
+import 'package:FlutterFYP/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -76,9 +77,11 @@ class MyApp extends StatelessWidget {
                 ),
           routes: {
             AdminAllUsersAddScreen.routeName: (ctx) => AdminAllUsersAddScreen(),
-            AdminAllUserDetailedScreen.routeName: (ctx) => AdminAllUserDetailedScreen(),
+            AdminAllUserDetailedScreen.routeName: (ctx) =>
+                AdminAllUserDetailedScreen(),
             AdminAllPostsScreen.routeName: (ctx) => AdminAllPostsScreen(),
-            AdminUserOverviewScreen.routeName: (ctx) => AdminUserOverviewScreen(),
+            AdminUserOverviewScreen.routeName: (ctx) =>
+                AdminUserOverviewScreen(),
             DetailedRepoItemScreen.routeName: (ctx) => DetailedRepoItemScreen(),
             EditGroupScreen.routeName: (ctx) => EditGroupScreen(),
             EditRepositoryItemScreen.routeName: (ctx) =>
@@ -90,6 +93,7 @@ class MyApp extends StatelessWidget {
             AdminReadGroupsScreen.routeName: (ctx) => AdminReadGroupsScreen(),
             AdminGroupDetailScreen.routeName: (ctx) => AdminGroupDetailScreen(),
             EditUserScreen.routeName: (ctx) => EditUserScreen(),
+            SettingsScreen.routeName: (ctx) => SettingsScreen(),
           },
         ),
       ),

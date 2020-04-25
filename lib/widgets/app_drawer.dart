@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../screens/edit_repository_item_screen.dart';
 import '../screens/tabs_screen.dart';
-import '../screens/repo_filter_screen.dart';
+import '../screens/settings_screen.dart';
 import '../screens/edit_group_screen.dart';
 import '../screens/patients_screen.dart';
 import '../screens/admin_read_groups_screen.dart';
@@ -155,7 +155,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () => Navigator.of(context)
-                .pushReplacementNamed(RepoFilterScreen.routeName),
+                .pushNamed(SettingsScreen.routeName),
           ),
           Divider(),
           // ListTile(

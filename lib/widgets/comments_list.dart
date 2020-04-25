@@ -37,20 +37,29 @@ class _CommentsListState extends State<CommentsList> {
               ExpansionTile(
                 leading: Icon(Icons.comment),
                 title: Text('Comments (${comments.length})'),
-                children: List<Widget>.generate(
-                  comments.length,
-                  (i) {
-                    return Column(
-                      children: <Widget>[
-                        CommentItem(comments[i]),
-                        if (i != comments.length - 1)
-                          Divider(
-                            height: 8,
-                          ),
-                      ],
-                    );
-                  },
-                ),
+                children: <Widget>[
+                  Container(
+                    height: 225,
+                      child: ListView.builder(
+                          itemCount: comments.length,
+                          itemBuilder: (_, i) => CommentItem(comments[i])),
+                  ),
+                ],
+
+                // List<Widget>.generate(
+                //   comments.length,
+                //   (i) {
+                //     return Column(
+                //       children: <Widget>[
+                //         CommentItem(comments[i]),
+                //         if (i != comments.length - 1)
+                //           Divider(
+                //             height: 8,
+                //           ),
+                //       ],
+                //     );
+                //   },
+                // ),
               ),
             ],
           );
