@@ -15,6 +15,7 @@ class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
 
   var groupId;
+  //hasComments: display comments and visibility iconbutton 
   final hasComments;
 
   //from DetailedRepoItemScreen
@@ -130,15 +131,17 @@ class _VideoScreenState extends State<VideoScreen> {
                           );
                         },
                   color: Theme.of(context).primaryIconTheme.color,
-                ), 
-                IconButton(
-                  icon: Icon(
-                    Icons.visibility_off,
-                    color: Theme.of(context).primaryIconTheme.color,
-                  ),
-                  onPressed: () =>
-                      Provider.of<Patients>(context).mdtHidePostFromGroup(item.id, group.id),
                 ),
+                widget.hasComments
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.visibility_off,
+                          color: Theme.of(context).primaryIconTheme.color,
+                        ),
+                        onPressed: () => Provider.of<Patients>(context)
+                            .mdtHidePostFromGroup(item.id, group.id),
+                      )
+                    : Container(),
               ]
             : <Widget>[
                 IconButton(
