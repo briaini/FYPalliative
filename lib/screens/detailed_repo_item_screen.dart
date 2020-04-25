@@ -16,8 +16,9 @@ class DetailedRepoItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //from RepositoryItem (RepositoryList or AdminRepositoryList)
     // {"item": item, "group": Provider.of<Repository>(context).group} or
-    // : {"item": item, "adminGroupId": adminGroupId};
-    //from DetailedRepositoryItem 
+    // : {"item": item, "adminGroupId": adminGroupId}; or
+    //{"item: item"}
+    //from DetailedRepositoryItem
     //{"item": item, "group": group};
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     Group group;
@@ -33,21 +34,23 @@ class DetailedRepoItemScreen extends StatelessWidget {
 
     return Provider.of<Auth>(context).isPatient
         ? MultiProvider(
-                providers: [
-                  ChangeNotifierProvider.value(
-                    value: group,
-                  ),
-                  ChangeNotifierProvider.value(
-                    value: item,
-                  ),
-                ],
-                child: DetailedRepoItemScreenWithProv(true),
-              )
-        : group == null
-            ? ChangeNotifierProvider.value(
+            providers: [
+              ChangeNotifierProvider.value(
+                value: group,
+              ),
+              ChangeNotifierProvider.value(
                 value: item,
-                child: DetailedRepoItemScreenWithProv(true, adminGroupId),
-              )
+              ),
+            ],
+            child: DetailedRepoItemScreenWithProv(true),
+          )
+        : group == null
+            ? (ChangeNotifierProvider.value(
+                value: item,
+                child: adminGroupId == null
+                    ? DetailedRepoItemScreenWithProv(false)
+                    : DetailedRepoItemScreenWithProv(true, adminGroupId),
+              ))
             : MultiProvider(
                 providers: [
                   ChangeNotifierProvider.value(
@@ -75,7 +78,8 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
-    final group = hasComments ? Provider.of<Group>(context) : null;
+    final group = hasComments ? Provider.of<Group>(context)
+        : null;
     print('indetailedrepoitemscreenwithprov groupid == $groupId');
 
     return Scaffold(

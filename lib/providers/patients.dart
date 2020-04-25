@@ -401,33 +401,18 @@ class Patients with ChangeNotifier {
     } else {
     //   url = 'hello';
       url = 'http://10.0.2.2:8080/groups/${g.id}/visibleposts/$postId';
-
-    //   // print(url);
     }
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+      );
 
-    print(url);
-    print('start');
-    // print(group.id);
-
-
-      // print(postId);
-      // print(groupId);
-      // url = 'http://10.0.2.2:8080/groups/$groupId/visibleposts/$postId';
-    // }
-    // print(url);
-
-    // // final url = 'http://10.0.2.2:8080/groups/$groupId/hiddenposts/$postId';
-    // try {
-    //   final response = await http.post(
-    //     url,
-    //     headers: tokenHeader,
-    //   );
-
-    //   notifyListeners();
-    //   print(response.body.toString());
-    // } catch (error) {
-    //   throw error;
-    // }
+      notifyListeners();
+      print(response.body.toString());
+    } catch (error) {
+      throw error;
+    }
     print('finish');
   }
 }

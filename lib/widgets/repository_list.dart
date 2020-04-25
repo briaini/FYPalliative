@@ -95,7 +95,7 @@ class _RepositoryListState extends State<RepositoryList> {
                           .toList()
                           .contains(item.category))
                       .toList()[i],
-                  child: RepositoryItem(),
+                  child: RepositoryItem("nogroup"),
                 ),
                 separatorBuilder: (_, i) => const Divider(),
               ),
