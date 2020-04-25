@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../providers/item.dart';
 import '../providers/repository.dart';
-import '../widgets/app_drawer.dart';
+
+enum MediaType { video, link }
 
 class EditRepositoryItemScreen extends StatefulWidget {
   static const routeName = '/edit-repository-item-screen';
@@ -14,8 +15,9 @@ class EditRepositoryItemScreen extends StatefulWidget {
 }
 
 class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
+  MediaType _mediaTypeValue = MediaType.link;
   final _form = GlobalKey<FormState>();
-  final _mediaFocusNode = FocusNode();
+  // final _mediaFocusNode = FocusNode();
   final _categoryFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _linkUrlController = TextEditingController();
@@ -34,7 +36,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
   var _editedItem = Item(
     id: null,
     title: '',
-    media: '',
+    media: 'text',
     category: '',
     description: '',
     linkUrl: '',
@@ -56,8 +58,8 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
           'description': _editedItem.description,
         };
       }
-        _linkUrlController.text = _editedItem.linkUrl;
-        _imageUrlController.text = _editedItem.imageUrl;
+      _linkUrlController.text = _editedItem.linkUrl;
+      _imageUrlController.text = _editedItem.imageUrl;
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -65,7 +67,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
 
   @override
   void dispose() {
-    _mediaFocusNode.dispose();
+    // _mediaFocusNode.dispose();
     _categoryFocusNode.dispose();
     _descriptionFocusNode.dispose();
     _linkUrlController.dispose();
@@ -83,7 +85,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
     if (_editedItem.id != null) {
       try {
         await Provider.of<Repository>(context, listen: false)
-          .updateRepoItem(_editedItem);
+            .updateRepoItem(_editedItem);
       } catch (e) {
         showDialog(
           context: context,
@@ -101,11 +103,10 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
           ),
         );
       }
-    } 
-    else {
+    } else {
       try {
         await Provider.of<Repository>(context, listen: false)
-          .addRepoItem(_editedItem);
+            .addRepoItem(_editedItem);
       } catch (e) {
         showDialog(
           context: context,
@@ -125,9 +126,9 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
       }
     }
     setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -153,6 +154,64 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                 key: _form,
                 child: ListView(
                   children: <Widget>[
+                    // Switch(value: false, onChanged: null),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Media Type', textAlign: TextAlign.start),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: MediaType.link,
+                                  groupValue: _mediaTypeValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedItem = Item(
+                                        id: _editedItem.id,
+                                        media: 'text',
+                                        category: _editedItem.category,
+                                        title: _editedItem.category,
+                                        description: _editedItem.description,
+                                        linkUrl: _editedItem.linkUrl,
+                                        imageUrl: _editedItem.imageUrl,
+                                      );
+                                      _mediaTypeValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Link')
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Radio(
+                                  value: MediaType.video,
+                                  groupValue: _mediaTypeValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _editedItem = Item(
+                                        id: _editedItem.id,
+                                        media: 'video',
+                                        category: _editedItem.category,
+                                        title: _editedItem.category,
+                                        description: _editedItem.description,
+                                        linkUrl: _editedItem.linkUrl,
+                                        imageUrl: _editedItem.imageUrl,
+                                      );
+                                      _mediaTypeValue = value;
+                                    });
+                                  },
+                                ),
+                                Text('Video')
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                     TextFormField(
                         initialValue: _initValues['title'],
                         decoration: InputDecoration(
@@ -160,7 +219,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                         ),
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_mediaFocusNode);
+                          FocusScope.of(context).requestFocus(_categoryFocusNode);
                         },
                         validator: (value) {
                           if (value.isEmpty) {
@@ -180,44 +239,44 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                             imageUrl: _editedItem.imageUrl,
                           );
                         }),
-                    TextFormField(
-                        focusNode: _mediaFocusNode,
-                        initialValue: _initValues['media'],
-                        decoration: InputDecoration(
-                          labelText: 'Media',
-                        ),
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_categoryFocusNode);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter type of media [text, audio, video]';
-                          }
-                          var validMedia = ['video', 'text'];
-                          if (!validMedia.contains(value))
-                          // if (value.compareTo('video') != 0)
-                          // ||
-                          //     value.compareTo('audio') != 0 ||
-                          //     value.compareTo('text') != 0)
-                          {
-                            return 'Please enter type of media : text, audio, or video';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          // _savedValues['media'] = value.trim();
-                          _editedItem = Item(
-                            id: _editedItem.id,
-                            media: value,
-                            category: _editedItem.category,
-                            title: _editedItem.title,
-                            description: _editedItem.description,
-                            linkUrl: _editedItem.linkUrl,
-                            imageUrl: _editedItem.imageUrl,
-                          );
-                        }),
+                    // TextFormField(
+                    //     focusNode: _mediaFocusNode,
+                    //     initialValue: _initValues['media'],
+                    //     decoration: InputDecoration(
+                    //       labelText: 'Media',
+                    //     ),
+                    //     textInputAction: TextInputAction.next,
+                    //     onFieldSubmitted: (_) {
+                    //       FocusScope.of(context)
+                    //           .requestFocus(_categoryFocusNode);
+                    //     },
+                    //     validator: (value) {
+                    //       if (value.isEmpty) {
+                    //         return 'Please enter type of media [text, audio, video]';
+                    //       }
+                    //       var validMedia = ['video', 'text'];
+                    //       if (!validMedia.contains(value))
+                    //       // if (value.compareTo('video') != 0)
+                    //       // ||
+                    //       //     value.compareTo('audio') != 0 ||
+                    //       //     value.compareTo('text') != 0)
+                    //       {
+                    //         return 'Please enter type of media : text, audio, or video';
+                    //       }
+                    //       return null;
+                    //     },
+                    //     onSaved: (value) {
+                    //       // _savedValues['media'] = value.trim();
+                    //       _editedItem = Item(
+                    //         id: _editedItem.id,
+                    //         media: value,
+                    //         category: _editedItem.category,
+                    //         title: _editedItem.title,
+                    //         description: _editedItem.description,
+                    //         linkUrl: _editedItem.linkUrl,
+                    //         imageUrl: _editedItem.imageUrl,
+                    //       );
+                    //     }),
                     TextFormField(
                         focusNode: _categoryFocusNode,
                         initialValue: _initValues['category'],
