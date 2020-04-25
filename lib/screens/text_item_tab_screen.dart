@@ -78,28 +78,34 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                                           ),
                                         ],
                                       ));
-                            }
-                      ), widget.hasComments
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.visibility_off,
-                          color: Theme.of(context).primaryIconTheme.color,
-                        ),
-                        onPressed: () => Provider.of<Patients>(context)
-                            .mdtHidePostFromGroup(item.id, widget.groupId),
-                      )
-                    : Container(),
+                            }),
+                  widget.hasComments
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.visibility_off,
+                            color: Theme.of(context).primaryIconTheme.color,
+                          ),
+                          onPressed: () =>
+                              // setState(() {
+                              Provider.of<Patients>(context)
+                                  .mdtSwapGroupPostVisibility(
+                                      item.id, widget.groupId)
+                          // })
+                          //  () => Provider.of<Patients>(context)
+                          //     .mdtSwapGroupPostVisibility(item.id, widget.groupId)
+                          )
+                      : Container(),
                 ]
               : <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.visibility_off,
-                    color: Theme.of(context).primaryIconTheme.color,
+                  IconButton(
+                    icon: Icon(
+                      Icons.visibility_off,
+                      color: Theme.of(context).primaryIconTheme.color,
+                    ),
+                    onPressed: () => Provider.of<Patients>(context)
+                        .hidePostFromGroup(item.id),
                   ),
-                  onPressed: () =>
-                      Provider.of<Patients>(context).hidePostFromGroup(item.id),
-                ),
-              ],
+                ],
           title: Text(item.title),
           bottom: TabBar(
             tabs: <Widget>[

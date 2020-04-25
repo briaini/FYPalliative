@@ -5,6 +5,8 @@ import '../providers/auth.dart';
 import './repository_item.dart';
 import '../providers/repository.dart';
 
+//admin add post to group list
+//param groupId is group to add post to
 class AdminRepositoryList extends StatefulWidget {
   final _groupId;
   AdminRepositoryList(this._groupId);

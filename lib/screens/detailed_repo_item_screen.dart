@@ -14,7 +14,7 @@ class DetailedRepoItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //from RepositoryItem
+    //from RepositoryItem (RepositoryList or AdminRepositoryList)
     // {"item": item, "group": Provider.of<Repository>(context).group} or
     // : {"item": item, "adminGroupId": adminGroupId};
     //from DetailedRepositoryItem 
@@ -29,6 +29,7 @@ class DetailedRepoItemScreen extends StatelessWidget {
     if (Provider.of<Auth>(context).isAdmin) {
       group = Provider.of<Repository>(context).group;
     }
+    print('in detailedrepoitemscreen group is $group');
 
     return Provider.of<Auth>(context).isPatient
         ? MultiProvider(
@@ -45,7 +46,7 @@ class DetailedRepoItemScreen extends StatelessWidget {
         : group == null
             ? ChangeNotifierProvider.value(
                 value: item,
-                child: DetailedRepoItemScreenWithProv(false, adminGroupId),
+                child: DetailedRepoItemScreenWithProv(true, adminGroupId),
               )
             : MultiProvider(
                 providers: [
@@ -75,6 +76,7 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
     final group = hasComments ? Provider.of<Group>(context) : null;
+    print('indetailedrepoitemscreenwithprov groupid == $groupId');
 
     return Scaffold(
       body: item.media == 'video'

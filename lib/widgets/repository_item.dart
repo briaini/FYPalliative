@@ -9,7 +9,8 @@ import '../screens/detailed_repo_item_screen.dart';
 class RepositoryItem extends StatelessWidget {
   var adminGroupId;
 
-  //No args when coming From RepositoryList(Patient)
+  //No args when coming from RepositoryList(Patient)
+  //Takes in groupId from AdminRepositoryList to share post with group
   RepositoryItem([this.adminGroupId]);
   @override
   Widget build(BuildContext context) {

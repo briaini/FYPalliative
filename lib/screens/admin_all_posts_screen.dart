@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/repository.dart';
 import '../widgets/admin_repository_list.dart';
 
+//admin add post to group
 class AdminAllPostsScreen extends StatefulWidget {
   static const routeName = '/admin-all-posts-screen.dart';
   @override

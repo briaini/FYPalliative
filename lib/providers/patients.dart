@@ -46,6 +46,10 @@ class Patients with ChangeNotifier {
         [];
   }
 
+  Group findGroupById(id) {
+    return _groups.firstWhere((group) => group.id == id);
+  }
+
   List<Group> findGroupsByMdtId(id) {
     print(_groups
         .where((group) =>
@@ -216,7 +220,7 @@ class Patients with ChangeNotifier {
                   ),
                 )
                 .toList(),
-                (group['hiddenposts'] as List<dynamic>)
+            (group['hiddenposts'] as List<dynamic>)
                 .map(
                   (item) => Item(
                     id: item['id'],
@@ -292,7 +296,7 @@ class Patients with ChangeNotifier {
                   ),
                 )
                 .toList(),
-                (group['hiddenposts'] as List<dynamic>)
+            (group['hiddenposts'] as List<dynamic>)
                 .map(
                   (item) => Item(
                     id: item['id'],
@@ -387,18 +391,43 @@ class Patients with ChangeNotifier {
     }
   }
 
-  Future<void> mdtHidePostFromGroup(postId, groupId) async {
-    final url = 'http://10.0.2.2:8080/groups/$groupId/hiddenposts/$postId';
-    try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-      );
+  Future<void> mdtSwapGroupPostVisibility(postId, Group g) async {
+    var url = 'hi';
+    // print('postid $postId');
+    // g.posts.forEach((element) {print(element.id);});
+    print(g.posts.any((post) => post.id == postId));
+    if (g.posts.any((post) => post.id == postId)) {
+      url = 'http://10.0.2.2:8080/groups/${g.id}/hiddenposts/$postId';
+    } else {
+    //   url = 'hello';
+      url = 'http://10.0.2.2:8080/groups/${g.id}/visibleposts/$postId';
 
-      notifyListeners();
-      print(response.body.toString());
-    } catch (error) {
-      throw error;
+    //   // print(url);
     }
+
+    print(url);
+    print('start');
+    // print(group.id);
+
+
+      // print(postId);
+      // print(groupId);
+      // url = 'http://10.0.2.2:8080/groups/$groupId/visibleposts/$postId';
+    // }
+    // print(url);
+
+    // // final url = 'http://10.0.2.2:8080/groups/$groupId/hiddenposts/$postId';
+    // try {
+    //   final response = await http.post(
+    //     url,
+    //     headers: tokenHeader,
+    //   );
+
+    //   notifyListeners();
+    //   print(response.body.toString());
+    // } catch (error) {
+    //   throw error;
+    // }
+    print('finish');
   }
 }

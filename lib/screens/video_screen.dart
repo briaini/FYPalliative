@@ -139,7 +139,7 @@ class _VideoScreenState extends State<VideoScreen> {
                           color: Theme.of(context).primaryIconTheme.color,
                         ),
                         onPressed: () => Provider.of<Patients>(context)
-                            .mdtHidePostFromGroup(item.id, group.id),
+                            .mdtSwapGroupPostVisibility(item.id, group),
                       )
                     : Container(),
               ]
