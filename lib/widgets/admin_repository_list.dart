@@ -18,7 +18,6 @@ class _AdminRepositoryListState extends State<AdminRepositoryList> {
 
   @override
   Widget build(BuildContext context) {
-    print('test in adminRepoList ${widget._groupId}');
     return Consumer<Repository>(
       builder: (ctx, repo, child) => Container(
         child: ListView.separated(

@@ -27,6 +27,10 @@ class Auth extends ChangeNotifier {
     return _isAdmin;
   }
 
+  bool get isPatient {
+    return (!(isAdmin || isMDT));
+  }
+
 
   bool get isMDT {
     return _isMDT;

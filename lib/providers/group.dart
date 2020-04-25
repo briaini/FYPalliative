@@ -9,14 +9,18 @@ class Group with ChangeNotifier {
   final _name;
   final _members;
   final List<Item> _posts;
+  final List<Item> _hiddenposts;
   final _comments;
   final _mdt;
+  bool _showHidden = false;
+
 
   Group(
     this._id,
     this._name,
     this._members,
     this._posts,
+    this._hiddenposts,
     this._comments,
     this._mdt,
   );
@@ -29,6 +33,14 @@ class Group with ChangeNotifier {
     members: $_members,
     posts: $_posts,
     """;
+  }
+
+  get hiddenFilter {
+    return _showHidden;
+  }
+
+  set hiddenFilter (foo) {
+    _showHidden = foo;
   }
 
   get isMdt {
@@ -49,6 +61,10 @@ class Group with ChangeNotifier {
 
   List<Item> get posts {
     return _posts;
+  }
+
+  List<Item> get hiddenposts {
+    return _hiddenposts;
   }
 
   List<Comment>get comments {

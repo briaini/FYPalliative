@@ -137,6 +137,19 @@ class Repository with ChangeNotifier {
               ),
             )
             .toList(),
+            (group['hiddenposts'] as List<dynamic>)
+            .map(
+              (item) => Item(
+                id: item['id'],
+                media: item['media'],
+                category: item['category'],
+                title: item['title'],
+                description: item['description'],
+                linkUrl: item['link_url'],
+                imageUrl: item['image_url'],
+              ),
+            )
+            .toList(),
         (group['recipient']['comments'] as List<dynamic>)
             .map(
               (comment) => Comment(

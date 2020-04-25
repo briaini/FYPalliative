@@ -12,8 +12,6 @@ class TextItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
-    print("building text_item: ${item.id}");
-    print("image URL: $item");
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

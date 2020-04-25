@@ -5,6 +5,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../providers/auth.dart';
 import '../providers/patients.dart';
 import '../providers/item.dart';
+import '../providers/group.dart';
 
 import '../widgets/comments_list.dart';
 import '../screens/share_with_patient_screen.dart';
@@ -16,6 +17,8 @@ class VideoScreen extends StatefulWidget {
   var groupId;
   final hasComments;
 
+  //from DetailedRepoItemScreen
+  // VideoScreen(hasComments) with group provider available
   VideoScreen(this.hasComments, [this.groupId]);
 
   @override
@@ -76,7 +79,7 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: false);
-    // final group = Provider.of<Group>(context);
+    final group = widget.hasComments ? Provider.of<Group>(context) : null;
     final item = Provider.of<Item>(context);
 
     return Scaffold(
@@ -100,35 +103,53 @@ class _VideoScreenState extends State<VideoScreen> {
                       ? () => _goToShareWithPatientPage(item)
                       : () {
                           showDialog(
-                              //returning showDialog returns Future for us
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                    title: Text('Are you sure?'),
-                                    content: Text(
-                                        'Do you want to share post(${item.id}) with group: :${widget.groupId}?'),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text('No'),
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop(false);
-                                        },
-                                      ),
-                                      FlatButton(
-                                        child: Text('Yes'),
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop(true);
-                                          Provider.of<Patients>(context)
-                                              .linkPostToGroup(
-                                                  widget.groupId, item.id);
-                                        },
-                                      ),
-                                    ],
-                                  ));
+                            //returning showDialog returns Future for us
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Are you sure?'),
+                              content: Text(
+                                  'Do you want to share post(${item.id}) with group: :${widget.groupId}?'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('No'),
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop(false);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text('Yes'),
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop(true);
+                                    Provider.of<Patients>(context)
+                                        .linkPostToGroup(
+                                            widget.groupId, item.id);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
                         },
                   color: Theme.of(context).primaryIconTheme.color,
-                )
+                ), 
+                IconButton(
+                  icon: Icon(
+                    Icons.visibility_off,
+                    color: Theme.of(context).primaryIconTheme.color,
+                  ),
+                  onPressed: () =>
+                      Provider.of<Patients>(context).mdtHidePostFromGroup(item.id, group.id),
+                ),
               ]
-            : null,
+            : <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.visibility_off,
+                    color: Theme.of(context).primaryIconTheme.color,
+                  ),
+                  onPressed: () =>
+                      Provider.of<Patients>(context).hidePostFromGroup(item.id),
+                ),
+              ],
       ),
       body: Column(children: <Widget>[
         YoutubePlayer(

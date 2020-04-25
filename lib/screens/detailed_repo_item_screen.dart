@@ -14,34 +14,50 @@ class DetailedRepoItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //from RepositoryItem
+    // {"item": item, "group": Provider.of<Repository>(context).group} or
+    // : {"item": item, "adminGroupId": adminGroupId};
+    //from DetailedRepositoryItem 
+    //{"item": item, "group": group};
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     Group group;
     var adminGroupId;
     if (args.containsKey("group")) group = args['group'] as Group;
     final item = args['item'] as Item;
-    if(args.containsKey("submarine")) adminGroupId = args['submarine'] as int;
-    print('test in detailedrepotitemScreen: $adminGroupId');
-
-    if(!Provider.of<Auth>(context).isMDT){
+    if (args.containsKey("adminGroupId"))
+      adminGroupId = args['adminGroupId'] as int;
+    if (Provider.of<Auth>(context).isAdmin) {
       group = Provider.of<Repository>(context).group;
     }
 
-    return group == null
-        ? ChangeNotifierProvider.value(
-            value: item,
-            child: DetailedRepoItemScreenWithProv(false, adminGroupId),
-          )
-        : MultiProvider(
-            providers: [
-              ChangeNotifierProvider.value(
-                value: group,
-              ),
-              ChangeNotifierProvider.value(
+    return Provider.of<Auth>(context).isPatient
+        ? MultiProvider(
+                providers: [
+                  ChangeNotifierProvider.value(
+                    value: group,
+                  ),
+                  ChangeNotifierProvider.value(
+                    value: item,
+                  ),
+                ],
+                child: DetailedRepoItemScreenWithProv(true),
+              )
+        : group == null
+            ? ChangeNotifierProvider.value(
                 value: item,
-              ),
-            ],
-            child: DetailedRepoItemScreenWithProv(true),
-          );
+                child: DetailedRepoItemScreenWithProv(false, adminGroupId),
+              )
+            : MultiProvider(
+                providers: [
+                  ChangeNotifierProvider.value(
+                    value: group,
+                  ),
+                  ChangeNotifierProvider.value(
+                    value: item,
+                  ),
+                ],
+                child: DetailedRepoItemScreenWithProv(true),
+              );
 
     // return ChangeNotifierProvider.value(
     //   value: item,
@@ -58,11 +74,17 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
+    final group = hasComments ? Provider.of<Group>(context) : null;
 
     return Scaffold(
       body: item.media == 'video'
-          ? (groupId == null ? VideoScreen(hasComments) : VideoScreen(hasComments, groupId))
-          : (groupId == null ? TextItemTabScreen(hasComments): TextItemTabScreen(hasComments, groupId)),
+          ? (groupId == null
+              ? ChangeNotifierProvider.value(
+                  value: group, child: VideoScreen(hasComments))
+              : VideoScreen(hasComments, groupId))
+          : (groupId == null
+              ? TextItemTabScreen(hasComments, group)
+              : TextItemTabScreen(hasComments, groupId)),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: hasComments
           ? FloatingActionButton(
@@ -70,7 +92,8 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
               onPressed: () => showModalBottomSheet(
                 context: context,
                 builder: (bCtx) {
-                  return NewCommentModal(Provider.of<Group>(context, listen: false).id, item.id);
+                  return NewCommentModal(
+                      Provider.of<Group>(context, listen: false).id, item.id);
                 },
               ),
               backgroundColor: Theme.of(context).accentColor.withAlpha(225),

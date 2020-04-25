@@ -24,7 +24,6 @@ class _PatientsScreenState extends State<PatientsScreen> {
       });
       Provider.of<Patients>(context).fetchPatients();
       if (Provider.of<Auth>(context, listen: false).isAdmin) {
-        print('ISADMIN son');
         Provider.of<Patients>(context).fetchGroups().then(
           (_) {
             setState(() {

@@ -47,8 +47,6 @@ class Patients with ChangeNotifier {
   }
 
   List<Group> findGroupsByMdtId(id) {
-    print('findinggruopbyid');
-    print(id);
     print(_groups
         .where((group) =>
             group.isMdt && group.members.any((user) => user.id == id))
@@ -218,6 +216,19 @@ class Patients with ChangeNotifier {
                   ),
                 )
                 .toList(),
+                (group['hiddenposts'] as List<dynamic>)
+                .map(
+                  (item) => Item(
+                    id: item['id'],
+                    media: item['media'],
+                    category: item['category'],
+                    title: item['title'],
+                    description: item['description'],
+                    linkUrl: item['link_url'],
+                    imageUrl: item['image_url'],
+                  ),
+                )
+                .toList(),
             group['recipient'] == null
                 ? []
                 : (group['recipient']['comments'] as List<dynamic>)
@@ -269,6 +280,19 @@ class Patients with ChangeNotifier {
                 )
                 .toList(),
             (group['posts'] as List<dynamic>)
+                .map(
+                  (item) => Item(
+                    id: item['id'],
+                    media: item['media'],
+                    category: item['category'],
+                    title: item['title'],
+                    description: item['description'],
+                    linkUrl: item['link_url'],
+                    imageUrl: item['image_url'],
+                  ),
+                )
+                .toList(),
+                (group['hiddenposts'] as List<dynamic>)
                 .map(
                   (item) => Item(
                     id: item['id'],
@@ -335,6 +359,36 @@ class Patients with ChangeNotifier {
 
   Future<void> linkPostToGroup(groupId, postId) async {
     final url = 'http://10.0.2.2:8080/groups/$groupId/posts/$postId';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+      );
+
+      notifyListeners();
+      print(response.body.toString());
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> hidePostFromGroup(postId) async {
+    final url = 'http://10.0.2.2:8080/users/$_userId/hiddenposts/$postId';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+      );
+
+      notifyListeners();
+      print(response.body.toString());
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> mdtHidePostFromGroup(postId, groupId) async {
+    final url = 'http://10.0.2.2:8080/groups/$groupId/hiddenposts/$postId';
     try {
       final response = await http.post(
         url,

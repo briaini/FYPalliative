@@ -1,20 +1,26 @@
+import 'package:FlutterFYP/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/group.dart';
 import '../providers/item.dart';
 import '../screens/detailed_repo_item_screen.dart';
 
 class RepositoryItem extends StatelessWidget {
   var adminGroupId;
 
+  //No args when coming From RepositoryList(Patient)
   RepositoryItem([this.adminGroupId]);
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
     final itemMedia = item.media;
     final itemTitle = item.title;
-    Map<String, dynamic> args =
-        adminGroupId == null ? {"item": item} : {"item": item, "submarine": adminGroupId};
+    Map<String, dynamic> args = adminGroupId == null
+        ? {"item": item, "group": Provider.of<Repository>(context).group}
+        : {"item": item, "adminGroupId": adminGroupId};
+
+    
 
     return GestureDetector(
       child: itemMedia == "video"
