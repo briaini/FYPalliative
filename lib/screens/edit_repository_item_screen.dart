@@ -57,6 +57,12 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
           'category': _editedItem.category,
           'description': _editedItem.description,
         };
+
+        if(_editedItem.media == 'text'){
+          _mediaTypeValue = MediaType.link;
+          }else{
+          _mediaTypeValue = MediaType.video;
+          }
       }
       _linkUrlController.text = _editedItem.linkUrl;
       _imageUrlController.text = _editedItem.imageUrl;
@@ -133,6 +139,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _isText = _editedItem.media == 'text';
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Repo Item'),
@@ -219,7 +226,8 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                         ),
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_categoryFocusNode);
+                          FocusScope.of(context)
+                              .requestFocus(_categoryFocusNode);
                         },
                         validator: (value) {
                           if (value.isEmpty) {
@@ -335,7 +343,9 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                     TextFormField(
                       // initialValue: _initValues['linkUrl'],
                       decoration: InputDecoration(
-                        labelText: 'Link URL',
+                        labelText: _isText
+                            ? 'Link URL'
+                            : 'Video Id',
                       ),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
@@ -372,7 +382,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                         _saveForm();
                       },
                     ),
-                    TextFormField(
+                    _isText ? TextFormField(
                       // initialValue: _initValues['imageUrl'],
                       controller: _imageUrlController,
                       decoration: InputDecoration(
@@ -411,7 +421,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                       onFieldSubmitted: (_) {
                         _saveForm();
                       },
-                    ),
+                    ) : Container(),
                   ],
                 ),
               ),
