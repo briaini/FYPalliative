@@ -23,7 +23,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
         _isLoading = true;
       });
       Provider.of<Patients>(context).fetchPatients();
-      if (Provider.of<Auth>(context, listen: false).isAdmin) {
+      if (Provider.of<Auth>(context).isAdmin) {
         Provider.of<Patients>(context).fetchGroups().then(
           (_) {
             setState(() {

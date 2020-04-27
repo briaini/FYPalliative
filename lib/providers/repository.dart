@@ -174,10 +174,10 @@ class Repository with ChangeNotifier {
       // });
       _group = loadedGroup;
       _repoItems = _group.posts;
-      print("PPPPPPPPPPPPPPPPPPPPPPPPPPPOsts\n${_repoItems.toString()}");
     } catch (error) {
       print(error);
     }
+    notifyListeners();
   }
 
   Future<void> fetchItems() async {
@@ -274,11 +274,13 @@ class Repository with ChangeNotifier {
           },
         ),
       );
-      notifyListeners();
-      print(response.body.toString());
+      // print(response.body.toString());
+      fetchGroup();
     } catch (error) {
       throw error;
+      
     }
+    notifyListeners();
   }
 
   Group get group {

@@ -13,8 +13,8 @@ class PatientsList extends StatefulWidget {
 class _PatientsListState extends State<PatientsList> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<Patients>(
-      builder: (ctx, patients, child) => Container(
+    final patients = Provider.of<Patients>(context);
+    return Container(
         child: ListView.separated(
           padding: EdgeInsets.all(8),
           itemCount: patients.mdtGroupsWithPatient.length,
@@ -24,7 +24,21 @@ class _PatientsListState extends State<PatientsList> {
           ),
           separatorBuilder: (_, i) => const Divider(),
         ),
-      ),
-    );
+      );
+    
+    
+    // return Consumer<Patients>(
+    //   builder: (ctx, patients, child) => Container(
+    //     child: ListView.separated(
+    //       padding: EdgeInsets.all(8),
+    //       itemCount: patients.mdtGroupsWithPatient.length,
+    //       itemBuilder: (_, i) => ChangeNotifierProvider.value(
+    //         value:  patients.mdtGroupsWithPatient[i],
+    //         child: PatientsListItem(),
+    //       ),
+    //       separatorBuilder: (_, i) => const Divider(),
+    //     ),
+    //   ),
+    // );
   }
 }

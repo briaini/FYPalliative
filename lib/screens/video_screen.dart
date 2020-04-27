@@ -6,6 +6,7 @@ import '../providers/auth.dart';
 import '../providers/patients.dart';
 import '../providers/item.dart';
 import '../providers/group.dart';
+import '../providers/repository.dart';
 
 import '../widgets/comments_list.dart';
 import '../screens/share_with_patient_screen.dart';
@@ -15,7 +16,7 @@ class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
 
   var groupId;
-  //hasComments: display comments and visibility iconbutton 
+  //hasComments: display comments and visibility iconbutton
   final hasComments;
 
   //from DetailedRepoItemScreen
@@ -82,6 +83,7 @@ class _VideoScreenState extends State<VideoScreen> {
     final auth = Provider.of<Auth>(context, listen: false);
     final group = widget.hasComments ? Provider.of<Group>(context) : null;
     final item = Provider.of<Item>(context);
+    final repoProvider = Provider.of<Repository>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -138,9 +140,17 @@ class _VideoScreenState extends State<VideoScreen> {
                           Icons.visibility_off,
                           color: Theme.of(context).primaryIconTheme.color,
                         ),
-                        onPressed: () => Provider.of<Patients>(context)
-                            .mdtSwapGroupPostVisibility(item.id, group),
-                      )
+                        onPressed: () => setState(() {
+                              Provider.of<Patients>(context)
+                                  .mdtSwapGroupPostVisibility(item.id, group);
+                              Provider.of<Patients>(context)
+                                  .fetchMyGroups()
+                                  .then(
+                                (_) {
+                                  setState(() {});
+                                },
+                              );
+                            }))
                     : Container(),
               ]
             : <Widget>[

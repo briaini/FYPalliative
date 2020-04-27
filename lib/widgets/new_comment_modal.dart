@@ -14,15 +14,16 @@ class NewCommentModal extends StatefulWidget {
 
 class _NewCommentModalState extends State<NewCommentModal> {
   final _commentController = TextEditingController();
-  
-  void _submitComment(groupId, itemId){
-    final commentText = _commentController.text;
-    if(commentText.isEmpty)
-      return;
-    // final comment = new Comment();
-    Provider.of<Repository>(context,listen: false).saveComment(groupId, itemId, commentText);
-  }
 
+  void _submitComment(groupId, itemId) {
+    final commentText = _commentController.text;
+    if (commentText.isEmpty) return;
+    // final comment = new Comment();
+    setState(() {
+      Provider.of<Repository>(context)
+          .saveComment(groupId, itemId, commentText);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,24 @@ class _NewCommentModalState extends State<NewCommentModal> {
               TextField(
                 decoration: InputDecoration(labelText: 'Comment'),
                 controller: _commentController,
-                onSubmitted: (_) => _submitComment(widget.groupId, widget.itemId),
+                onSubmitted: (_) =>
+                    _submitComment(widget.groupId, widget.itemId),
               ),
               RaisedButton(
-                child: Text('Add Comment'),
-                color: Theme.of(context).primaryColorDark,
-                textColor: Theme.of(context).buttonColor,
-                onPressed: () => _submitComment(widget.groupId, widget.itemId),
-              ),
+                  child: Text('Add Comment'),
+                  color: Theme.of(context).primaryColorDark,
+                  textColor: Theme.of(context).buttonColor,
+                  onPressed: () {
+                    setState(() {
+                      _submitComment(widget.groupId, widget.itemId);
+                    });
+                    Navigator.of(context).pop();
+                  }
+
+                  // ()
+
+                  // => _submitComment(widget.groupId, widget.itemId),
+                  ),
             ],
           ),
         ),

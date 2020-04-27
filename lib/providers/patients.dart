@@ -327,6 +327,7 @@ class Patients with ChangeNotifier {
         );
       });
       _groups = loadedGroups;
+      notifyListeners();
     } catch (error) {
       print(error);
     }
@@ -393,13 +394,10 @@ class Patients with ChangeNotifier {
 
   Future<void> mdtSwapGroupPostVisibility(postId, Group g) async {
     var url = 'hi';
-    // print('postid $postId');
-    // g.posts.forEach((element) {print(element.id);});
     print(g.posts.any((post) => post.id == postId));
     if (g.posts.any((post) => post.id == postId)) {
       url = 'http://10.0.2.2:8080/groups/${g.id}/hiddenposts/$postId';
     } else {
-    //   url = 'hello';
       url = 'http://10.0.2.2:8080/groups/${g.id}/visibleposts/$postId';
     }
     try {
@@ -407,12 +405,11 @@ class Patients with ChangeNotifier {
         url,
         headers: tokenHeader,
       );
-
-      notifyListeners();
       print(response.body.toString());
     } catch (error) {
       throw error;
     }
+    notifyListeners();
     print('finish');
   }
 }

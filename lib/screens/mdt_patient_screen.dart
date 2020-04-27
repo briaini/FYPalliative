@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/patients.dart';
 import '../providers/group.dart';
 import '../widgets/mdt_patient_shared_repo.dart';
 import '../widgets/mdt_overview.dart';
@@ -25,7 +26,7 @@ class MdtPatientScreen extends StatelessWidget {
 }
 
 class InfoWidget extends StatefulWidget {
-  var _showHidden = false;
+  // var _showHidden = false;
 
   @override
   _InfoWidgetState createState() => _InfoWidgetState();
@@ -35,6 +36,7 @@ class _InfoWidgetState extends State<InfoWidget> {
   @override
   Widget build(BuildContext context) {
     final group = Provider.of<Group>(context);
+    final patients = Provider.of<Patients>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
