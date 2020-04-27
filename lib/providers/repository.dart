@@ -38,6 +38,10 @@ class Repository with ChangeNotifier {
     return {'authorization': _token};
   }
 
+  doNothing(){
+    notifyListeners();
+  }
+
   Future<void> createUser(userMap) async {
     // print(userMap);
     final url = 'http://10.0.2.2:8080/users/';

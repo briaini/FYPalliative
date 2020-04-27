@@ -17,8 +17,28 @@ class Patients with ChangeNotifier {
   List<Group> _groups;
   List<UserDAO> _mdtusers = [];
   List<UserDAO> _patientusers = [];
+  String test = 'hello';
+  List<String> testArray = ['hi', 'hallo', 'bye'];
 
   Patients(this._token, this._userId, this._patients);
+
+  String get getTest {
+    return test;
+  }
+
+  addToTestArray(newString) {
+    testArray.add(newString);
+    notifyListeners();
+  }
+
+  List<String> get tstArray {
+    return [...testArray];
+  }
+
+  editString(newString) {
+    test = newString;
+    notifyListeners();
+  }
 
   Map<String, String> get tokenHeader {
     return {'authorization': _token};

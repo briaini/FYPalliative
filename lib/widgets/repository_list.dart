@@ -23,7 +23,8 @@ class _RepositoryListState extends State<RepositoryList> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = Provider.of<Repository>(context).repositoryFilters;
+    final repoProv = Provider.of<Repository>(context);
+    final categories = repoProv.repositoryFilters;
 
     return Column(
       children: <Widget>[
@@ -68,37 +69,34 @@ class _RepositoryListState extends State<RepositoryList> {
                               categories['All'] = true;
                             else if (categories.containsValue(false))
                               categories['All'] = false;
-                            Provider.of<Repository>(context).saveRepositoryFilters(categories);
+                            Provider.of<Repository>(context)
+                                .saveRepositoryFilters(categories);
                           });
                         },
                       ))
                   .toList()),
         ),
-        Container(
-          height: 545,
-          child: Consumer<Repository>(
-            builder: (ctx, repo, child) => Container(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: repo.items
+        Expanded(
+          child: Container(
+            child: ListView.separated(
+              itemCount: repoProv.items
+                  .where((item) => categories.keys
+                      .where((element) => categories[element] == true)
+                      .toList()
+                      .contains(item.category))
+                  .toList()
+                  .length,
+              itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                // value: repo.items[i],
+                value: repoProv.items
                     .where((item) => categories.keys
                         .where((element) => categories[element] == true)
                         .toList()
                         .contains(item.category))
-                    .toList()
-                    .length,
-                itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                  // value: repo.items[i],
-                  value: repo.items
-                      .where((item) => categories.keys
-                          .where((element) => categories[element] == true)
-                          .toList()
-                          .contains(item.category))
-                      .toList()[i],
-                  child: RepositoryItem("nogroup"),
-                ),
-                separatorBuilder: (_, i) => const Divider(),
+                    .toList()[i],
+                child: RepositoryItem("nogroup"),
               ),
+              separatorBuilder: (_, i) => const Divider(),
             ),
           ),
         ),

@@ -58,11 +58,11 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
           'description': _editedItem.description,
         };
 
-        if(_editedItem.media == 'text'){
+        if (_editedItem.media == 'text') {
           _mediaTypeValue = MediaType.link;
-          }else{
+        } else {
           _mediaTypeValue = MediaType.video;
-          }
+        }
       }
       _linkUrlController.text = _editedItem.linkUrl;
       _imageUrlController.text = _editedItem.imageUrl;
@@ -113,6 +113,11 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
       try {
         await Provider.of<Repository>(context, listen: false)
             .addRepoItem(_editedItem);
+            await Provider.of<Repository>(context).fetchItems()
+            .then((value) => setState(() {
+                  _isLoading = false;
+                  Navigator.of(context).pop();
+                }));
       } catch (e) {
         showDialog(
           context: context,
@@ -131,10 +136,10 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
         );
       }
     }
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.of(context).pop();
+    // setState(() {
+    //   _isLoading = false;
+    // });
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -343,9 +348,7 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                     TextFormField(
                       // initialValue: _initValues['linkUrl'],
                       decoration: InputDecoration(
-                        labelText: _isText
-                            ? 'Link URL'
-                            : 'Video Id',
+                        labelText: _isText ? 'Link URL' : 'Video Id',
                       ),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
@@ -382,46 +385,48 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
                         _saveForm();
                       },
                     ),
-                    _isText ? TextFormField(
-                      // initialValue: _initValues['imageUrl'],
-                      controller: _imageUrlController,
-                      decoration: InputDecoration(
-                        labelText: 'Image URL',
-                      ),
-                      keyboardType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
-                      // focusNode: ,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please provide a url.';
-                        }
-                        // if (!value.startsWith('http') &&
-                        //     !value.startsWith('https')) {
-                        //   return 'Please enter a valid url.';
-                        // }
-                        // if (!value.endsWith('.png') &&
-                        //     !value.endsWith('.jpg') &&
-                        //     !value.endsWith('.jpeg')) {
-                        //   return 'Please enter a valid url';
-                        // }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        // _savedValues['imageUrl'] = value;
-                        _editedItem = Item(
-                          id: _editedItem.id,
-                          media: _editedItem.media,
-                          category: _editedItem.category,
-                          title: _editedItem.title,
-                          description: _editedItem.description,
-                          linkUrl: _editedItem.linkUrl,
-                          imageUrl: value,
-                        );
-                      },
-                      onFieldSubmitted: (_) {
-                        _saveForm();
-                      },
-                    ) : Container(),
+                    _isText
+                        ? TextFormField(
+                            // initialValue: _initValues['imageUrl'],
+                            controller: _imageUrlController,
+                            decoration: InputDecoration(
+                              labelText: 'Image URL',
+                            ),
+                            keyboardType: TextInputType.url,
+                            textInputAction: TextInputAction.done,
+                            // focusNode: ,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please provide a url.';
+                              }
+                              // if (!value.startsWith('http') &&
+                              //     !value.startsWith('https')) {
+                              //   return 'Please enter a valid url.';
+                              // }
+                              // if (!value.endsWith('.png') &&
+                              //     !value.endsWith('.jpg') &&
+                              //     !value.endsWith('.jpeg')) {
+                              //   return 'Please enter a valid url';
+                              // }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // _savedValues['imageUrl'] = value;
+                              _editedItem = Item(
+                                id: _editedItem.id,
+                                media: _editedItem.media,
+                                category: _editedItem.category,
+                                title: _editedItem.title,
+                                description: _editedItem.description,
+                                linkUrl: _editedItem.linkUrl,
+                                imageUrl: value,
+                              );
+                            },
+                            onFieldSubmitted: (_) {
+                              _saveForm();
+                            },
+                          )
+                        : Container(),
                   ],
                 ),
               ),

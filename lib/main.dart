@@ -21,6 +21,7 @@ import './screens/detailed_repo_item_screen.dart';
 import './screens/patients_screen.dart';
 import './screens/mdt_patient_screen.dart';
 import './screens/splash_screen.dart';
+import './screens/test_provider_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
                           : AuthScreen(),
                 ),
           routes: {
+            TestProviderScreen.routeName: (ctx) => TestProviderScreen(),
             AdminAllUsersAddScreen.routeName: (ctx) => AdminAllUsersAddScreen(),
             AdminAllUserDetailedScreen.routeName: (ctx) =>
                 AdminAllUserDetailedScreen(),
