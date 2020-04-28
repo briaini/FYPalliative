@@ -6,15 +6,14 @@ import '../providers/patients.dart';
 import '../widgets/groups_list.dart';
 import './edit_group_screen.dart';
 
-
-class AdminReadGroupsScreen extends StatefulWidget {
-  static const routeName = "/mdt-patienet-shared-repo-screen";
+class AdminTabsGroupsScreen extends StatefulWidget {
+  static const routeName = "/admin-tabs-groups-screen";
 
   @override
-  _AdminReadGroupsScreenState createState() => _AdminReadGroupsScreenState();
+  _AdminTabsGroupsScreenState createState() => _AdminTabsGroupsScreenState();
 }
 
-class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
+class _AdminTabsGroupsScreenState extends State<AdminTabsGroupsScreen> {
   var _isInit = true;
   var _isLoading = false;
 
@@ -40,22 +39,10 @@ class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
   Widget build(BuildContext context) {
     final optionalMdtWorker =
         ModalRoute.of(context).settings.arguments as UserDAO;
-    return Scaffold(
-      appBar: AppBar(
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(Icons.add),
-        //     onPressed: () =>
-        //         Navigator.of(context).pushNamed(EditGroupScreen.routeName),
-        //   ),
-        // ],
-        title: Text('Groups'),
-      ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : optionalMdtWorker == null
-              ? GroupsList()
-              : GroupsList(optionalMdtWorker),
-    );
+    return _isLoading
+        ? Center(child: CircularProgressIndicator())
+        : optionalMdtWorker == null
+            ? GroupsList()
+            : GroupsList(optionalMdtWorker);
   }
 }

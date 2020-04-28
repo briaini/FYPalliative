@@ -1,5 +1,5 @@
 import 'package:FlutterFYP/screens/admin_all_user_detailed_screen.dart';
-import 'package:FlutterFYP/screens/admin_read_groups_screen.dart';
+import 'package:FlutterFYP/screens/admin_tabs_groups_screen.dart';
 import 'package:FlutterFYP/screens/edit_repository_item_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class _AdminTabsScreenState extends State<AdminTabsScreen> {
       'title': 'Users',
     },
     {
-      'page': AdminReadGroupsScreen(),
+      'page': AdminTabsGroupsScreen(),
       'title': 'Groups',
     },
   ];

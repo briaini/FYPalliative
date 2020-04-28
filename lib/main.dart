@@ -24,6 +24,7 @@ import './screens/mdt_patient_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/test_provider_screen.dart';
 import './screens/no_group_user_screen.dart';
+import './screens/admin_tabs_groups_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
                 ),
           routes: {
             AdminTabsScreen.routeName:(ctx) => AdminTabsScreen(),
+            AdminTabsGroupsScreen.routeName:(ctx) => AdminTabsGroupsScreen(),
             NoGroupUserScreen.routeName: (ctx) => NoGroupUserScreen(),
             TestProviderScreen.routeName: (ctx) => TestProviderScreen(),
             AdminAllUsersAddScreen.routeName: (ctx) => AdminAllUsersAddScreen(),
