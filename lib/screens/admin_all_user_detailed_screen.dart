@@ -25,6 +25,7 @@ class _AdminAllUserDetailedScreenState
         _isLoading = true;
       });
       Provider.of<Patients>(context).fetchUsers();
+      Provider.of<Patients>(context).adminFetchUnassignedPatients();
       Provider.of<Patients>(context).fetchGroups().then(
         (_) {
           setState(() {
@@ -39,6 +40,7 @@ class _AdminAllUserDetailedScreenState
 
   @override
   Widget build(BuildContext context) {
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(

@@ -2,6 +2,7 @@ import 'package:FlutterFYP/models/user_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../providers/patients.dart';
 import './patients_list_item.dart';
 import './user_list_item.dart';
@@ -44,7 +45,7 @@ class _UsersListState extends State<UsersList> {
     // final patientsArr = Provider.of<Patients>(context).unassignedPatientUsers;
     return widget.isMdtWorker
         ? _buildListView(prov.mdtworkers)
-        : _buildListView(prov.unassignedPatientUsers);
+        : Provider.of<Auth>(context, listen: false).isAdmin ?_buildListView(prov.allPatients) : _buildListView(prov.unassignedPatientUsers);
     //         //isPatientUser
     //         patients.unassignedPatientUsers.isEmpty
     //             ? Align(

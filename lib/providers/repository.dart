@@ -125,6 +125,7 @@ class Repository with ChangeNotifier {
                 user['id'],
                 user['name'],
                 user['role'],
+                null,
               ),
             )
             .toList(),

@@ -12,7 +12,9 @@ import './patient.dart';
 class Patients with ChangeNotifier {
   String _token;
   int _userId;
-  List<Patient> _patients = [];
+  List<UserDAO> _patients = [];
+  List<UserDAO> _unassignedPatients = [];
+  List<UserDAO> _allPatients = [];
   List<UserDAO> _users = [];
   List<Group> _groups;
   List<UserDAO> _mdtusers = [];
@@ -45,8 +47,11 @@ class Patients with ChangeNotifier {
   }
 
 //patients only returns users/patients assigned to a specific mdt worker
-  List<Patient> get patients {
+  List<UserDAO> get patients {
     return _patients;
+  }
+  List<UserDAO> get allPatients {
+    return [..._allPatients];
   }
 
   List<Group> get groups {
@@ -82,6 +87,10 @@ class Patients with ChangeNotifier {
                 group.isMdt && group.members.any((user) => user.id == id))
             .toList() ??
         [];
+  }
+
+  List<UserDAO> get newUnassignedPatientUsers {
+    return [..._unassignedPatients];
   }
 
   List<UserDAO> get unassignedPatientUsers {
@@ -138,11 +147,77 @@ class Patients with ChangeNotifier {
             user['id'],
             user['username'],
             user['role'],
+            null,
           ),
         );
       });
       _users = loadedUsers;
       print(_users);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> adminFetchUnassignedPatients() async {
+    var url = 'http://10.0.2.2:8080/users/unassignedPatients';
+    print(url);
+    try {
+      final response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      final extractedData = json.decode(response.body) as List<dynamic>;
+      if (extractedData == null) {
+        print("extracted patients null");
+        _patients = [];
+        return;
+      }
+      final List<UserDAO> loadedPatients = [];
+
+      extractedData.forEach((patient) {
+        loadedPatients.add(
+          UserDAO(
+            patient['id'],
+            patient['name'],
+            'PATIENT',
+            patient['mdtId'],
+          ),
+        );
+      });
+      _unassignedPatients = loadedPatients;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> adminFetchAllPatients() async {
+    var url = 'http://10.0.2.2:8080/users/patients';
+    print(url);
+    try {
+      final response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      final extractedData = json.decode(response.body) as List<dynamic>;
+      if (extractedData == null) {
+        print("extracted patients null");
+        _patients = [];
+        return;
+      }
+      final List<UserDAO> loadedPatients = [];
+
+      extractedData.forEach((patient) {
+        loadedPatients.add(
+          UserDAO(
+            patient['id'],
+            patient['name'],
+            'PATIENT',
+            patient['mdtId'],
+          ),
+        );
+      });
+      _allPatients = loadedPatients;
     } catch (error) {
       print(error);
     }
@@ -162,13 +237,14 @@ class Patients with ChangeNotifier {
         _patients = [];
         return;
       }
-      final List<Patient> loadedPatients = [];
+      final List<UserDAO> loadedPatients = [];
 
       extractedData.forEach((patient) {
         loadedPatients.add(
-          Patient(
+          UserDAO(
             patient['id'],
             patient['name'],
+            'PATIENT',
             patient['mdtId'],
           ),
         );
@@ -224,6 +300,7 @@ class Patients with ChangeNotifier {
                     user['id'],
                     user['name'],
                     user['role'],
+                    null,
                   ),
                 )
                 .toList(),
@@ -300,6 +377,7 @@ class Patients with ChangeNotifier {
                     user['id'],
                     user['name'],
                     user['role'],
+                    null,
                   ),
                 )
                 .toList(),

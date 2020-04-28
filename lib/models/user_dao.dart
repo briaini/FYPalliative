@@ -5,8 +5,9 @@ class UserDAO with ChangeNotifier {
   final _id;
   final _name;
   final _role;
+  final _mdt;
 
-  UserDAO(this._id, this._name, this._role);
+  UserDAO(this._id, this._name, this._role, this._mdt);
 
   get id {
     return _id;
@@ -18,6 +19,10 @@ class UserDAO with ChangeNotifier {
 
   String get role {
     return _role;
+  }
+
+  String get mdtId {
+    return _mdt;
   }
 
   @override

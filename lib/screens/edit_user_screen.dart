@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/patients.dart';
 import '../providers/repository.dart';
 
 enum Role { patient, mdt, admin }
@@ -84,10 +85,30 @@ class _EditUserScreenState extends State<EditUserScreen> {
     } else {
       // print(_editedValues);
       //add user
+
       try {
         await Provider.of<Repository>(context, listen: false)
             .createUser(_editedValues);
+            await Provider.of<Patients>(context)
+            .adminFetchUnassignedPatients()
+            .then((value) => setState(() {
+                  _isLoading = false;
+                  Navigator.of(context).pop();
+                }));
       } catch (e) {
+      // try {
+      //   await Provider.of<Repository>(context, listen: false)
+      //       .createUser(_editedValues);
+      //   await Provider.of<Patients>(context)
+      //       .adminFetchUnassignedPatients()
+      //       .then(
+      //         (value) => setState(
+      //           () {
+      //             _isLoading = false;
+      //           },
+      //         ),
+      //       );
+      // } catch (e) {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -105,10 +126,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
         );
       }
     }
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.of(context).pop();
   }
 
   @override
@@ -313,7 +330,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                   groupValue: _credentialsNonExpiredValue,
                                   onChanged: (value) {
                                     setState(() {
-                                      _editedValues['credentialsNonExpired'] = 0;
+                                      _editedValues['credentialsNonExpired'] =
+                                          0;
                                       _credentialsNonExpiredValue = value;
                                     });
                                   },
@@ -328,7 +346,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                   groupValue: _credentialsNonExpiredValue,
                                   onChanged: (value) {
                                     setState(() {
-                                      _editedValues['credentialsNonExpired'] = 1;
+                                      _editedValues['credentialsNonExpired'] =
+                                          1;
                                       _credentialsNonExpiredValue = value;
                                     });
                                   },

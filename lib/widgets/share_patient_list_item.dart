@@ -1,3 +1,4 @@
+import 'package:FlutterFYP/models/user_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,13 +15,12 @@ class SharePatientListItem extends StatelessWidget {
     final item = Provider.of<Item>(context, listen: false);
     final patientsProv = Provider.of<Patients>(context, listen: false);
 
-    final patientsProvider = Provider.of<Patients>(context, listen: false);
     return GestureDetector(
       child: ListTile(
         leading: Icon(Icons.healing),
         title: auth.isAdmin
             ? Text(Provider.of<Group>(context, listen: false).name)
-            : Text(Provider.of<Patient>(context, listen: false).name),
+            : Text(Provider.of<UserDAO>(context, listen: false).name),
       ),
       onTap: () {
         showDialog(
@@ -32,7 +32,7 @@ class SharePatientListItem extends StatelessWidget {
                 ? Text(
                     'Do you want to share post(${item.id}) with group: ${Provider.of<Group>(context, listen: false).id}')
                 : Text(
-                    'Do you want to share post(${item.id}) with ${Provider.of<Patient>(context, listen: false).name}?'),
+                    'Do you want to share post(${item.id}) with ${Provider.of<UserDAO>(context, listen: false).name}?'),
             actions: <Widget>[
               FlatButton(
                 child: Text('No'),
@@ -49,7 +49,7 @@ class SharePatientListItem extends StatelessWidget {
                           Provider.of<Group>(context, listen: false).id,
                           item.id)
                       : patientsProv.linkPostToPatient(
-                          Provider.of<Patient>(context, listen: false).id,
+                          Provider.of<UserDAO>(context, listen: false).id,
                           item.id);
                 },
               ),

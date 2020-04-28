@@ -1,3 +1,4 @@
+import 'package:FlutterFYP/models/user_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _SharePatientsListState extends State<SharePatientsList> {
     final isAdmin = Provider.of<Auth>(context).isAdmin;
     final arr = isAdmin
         ? Provider.of<Patients>(context).groups as List<Group>
-        : Provider.of<Patients>(context).patients as List<Patient>;
+        : Provider.of<Patients>(context).patients as List<UserDAO>;
 
     return Consumer<Patients>(
       builder: (ctx, patients, child) => Container(
@@ -31,7 +32,7 @@ class _SharePatientsListState extends State<SharePatientsList> {
                     child: SharePatientListItem(),
                   )
               : (_, i) => ChangeNotifierProvider.value(
-                    value: arr[i] as Patient,
+                    value: arr[i] as UserDAO,
                     child: SharePatientListItem(),
                   ),
           separatorBuilder: (_, i) => const Divider(),
