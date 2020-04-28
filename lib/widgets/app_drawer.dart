@@ -1,3 +1,4 @@
+import 'package:FlutterFYP/screens/admin_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,54 +27,54 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Repo Items'),
             onTap: () => Navigator.of(context)
-                .pushReplacementNamed(TabsScreen.routeName),
+                .pushReplacementNamed(AdminTabsScreen.routeName),
           ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Add Repo Item'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushNamed(EditRepositoryItemScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Users'),
-            onTap: () => Navigator.of(context).pushNamed(
-              AdminAllUserDetailedScreen.routeName,
-            ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.person_add),
-            title: Text('Add User'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(EditUserScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.group),
-            title: Text('Groups'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(AdminReadGroupsScreen.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.group_add),
-            title: Text('Add Group'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(EditGroupScreen.routeName);
-            },
-          ),
-          Divider(),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.edit),
+          //   title: Text('Add Repo Item'),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     Navigator.of(context)
+          //         .pushNamed(EditRepositoryItemScreen.routeName);
+          //   },
+          // ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.person),
+          //   title: Text('Users'),
+          //   onTap: () => Navigator.of(context).pushNamed(
+          //     AdminAllUserDetailedScreen.routeName,
+          //   ),
+          // ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.person_add),
+          //   title: Text('Add User'),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     Navigator.of(context).pushNamed(EditUserScreen.routeName);
+          //   },
+          // ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.group),
+          //   title: Text('Groups'),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     Navigator.of(context).pushNamed(AdminReadGroupsScreen.routeName);
+          //   },
+          // ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.group_add),
+          //   title: Text('Add Group'),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     Navigator.of(context).pushNamed(EditGroupScreen.routeName);
+          //   },
+          // ),
+          // Divider(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),

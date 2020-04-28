@@ -1,5 +1,4 @@
 import 'package:FlutterFYP/models/user_dao.dart';
-import 'package:FlutterFYP/widgets/my_tab_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

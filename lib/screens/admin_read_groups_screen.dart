@@ -41,16 +41,16 @@ class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
     final optionalMdtWorker =
         ModalRoute.of(context).settings.arguments as UserDAO;
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(EditGroupScreen.routeName),
-          ),
-        ],
-        title: Text('Groups'),
-      ),
+      // appBar: AppBar(
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Icon(Icons.add),
+      //       onPressed: () =>
+      //           Navigator.of(context).pushNamed(EditGroupScreen.routeName),
+      //     ),
+      //   ],
+      //   title: Text('Groups'),
+      // ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : optionalMdtWorker == null

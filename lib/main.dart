@@ -1,5 +1,6 @@
 import 'package:FlutterFYP/screens/admin_group_detail_screen.dart';
 import 'package:FlutterFYP/screens/admin_read_groups_screen.dart';
+import 'package:FlutterFYP/screens/admin_tabs_screen.dart';
 import 'package:FlutterFYP/screens/edit_group_screen.dart';
 import 'package:FlutterFYP/screens/edit_user_screen.dart';
 import 'package:FlutterFYP/screens/settings_screen.dart';
@@ -23,7 +24,6 @@ import './screens/mdt_patient_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/test_provider_screen.dart';
 import './screens/no_group_user_screen.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato',
           ),
           home: auth.isAuth
-              ? TabsScreen()
+              ? (auth.isAdmin ? AdminTabsScreen() : TabsScreen())
               :
               //  AuthScreen(),
               FutureBuilder(
@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
                           : AuthScreen(),
                 ),
           routes: {
+            AdminTabsScreen.routeName:(ctx) => AdminTabsScreen(),
             NoGroupUserScreen.routeName: (ctx) => NoGroupUserScreen(),
             TestProviderScreen.routeName: (ctx) => TestProviderScreen(),
             AdminAllUsersAddScreen.routeName: (ctx) => AdminAllUsersAddScreen(),
