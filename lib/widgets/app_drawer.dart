@@ -29,7 +29,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(AdminTabsScreen.routeName),
           ),
-          // Divider(),
+          Divider(),
           // ListTile(
           //   leading: Icon(Icons.edit),
           //   title: Text('Add Repo Item'),
