@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
 import '../widgets/groups_list.dart';
+import './edit_group_screen.dart';
 
 
 class AdminReadGroupsScreen extends StatefulWidget {
@@ -37,14 +38,24 @@ class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final optionalMdtWorker = ModalRoute.of(context).settings.arguments as UserDAO;
+    final optionalMdtWorker =
+        ModalRoute.of(context).settings.arguments as UserDAO;
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(EditGroupScreen.routeName),
+          ),
+        ],
         title: Text('Groups'),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : optionalMdtWorker == null ? GroupsList() : GroupsList(optionalMdtWorker),
+          : optionalMdtWorker == null
+              ? GroupsList()
+              : GroupsList(optionalMdtWorker),
     );
   }
 }

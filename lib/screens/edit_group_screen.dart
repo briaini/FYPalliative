@@ -22,7 +22,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     'isMdt': null,
   };
 
-  Map<String,dynamic> _editedGroup = {
+  Map<String, dynamic> _editedGroup = {
     'id': null,
     'name': null,
     'isMdt': null,
@@ -66,6 +66,14 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
       try {
         await Provider.of<Patients>(context, listen: false)
             .addGroup(_editedGroup);
+        await Provider.of<Patients>(context).fetchGroups().then(
+              (_) => setState(
+                () {
+                  _isLoading = false;
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
       } catch (e) {
         showDialog(
           context: context,
@@ -87,7 +95,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   @override

@@ -18,29 +18,29 @@ class GroupsList extends StatefulWidget {
 class _GroupsListState extends State<GroupsList> {
   @override
   Widget build(BuildContext context) {
+    final patientsProvider = Provider.of<Patients>(context);
     return widget.optionalMdtWorker == null
-        ? Consumer<Patients>(
-            builder: (ctx, patients, child) => Container(
-              child: ListView.separated(
-                itemCount: patients.groups.length,
-                itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                  value: patients.groups[i],
-                  child: GroupsListItem(),
-                ),
-                separatorBuilder: (_, i) => const Divider(),
+        ? Container(
+            child: ListView.separated(
+              itemCount: patientsProvider.groups.length,
+              itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                value: patientsProvider.groups[i],
+                child: GroupsListItem(),
               ),
+              separatorBuilder: (_, i) => const Divider(),
             ),
           )
-        : Consumer<Patients>(
-            builder: (ctx, patients, child) => Container(
-              child: ListView.separated(
-                itemCount: patients.findGroupsByMdtId(widget.optionalMdtWorker.id).length,
-                itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                  value: patients.findGroupsByMdtId(widget.optionalMdtWorker.id)[i],
-                  child: GroupsListItem(),
-                ),
-                separatorBuilder: (_, i) => const Divider(),
+        : Container(
+            child: ListView.separated(
+              itemCount: patientsProvider
+                  .findGroupsByMdtId(widget.optionalMdtWorker.id)
+                  .length,
+              itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                value:
+                    patientsProvider.findGroupsByMdtId(widget.optionalMdtWorker.id)[i],
+                child: GroupsListItem(),
               ),
+              separatorBuilder: (_, i) => const Divider(),
             ),
           );
   }
