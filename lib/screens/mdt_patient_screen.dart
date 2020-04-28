@@ -5,9 +5,11 @@ import '../providers/patients.dart';
 import '../providers/group.dart';
 import '../widgets/mdt_patient_shared_repo.dart';
 import '../widgets/mdt_overview.dart';
+import './mdt_all_posts_add_screen.dart';
 
 enum PopupOptions {
   HiddenPosts,
+  RecommendPosts,
 }
 
 class MdtPatientScreen extends StatelessWidget {
@@ -46,19 +48,28 @@ class _InfoWidgetState extends State<InfoWidget> {
               onSelected: (PopupOptions selectedValue) {
                 setState(() {
                   if (selectedValue == PopupOptions.HiddenPosts) {
-                      group.hiddenFilter = !group.hiddenFilter;
-                    // Navigator.of(context).pushNamed(
-                    //     AdminAllUsersAddScreen.routeName,
-                    //     arguments: {"groupId": group.id});
-                    // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
+                    group.hiddenFilter = !group.hiddenFilter;
+                  } else if (selectedValue == PopupOptions.RecommendPosts) {
+                    Navigator.of(context).pushNamed(MdtAllPostsAddScreen.routeName, arguments: {"group":group});
                   }
+
+                  // Navigator.of(context).pushNamed(
+                  //     AdminAllUsersAddScreen.routeName,
+                  //     arguments: {"groupId": group.id});
+                  // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
                 });
               },
               icon: Icon(Icons.more_vert),
               itemBuilder: (_) => [
                 PopupMenuItem(
-                  child: Text(group.hiddenFilter ? 'View Shared Items':'View Hidden Items'),
+                  child: Text(group.hiddenFilter
+                      ? 'View Shared Items'
+                      : 'View Hidden Items'),
                   value: PopupOptions.HiddenPosts,
+                ),
+                PopupMenuItem(
+                  child: Text('Recommend Post'),
+                  value: PopupOptions.RecommendPosts,
                 ),
               ],
             ),

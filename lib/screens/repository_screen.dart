@@ -22,7 +22,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
           _isLoading = true;
         },
       );
-      if (Provider.of<Auth>(context).isMDT) {
+      if (Provider.of<Auth>(context).isMDT || Provider.of<Auth>(context).isAdmin) {
         Provider.of<Repository>(context).fetchItems().then(
           (_) {
             setState(() {
@@ -30,14 +30,14 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
             });
           },
         );
-      } else if (Provider.of<Auth>(context).isAdmin) {
-        Provider.of<Repository>(context).fetchItems().then(
-          (_) {
-            setState(() {
-              _isLoading = false;
-            });
-          },
-        );
+      // } else if (Provider.of<Auth>(context).isAdmin) {
+      //   Provider.of<Repository>(context).fetchItems().then(
+      //     (_) {
+      //       setState(() {
+      //         _isLoading = false;
+      //       });
+      //     },
+      //   );
       } else {
         Provider.of<Repository>(context).fetchGroup().then(
           (_) {

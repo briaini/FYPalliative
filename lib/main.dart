@@ -21,6 +21,7 @@ import './screens/edit_repository_item_screen.dart';
 import './screens/detailed_repo_item_screen.dart';
 import './screens/patients_screen.dart';
 import './screens/mdt_patient_screen.dart';
+import './screens/mdt_all_posts_add_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/test_provider_screen.dart';
 import './screens/no_group_user_screen.dart';
@@ -98,6 +99,7 @@ class MyApp extends StatelessWidget {
             ShareWithPatientScreen.routeName: (ctx) => ShareWithPatientScreen(),
             PatientsScreen.routeName: (ctx) => PatientsScreen(),
             MdtPatientScreen.routeName: (ctx) => MdtPatientScreen(),
+            MdtAllPostsAddScreen.routeName: (ctx) => MdtAllPostsAddScreen(),
             AdminReadGroupsScreen.routeName: (ctx) => AdminReadGroupsScreen(),
             AdminGroupDetailScreen.routeName: (ctx) => AdminGroupDetailScreen(),
             EditUserScreen.routeName: (ctx) => EditUserScreen(),
