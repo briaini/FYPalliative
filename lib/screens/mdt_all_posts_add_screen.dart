@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/group.dart';
 import '../providers/repository.dart';
 import '../providers/patients.dart';
-import '../widgets/admin_repository_list.dart';
+import '../widgets/mdt_add_post_list.dart';
 
 //admin add post to group
 class MdtAllPostsAddScreen extends StatefulWidget {
@@ -40,20 +40,22 @@ class _MdtAllPostsAddScreenState extends State<MdtAllPostsAddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments as Map<String,dynamic>;
+    final args =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final group = args['group'] as Group;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Posts'),
       ),
-      body: 
-      _isLoading
-          ? 
-          Center(
+      body: _isLoading
+          ? Center(
               child: CircularProgressIndicator(),
             )
-          : AdminRepositoryList(group.id),
+          : ChangeNotifierProvider.value(
+              value: group,
+              child: MdtAddPostList(),
+            ),
     );
   }
 }
