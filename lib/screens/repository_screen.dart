@@ -54,6 +54,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('build reposiotry_screen');
     return _isLoading
         ?
         // Center(child: Text(Provider.of<Repository>(context).toString())

@@ -12,7 +12,6 @@ class Group with ChangeNotifier {
   final List<Item> _hiddenposts;
   final _comments;
   final _mdt;
-  bool _showHidden = false;
 
 
   Group(
@@ -35,14 +34,6 @@ class Group with ChangeNotifier {
     """;
   }
 
-  get hiddenFilter {
-    return _showHidden;
-  }
-
-  set hiddenFilter (foo) {
-    _showHidden = foo;
-  }
-
   get isMdt {
     return _mdt;
   }
@@ -59,12 +50,16 @@ class Group with ChangeNotifier {
     return _members;
   }
 
+  List<Item> get allPosts {
+    return [..._posts]..addAll([..._hiddenposts]);
+  }
+
   List<Item> get posts {
-    return _posts;
+    return [..._posts];
   }
 
   List<Item> get hiddenposts {
-    return _hiddenposts;
+    return [..._hiddenposts];
   }
 
   List<Comment>get comments {

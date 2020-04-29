@@ -1,3 +1,4 @@
+import 'package:FlutterFYP/widgets/patients_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,9 +8,11 @@ import '../providers/group.dart';
 import '../screens/mdt_patient_screen.dart';
 
 class PatientsListItem extends StatelessWidget {
+  final group;
+  PatientsListItem(this.group);
   @override
   Widget build(BuildContext context) {
-    final group = Provider.of<Group>(context);
+    // final group = Provider.of<Group>(context);
     final List<UserDAO> members = group.members;
     final patient = members.singleWhere((member) => member.role == "PATIENT");
 
@@ -19,7 +22,7 @@ class PatientsListItem extends StatelessWidget {
         title: Text(patient.name),
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        MdtPatientScreen.routeName,
+        InfoWidget.routeName,
         arguments: group,
       ),
     );

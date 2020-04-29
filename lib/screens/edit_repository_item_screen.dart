@@ -92,6 +92,12 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
       try {
         await Provider.of<Repository>(context, listen: false)
             .updateRepoItem(_editedItem);
+        await Provider.of<Repository>(context)
+            .fetchItems()
+            .then((value) => setState(() {
+                  _isLoading = false;
+                  Navigator.of(context).pop();
+                }));
       } catch (e) {
         showDialog(
           context: context,
@@ -113,7 +119,8 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
       try {
         await Provider.of<Repository>(context, listen: false)
             .addRepoItem(_editedItem);
-            await Provider.of<Repository>(context).fetchItems()
+        await Provider.of<Repository>(context)
+            .fetchItems()
             .then((value) => setState(() {
                   _isLoading = false;
                   Navigator.of(context).pop();

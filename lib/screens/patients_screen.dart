@@ -22,7 +22,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Patients>(context).fetchPatients();
+      // Provider.of<Patients>(context).fetchPatients();
       if (Provider.of<Auth>(context).isAdmin) {
         Provider.of<Patients>(context).fetchGroups().then(
           (_) {
@@ -34,6 +34,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
       } else {
         Provider.of<Patients>(context).fetchMyGroups().then(
           (_) {
+            print('fetchingmygroups patients screen');
             setState(() {
               _isLoading = false;
             });
@@ -47,6 +48,11 @@ class _PatientsScreenState extends State<PatientsScreen> {
 
   @override
   Widget build(BuildContext context) {
+      // final patients = Provider.of<Patients>(context);
+      // final mdtGroups = patients.mdtGroupsWithPatient;
+      // print(mdtGroups);
+      // print('and here');
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Patients'),

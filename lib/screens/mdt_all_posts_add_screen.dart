@@ -25,8 +25,8 @@ class _MdtAllPostsAddScreenState extends State<MdtAllPostsAddScreen> {
           _isLoading = true;
         },
       );
-      Provider.of<Patients>(context).fetchMyGroups();
-      Provider.of<Repository>(context).fetchItems().then(
+      Provider.of<Repository>(context).fetchItems();
+      Provider.of<Patients>(context).fetchMyGroups().then(
             (_) => setState(
               () {
                 _isLoading = false;

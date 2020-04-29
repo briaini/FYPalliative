@@ -89,26 +89,26 @@ class _EditUserScreenState extends State<EditUserScreen> {
       try {
         await Provider.of<Repository>(context, listen: false)
             .createUser(_editedValues);
-            await Provider.of<Patients>(context)
+        await Provider.of<Patients>(context)
             .adminFetchUnassignedPatients()
             .then((value) => setState(() {
                   _isLoading = false;
                   Navigator.of(context).pop();
                 }));
       } catch (e) {
-      // try {
-      //   await Provider.of<Repository>(context, listen: false)
-      //       .createUser(_editedValues);
-      //   await Provider.of<Patients>(context)
-      //       .adminFetchUnassignedPatients()
-      //       .then(
-      //         (value) => setState(
-      //           () {
-      //             _isLoading = false;
-      //           },
-      //         ),
-      //       );
-      // } catch (e) {
+        // try {
+        //   await Provider.of<Repository>(context, listen: false)
+        //       .createUser(_editedValues);
+        //   await Provider.of<Patients>(context)
+        //       .adminFetchUnassignedPatients()
+        //       .then(
+        //         (value) => setState(
+        //           () {
+        //             _isLoading = false;
+        //           },
+        //         ),
+        //       );
+        // } catch (e) {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(

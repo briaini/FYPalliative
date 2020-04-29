@@ -81,8 +81,8 @@ class MyApp extends StatelessWidget {
                           : AuthScreen(),
                 ),
           routes: {
-            AdminTabsScreen.routeName:(ctx) => AdminTabsScreen(),
-            AdminTabsGroupsScreen.routeName:(ctx) => AdminTabsGroupsScreen(),
+            AdminTabsScreen.routeName: (ctx) => AdminTabsScreen(),
+            AdminTabsGroupsScreen.routeName: (ctx) => AdminTabsGroupsScreen(),
             NoGroupUserScreen.routeName: (ctx) => NoGroupUserScreen(),
             TestProviderScreen.routeName: (ctx) => TestProviderScreen(),
             AdminAllUsersAddScreen.routeName: (ctx) => AdminAllUsersAddScreen(),
@@ -104,6 +104,7 @@ class MyApp extends StatelessWidget {
             AdminGroupDetailScreen.routeName: (ctx) => AdminGroupDetailScreen(),
             EditUserScreen.routeName: (ctx) => EditUserScreen(),
             SettingsScreen.routeName: (ctx) => SettingsScreen(),
+            InfoWidget.routeName: (ctx) => InfoWidget(),
           },
         ),
       ),

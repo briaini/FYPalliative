@@ -55,15 +55,15 @@ class Patients with ChangeNotifier {
   }
 
   List<Group> get groups {
-    return _groups ?? [];
+    return [..._groups] ?? [];
   }
 
   List<Group> get mdtGroups {
-    return _groups.where((group) => group.isMdt).toList() ?? [];
+    return groups.where((group) => group.isMdt).toList() ?? [];
   }
 
   List<Group> get mdtGroupsWithPatient {
-    return _groups
+    return groups == null ? [] : _groups
             .where((group) =>
                 group.isMdt &&
                 group.members.any((user) => user.role == "PATIENT"))
@@ -72,7 +72,7 @@ class Patients with ChangeNotifier {
   }
 
   Group findGroupById(id) {
-    return _groups.firstWhere((group) => group.id == id);
+    return groups.firstWhere((group) => group.id == id);
   }
 
   List<Group> findGroupsByMdtId(id) {
@@ -355,6 +355,7 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> fetchMyGroups() async {
+    print('fetchingMyGroups');
     var url = 'http://10.0.2.2:8080/mdt/$_userId/mygroups';
     final List<Group> loadedGroups = [];
     try {
@@ -470,7 +471,6 @@ class Patients with ChangeNotifier {
       );
 
       notifyListeners();
-      print(response.body.toString());
     } catch (error) {
       throw error;
     }

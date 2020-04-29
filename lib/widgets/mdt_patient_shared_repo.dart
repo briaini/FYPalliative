@@ -9,7 +9,8 @@ import '../widgets/shared_repository_item.dart';
 
 
 class MdtPatientSharedRepo extends StatefulWidget {
-
+      final _hiddenfilter;
+    MdtPatientSharedRepo(this._hiddenfilter);
   @override
   _MdtPatientSharedRepoState createState() => _MdtPatientSharedRepoState();
 }
@@ -20,7 +21,7 @@ class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
     Provider.of<Patients>(context);
     Provider.of<Group>(context);
     final group = Provider.of<Group>(context);
-    List<Item> posts = group.hiddenFilter ? group.hiddenposts : group.posts;
+    List<Item> posts = widget._hiddenfilter ? group.hiddenposts : group.posts;
     
 
     return Container(

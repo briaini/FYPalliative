@@ -23,6 +23,7 @@ class _RepositoryListState extends State<RepositoryList> {
 
   @override
   Widget build(BuildContext context) {
+    print('build repository_list');
     final repoProv = Provider.of<Repository>(context);
     final categories = repoProv.repositoryFilters;
 

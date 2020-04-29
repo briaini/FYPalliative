@@ -21,23 +21,19 @@ class _SharePatientsListState extends State<SharePatientsList> {
         ? Provider.of<Patients>(context).groups as List<Group>
         : Provider.of<Patients>(context).patients as List<UserDAO>;
 
-    return Consumer<Patients>(
-      builder: (ctx, patients, child) => Container(
-        child: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: arr.length,
-          itemBuilder: isAdmin
-              ? (_, i) => ChangeNotifierProvider.value(
-                    value: arr[i] as Group,
-                    child: SharePatientListItem(),
-                  )
-              : (_, i) => ChangeNotifierProvider.value(
-                    value: arr[i] as UserDAO,
-                    child: SharePatientListItem(),
-                  ),
-          separatorBuilder: (_, i) => const Divider(),
-        ),
-      ),
+    return ListView.separated(
+      padding: const EdgeInsets.all(8),
+      itemCount: arr.length,
+      itemBuilder: isAdmin
+          ? (_, i) => ChangeNotifierProvider.value(
+                value: arr[i] as Group,
+                child: SharePatientListItem(),
+              )
+          : (_, i) => ChangeNotifierProvider.value(
+                value: arr[i] as UserDAO,
+                child: SharePatientListItem(),
+              ),
+      separatorBuilder: (_, i) => const Divider(),
     );
   }
 }
