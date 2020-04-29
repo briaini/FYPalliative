@@ -41,11 +41,24 @@ class _UsersListState extends State<UsersList> {
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<Patients>(context);
+    final groupId = widget.args['groupId'] as int;
+    final group = prov.findGroupById(groupId);
+
+    final ids = group.members.map((e) => e.id).toList();
+
+    print('printing group posts');
+    print(group.posts);
+    print('finish');
+
+    final testArray = prov.mdtworkers;
+
+    final newArray = testArray.skipWhile((value) => ids.contains(value.id)).toList();
+
     // final mdtArr =  widget.isMdtWorker ? Provider.of<Patients>(context).mdtworkers : Provider.of<Patients>(context).unassignedPatientUsers;
     // final patientsArr = Provider.of<Patients>(context).unassignedPatientUsers;
     return widget.isMdtWorker
-        ? _buildListView(prov.mdtworkers)
-        : Provider.of<Auth>(context, listen: false).isAdmin ?_buildListView(prov.allPatients) : _buildListView(prov.unassignedPatientUsers);
+        ? _buildListView(newArray)
+        : _buildListView(prov.unassignedPatientUsers);
     //         //isPatientUser
     //         patients.unassignedPatientUsers.isEmpty
     //             ? Align(

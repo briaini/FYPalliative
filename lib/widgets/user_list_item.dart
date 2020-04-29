@@ -52,7 +52,7 @@ class _UserListItemState extends State<UserListItem> {
             builder: (ctx) => AlertDialog(
               title: Text('Are you sure?'),
               content: Text(
-                  'Do you want to add user (${user.id}) to group ${widget.args['groupId']}?'),
+                  'Do you want to add user (${user.name}) to group ${widget.args['groupId']}?'),
               actions: <Widget>[
                 FlatButton(
                   child: Text('No'),

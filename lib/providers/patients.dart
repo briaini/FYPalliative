@@ -14,7 +14,6 @@ class Patients with ChangeNotifier {
   int _userId;
   List<UserDAO> _patients = [];
   List<UserDAO> _unassignedPatients = [];
-  List<UserDAO> _allPatients = [];
   List<UserDAO> _users = [];
   List<Group> _groups;
   List<UserDAO> _mdtusers = [];
@@ -50,10 +49,7 @@ class Patients with ChangeNotifier {
   List<UserDAO> get patients {
     return _patients;
   }
-  List<UserDAO> get allPatients {
-    return [..._allPatients];
-  }
-
+ 
   List<Group> get groups {
     return [..._groups] ?? [];
   }
@@ -194,37 +190,37 @@ class Patients with ChangeNotifier {
     }
   }
 
-  Future<void> adminFetchAllPatients() async {
-    var url = 'http://10.0.2.2:8080/users/patients';
-    print(url);
-    try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
-      final extractedData = json.decode(response.body) as List<dynamic>;
-      if (extractedData == null) {
-        print("extracted patients null");
-        _patients = [];
-        return;
-      }
-      final List<UserDAO> loadedPatients = [];
+  // Future<void> adminFetchAllPatients() async {
+  //   var url = 'http://10.0.2.2:8080/users/patients';
+  //   print(url);
+  //   try {
+  //     final response = await http.get(
+  //       url,
+  //       headers: tokenHeader,
+  //     );
+  //     final extractedData = json.decode(response.body) as List<dynamic>;
+  //     if (extractedData == null) {
+  //       print("extracted patients null");
+  //       _patients = [];
+  //       return;
+  //     }
+  //     final List<UserDAO> loadedPatients = [];
 
-      extractedData.forEach((patient) {
-        loadedPatients.add(
-          UserDAO(
-            patient['id'],
-            patient['name'],
-            'PATIENT',
-            patient['mdtId'],
-          ),
-        );
-      });
-      _allPatients = loadedPatients;
-    } catch (error) {
-      print(error);
-    }
-  }
+  //     extractedData.forEach((patient) {
+  //       loadedPatients.add(
+  //         UserDAO(
+  //           patient['id'],
+  //           patient['name'],
+  //           'PATIENT',
+  //           patient['mdtId'],
+  //         ),
+  //       );
+  //     });
+  //     _allPatients = loadedPatients;
+  //   } catch (error) {
+  //     print(error);
+  //   }
+  // }
 
   Future<void> fetchPatients() async {
     var url = 'http://10.0.2.2:8080/mdt/$_userId/patients';
