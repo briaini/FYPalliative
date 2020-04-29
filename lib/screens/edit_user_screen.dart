@@ -89,6 +89,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
       try {
         await Provider.of<Repository>(context, listen: false)
             .createUser(_editedValues);
+        await Provider.of<Patients>(context).fetchUsers();
         await Provider.of<Patients>(context)
             .adminFetchUnassignedPatients()
             .then((value) => setState(() {

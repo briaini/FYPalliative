@@ -25,7 +25,7 @@ class _AdminAllUserDetailedScreenState
         _isLoading = true;
       });
       Provider.of<Patients>(context).fetchUsers();
-      Provider.of<Patients>(context).adminFetchUnassignedPatients();
+      // Provider.of<Patients>(context).adminFetchUnassignedPatients();
       Provider.of<Patients>(context).fetchGroups().then(
         (_) {
           setState(() {
