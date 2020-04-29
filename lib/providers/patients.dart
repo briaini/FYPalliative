@@ -444,7 +444,6 @@ class Patients with ChangeNotifier {
         headers: tokenHeader,
       );
       notifyListeners();
-      print(response.body.toString());
     } catch (error) {
       throw error;
     }

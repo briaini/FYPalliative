@@ -18,11 +18,17 @@ class UserListItem extends StatefulWidget {
 
 class _UserListItemState extends State<UserListItem> {
   Future<void> _linkUser(args, userId) async {
-    Provider.of<Patients>(context, listen: false)
-        .linkUserToGroup(args['groupId'], userId);
     try {
-      await Provider.of<Patients>(context).fetchGroups();
-      await Provider.of<Patients>(context).fetchUsers();
+      await Provider.of<Patients>(context, listen: false)
+          .linkUserToGroup(args['groupId'], userId);
+      await Provider.of<Patients>(context).fetchGroups().then(
+            (_) => setState(
+              () {
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+      // await Provider.of<Patients>(context).fetchUsers();
     } catch (e) {}
   }
 
