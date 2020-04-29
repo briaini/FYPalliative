@@ -87,7 +87,7 @@ class _AdminGroupDetailScreenInfoState
             MdtOverview(),
             // MdtOverview(),
 
-            MdtPatientSharedRepo(),
+            MdtPatientSharedRepo(false),
           ],
         ),
       ),

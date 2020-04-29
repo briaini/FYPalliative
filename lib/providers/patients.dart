@@ -485,7 +485,7 @@ class Patients with ChangeNotifier {
       );
 
       notifyListeners();
-      print(response.body.toString());
+      // print(response.body.toString());
     } catch (error) {
       throw error;
     }

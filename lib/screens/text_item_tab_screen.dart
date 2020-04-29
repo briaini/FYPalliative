@@ -20,6 +20,25 @@ class TextItemTabScreen extends StatefulWidget {
 }
 
 class _TextItemTabScreen extends State<TextItemTabScreen> {
+  var _isLoading;
+
+  Future<void> swapPostVisibility(itemId, groupId) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<Patients>(context)
+                                  .mdtSwapGroupPostVisibility(
+                                      itemId, groupId);
+      await Provider.of<Patients>(context)
+          .fetchMyGroups()
+          .then((_) => setState(() {
+                // _isLoading = false;
+                Navigator.of(context).pop();
+              }));
+    } catch (e) {}
+  }
+
   void _goToShareWithPatientPage(item) {
     Navigator.of(context).pushNamed(
       ShareWithPatientScreen.routeName,
@@ -85,11 +104,11 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                             Icons.visibility_off,
                             color: Theme.of(context).primaryIconTheme.color,
                           ),
-                          onPressed: () =>
+                          onPressed: () => swapPostVisibility(item.id, widget.groupId)
                               // setState(() {
-                              Provider.of<Patients>(context)
-                                  .mdtSwapGroupPostVisibility(
-                                      item.id, widget.groupId)
+                              // Provider.of<Patients>(context)
+                              //     .mdtSwapGroupPostVisibility(
+                              //         item.id, widget.groupId)
                           // })
                           //  () => Provider.of<Patients>(context)
                           //     .mdtSwapGroupPostVisibility(item.id, widget.groupId)
@@ -102,8 +121,15 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                       Icons.visibility_off,
                       color: Theme.of(context).primaryIconTheme.color,
                     ),
-                    onPressed: () => Provider.of<Patients>(context)
-                        .hidePostFromGroup(item.id),
+                    onPressed: () {
+                      Provider.of<Patients>(context).hidePostFromGroup(item.id);
+                      Provider.of<Patients>(context)
+                          .fetchMyGroups()
+                          .then((_) => setState(() {
+                                // _isLoading = false;
+                                Navigator.of(context).pop();
+                              }));
+                    },
                   ),
                 ],
           title: Text(item.title),

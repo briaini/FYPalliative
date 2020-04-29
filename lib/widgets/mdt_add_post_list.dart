@@ -13,6 +13,7 @@ class MdtAddPostList extends StatefulWidget {
 
 class _MdtAddPostListState extends State<MdtAddPostList> {
   var _isLoading = false;
+  
   Future<void> addPostToGroup(groupId, itemId) async {
     setState(() {
       _isLoading = true;
