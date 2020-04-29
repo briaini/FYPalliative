@@ -19,7 +19,7 @@ class GroupsListItem extends StatelessWidget {
       ),
       onTap: () => Navigator.of(context).pushNamed(
         AdminGroupDetailScreen.routeName,
-        arguments: group,
+        arguments: group.id,
       ),
     );
   }

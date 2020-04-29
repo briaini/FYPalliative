@@ -22,7 +22,7 @@ class DetailedUserListItem extends StatelessWidget {
           title: Text(patient.name),
         ),
         onTap:() => Navigator.of(context)
-                .pushNamed(MdtPatientScreen.routeName, arguments: group)
+                .pushNamed(MdtPatientScreen.routeName, arguments: group.id)
             
         // Navigator.of(context).pushNamed(
         //   MdtPatientScreen.routeName,

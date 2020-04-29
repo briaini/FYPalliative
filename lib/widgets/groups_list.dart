@@ -19,6 +19,8 @@ class _GroupsListState extends State<GroupsList> {
   @override
   Widget build(BuildContext context) {
     final patientsProvider = Provider.of<Patients>(context);
+
+    //adminallgroups passes no args
     return widget.optionalMdtWorker == null
         ? Container(
             child: ListView.separated(

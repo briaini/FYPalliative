@@ -37,12 +37,13 @@ class _AdminTabsGroupsScreenState extends State<AdminTabsGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final optionalMdtWorker =
-        ModalRoute.of(context).settings.arguments as UserDAO;
+    // final optionalMdtWorker =
+    //     ModalRoute.of(context).settings.arguments as UserDAO;
     return _isLoading
         ? Center(child: CircularProgressIndicator())
-        : optionalMdtWorker == null
-            ? GroupsList()
-            : GroupsList(optionalMdtWorker);
+        // : optionalMdtWorker == null
+            // ?
+            : GroupsList();
+            // : GroupsList(optionalMdtWorker);
   }
 }

@@ -72,6 +72,9 @@ class Patients with ChangeNotifier {
   }
 
   Group findGroupById(id) {
+    print('in patientsprov finder');
+    print(id);
+    print('done');
     return groups.firstWhere((group) => group.id == id);
   }
 
