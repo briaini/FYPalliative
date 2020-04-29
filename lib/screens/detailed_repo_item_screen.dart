@@ -81,6 +81,8 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
     final group = hasComments ? Provider.of<Group>(context)
         : null;
     print('indetailedrepoitemscreenwithprov groupid == $groupId');
+    print(group.isMdt);
+    print(group.id);
 
     return Scaffold(
       body: item.media == 'video'

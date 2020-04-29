@@ -33,6 +33,26 @@ class _VideoScreenState extends State<VideoScreen> {
   // var _isPlayerReady = false;
   // PlayerState _playerState;
 
+  var _isLoading;
+
+  Future<void> swapPostVisibility(itemId) async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    print("swapping $itemId and ${Provider.of<Group>(context).id}");
+    try {
+      await Provider.of<Patients>(context)
+          .mdtSwapGroupPostVisibility(itemId, Provider.of<Group>(context));
+      await Provider.of<Patients>(context).fetchMyGroups();
+
+
+      // .then((_) => setState(() {
+      // _isLoading = false;
+      // Navigator.of(context).pop();
+      // }));
+    } catch (e) {}
+  }
+
   @override
   void initState() {
     super.initState();
@@ -122,7 +142,6 @@ class _VideoScreenState extends State<VideoScreen> {
                                 FlatButton(
                                   child: Text('Yes'),
                                   onPressed: () {
-                                    Navigator.of(ctx).pop(true);
                                     Provider.of<Patients>(context)
                                         .linkPostToGroup(
                                             widget.groupId, item.id);
@@ -140,17 +159,21 @@ class _VideoScreenState extends State<VideoScreen> {
                           Icons.visibility_off,
                           color: Theme.of(context).primaryIconTheme.color,
                         ),
-                        onPressed: () => setState(() {
-                              Provider.of<Patients>(context)
-                                  .mdtSwapGroupPostVisibility(item.id, group);
-                              Provider.of<Patients>(context)
-                                  .fetchMyGroups()
-                                  .then(
-                                (_) {
-                                  setState(() {});
-                                },
-                              );
-                            }))
+                        onPressed: () {
+                          swapPostVisibility(item.id);
+                          Navigator.of(context).pop();
+                        })
+                    //  setState(() {
+                    //       Provider.of<Patients>(context)
+                    //           .mdtSwapGroupPostVisibility(item.id, group);
+                    //       Provider.of<Patients>(context)
+                    //           .fetchMyGroups()
+                    //           .then(
+                    //         (_) {
+                    //           setState(() {});
+                    //         },
+                    //       );
+                    //     }))
                     : Container(),
               ]
             : <Widget>[
