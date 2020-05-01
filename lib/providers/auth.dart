@@ -90,7 +90,7 @@ class Auth extends ChangeNotifier {
     }
   }
 
-  Future<void> authenticate(String username, String password) async {
+  Future<String> authenticate(String username, String password) async {
     Map<String, dynamic> _parsedToken;
     String roler;
     try {
@@ -110,6 +110,7 @@ class Auth extends ChangeNotifier {
       //Get jwt in header of http response
       _token = response.headers['authorization'];
       //Parse jwt
+      if(_parsedToken == null) return 'Invalid login';
       _parsedToken = parseJwt(_token);
 
       //Store jwt claims in local variables
@@ -167,8 +168,8 @@ class Auth extends ChangeNotifier {
       // print("username: " + _username);
       // print("expiry: " + _expiryDate.toString());
     } catch (e) {
-      print("ERROR Auth");
-      e.toString();
+      print("ERROR Auth:  ${e.toString()}");
+      
     }
     // _role = "ADMIN";
   }

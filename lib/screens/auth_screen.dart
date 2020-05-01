@@ -8,11 +8,8 @@ import '../providers/auth.dart';
 
 enum AuthMode { Signup, Login }
 
-
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,11 @@ class AuthScreen extends StatelessWidget {
                 ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                stops: [0.2, 0.5, 0.8,],
+                stops: [
+                  0.2,
+                  0.5,
+                  0.8,
+                ],
               ),
             ),
           ),
@@ -47,7 +48,7 @@ class AuthScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
-                    flex:1,
+                    flex: 1,
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
@@ -133,39 +134,23 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
+    String rez;
     try {
       if (_authMode == AuthMode.Login) {
         // Log user in
-        await Provider.of<Auth>(context, listen: false).authenticate(
+        rez = await Provider.of<Auth>(context, listen: false).authenticate(
           _authData['email'],
           _authData['password'],
         );
-      } 
-      else {
+      } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
-           _authData['email'].replaceAll(new RegExp('@.*'), ''),
+          _authData['email'].replaceAll(new RegExp('@.*'), ''),
           _authData['password'],
         );
       }
-    } on HttpException catch (error) {
-      var errorMessage = 'Authentication failed';
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email is already in use.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address.';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a use with that email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'Invalid password.';
-      }
-      _showErrorDialog(errorMessage);
-    } catch (error) {
-      const errorMessage = 'Could not authenticate. Please try again later';
-      _showErrorDialog(errorMessage);
-    }
+      if (rez == 'Invalid login') _showErrorDialog(rez);
+    } on HttpException catch (error) {} catch (error) {}
     setState(() {
       _isLoading = false;
     });
