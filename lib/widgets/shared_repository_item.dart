@@ -13,8 +13,10 @@ class SharedRepositoryItem extends StatelessWidget {
     final group = Provider.of<Group>(context, listen: false);
     final itemMedia = item.media;
     final itemTitle = item.title;
+    print('shared repo item group= ${group.id}');
 
-    Map<String, dynamic> args = {"item": item, "group": group, "itemId": item.id};
+
+    Map<String, dynamic> args = {"item": item, "groupId": group.id, "itemId": item.id};
 
     return GestureDetector(
       child: itemMedia == "video"

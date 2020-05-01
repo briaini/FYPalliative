@@ -107,6 +107,8 @@ class _VideoScreenState extends State<VideoScreen> {
     // final item = Provider.of<Item>(context);
     final repoProvider = Provider.of<Repository>(context);
 
+    print('rebuild video screen');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.item.title),

@@ -12,6 +12,7 @@ class RepositoryItem extends StatelessWidget {
 
   //No args when coming from RepositoryList(Patient)
   //Takes in groupId from AdminRepositoryList to share post with group
+  // admingroupid == no group from regular repo list(at least mdt)
   RepositoryItem([this.adminGroupId]);
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,9 @@ class RepositoryItem extends StatelessWidget {
     final itemTitle = item.title;
     Map<String, dynamic> args = Provider.of<Auth>(context, listen: false)
             .isPatient
-        ? {"itemId": item.id, "group": Provider.of<Repository>(context).group}
+        ? {"itemId": item.id, "groupId": Provider.of<Repository>(context).group.id}
         : adminGroupId == null
-            ? {"itemId": item.id, "group": Provider.of<Repository>(context).group}
+            ? {"itemId": item.id, "groupId": Provider.of<Repository>(context).group.id}
             : (adminGroupId == "nogroup"
                 ? {
                     "itemId": item.id,

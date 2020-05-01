@@ -38,7 +38,17 @@ class Repository with ChangeNotifier {
     return {'authorization': _token};
   }
 
-  doNothing(){
+  Group get group {
+    return _group;
+  }
+
+
+  List<Item> get items {
+    // _repoItems.sort((a,b) => a.category.compareTo(b.category));
+    return [..._repoItems];
+  }
+
+  doNothing() {
     notifyListeners();
   }
 
@@ -143,7 +153,7 @@ class Repository with ChangeNotifier {
               ),
             )
             .toList(),
-            (group['hiddenposts'] as List<dynamic>)
+        (group['hiddenposts'] as List<dynamic>)
             .map(
               (item) => Item(
                 id: item['id'],
@@ -281,17 +291,14 @@ class Repository with ChangeNotifier {
         ),
       );
       // print(response.body.toString());
-      fetchGroup();
+      // fetchGroup();
+      notifyListeners();
     } catch (error) {
       throw error;
-      
     }
-    notifyListeners();
   }
 
-  Group get group {
-    return _group;
-  }
+  
 
   Item findById(id) {
     // print('item prov item num: $id');
@@ -299,10 +306,7 @@ class Repository with ChangeNotifier {
     return items.firstWhere((element) => element.id == id);
   }
 
-  List<Item> get items {
-    // _repoItems.sort((a,b) => a.category.compareTo(b.category));
-    return [..._repoItems];
-  }
+  
 
   // Future<void> getFetchRepoItems() async {
   //   var url = 'https://fyp-palliative-care.firebaseio.com/repoItems.json?auth=$authToken';

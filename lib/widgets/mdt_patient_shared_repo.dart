@@ -21,6 +21,7 @@ class _MdtPatientSharedRepoState extends State<MdtPatientSharedRepo> {
     Provider.of<Patients>(context);
     Provider.of<Group>(context);
     final group = Provider.of<Group>(context);
+    print('comments ${group.comments}');
     List<Item> posts = widget._hiddenfilter ? group.hiddenposts : group.posts;
     
 

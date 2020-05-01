@@ -1,6 +1,8 @@
+import 'package:FlutterFYP/providers/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../providers/repository.dart';
 
 class NewCommentModal extends StatefulWidget {
@@ -15,14 +17,25 @@ class NewCommentModal extends StatefulWidget {
 class _NewCommentModalState extends State<NewCommentModal> {
   final _commentController = TextEditingController();
 
-  void _submitComment(groupId, itemId) {
+  Future<void> _submitComment(groupId, itemId) async {
     final commentText = _commentController.text;
     if (commentText.isEmpty) return;
     // final comment = new Comment();
-    setState(() {
-      Provider.of<Repository>(context)
+    try {
+      await Provider.of<Repository>(context)
           .saveComment(groupId, itemId, commentText);
-    });
+      if (Provider.of<Auth>(context).isAdmin) {
+        Provider.of<Patients>(context).fetchGroups();
+      } else {
+        await Provider.of<Repository>(context).fetchGroup().then(
+              (_) => setState(
+                () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
+      }
+    } catch (e) {}
   }
 
   @override
@@ -50,10 +63,9 @@ class _NewCommentModalState extends State<NewCommentModal> {
                   color: Theme.of(context).primaryColorDark,
                   textColor: Theme.of(context).buttonColor,
                   onPressed: () {
-                    setState(() {
-                      _submitComment(widget.groupId, widget.itemId);
-                    });
-                    Navigator.of(context).pop();
+                    // Navigator.of(context).pop(true);
+
+                    _submitComment(widget.groupId, widget.itemId);
                   }
 
                   // ()
