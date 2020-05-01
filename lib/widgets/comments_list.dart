@@ -9,6 +9,9 @@ import './comment_item.dart';
 class CommentsList extends StatefulWidget {
   @override
   _CommentsListState createState() => _CommentsListState();
+  final _itemId;
+
+  CommentsList(this._itemId);
 }
 
 class _CommentsListState extends State<CommentsList> {
@@ -22,10 +25,10 @@ class _CommentsListState extends State<CommentsList> {
   @override
   Widget build(BuildContext context) {
     final group = Provider.of<Group>(context);
-    final item = Provider.of<Item>(context);
+    // final item = Provider.of<Item>(context);
 
     final comments =
-        group.comments.where((comment) => comment.postId == item.id).toList() ??
+        group.comments.where((comment) => comment.postId == widget._itemId).toList() ??
             [];
 
     return (comments.length < 1)

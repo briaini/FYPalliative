@@ -105,6 +105,7 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> fetchGroup() async {
+    print('fetching group');
     var url = 'http://10.0.2.2:8080/users/$_userId/groups';
     try {
       final response = await http.get(
@@ -293,7 +294,9 @@ class Repository with ChangeNotifier {
   }
 
   Item findById(id) {
-    return _repoItems.firstWhere((element) => element.id == id);
+    // print('item prov item num: $id');
+    // return items.first;
+    return items.firstWhere((element) => element.id == id);
   }
 
   List<Item> get items {

@@ -9,11 +9,12 @@ class SharedRepositoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context, listen: false);
+    
     final group = Provider.of<Group>(context, listen: false);
     final itemMedia = item.media;
     final itemTitle = item.title;
 
-    Map<String, dynamic> args = {"item": item, "group": group};
+    Map<String, dynamic> args = {"item": item, "group": group, "itemId": item.id};
 
     return GestureDetector(
       child: itemMedia == "video"

@@ -25,6 +25,7 @@ class DetailedRepoItemScreen extends StatelessWidget {
     var adminGroupId;
     if (args.containsKey("group")) group = args['group'] as Group;
     final itemId = args['itemId'] as int;
+    print ('in detailedRepoitemscreen id: $itemId');
     final item = Provider.of<Repository>(context).findById(itemId);
     if (args.containsKey("adminGroupId"))
       adminGroupId = args['adminGroupId'] as int;

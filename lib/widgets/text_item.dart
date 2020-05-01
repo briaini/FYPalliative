@@ -48,7 +48,7 @@ class TextItem extends StatelessWidget {
             ],
           ),
         ),
-          _hasComments ? CommentsList() : Container(),
+          _hasComments ? CommentsList(_item.id) : Container(),
           // Expanded(
           //   child: CommentsList(),
           // ),

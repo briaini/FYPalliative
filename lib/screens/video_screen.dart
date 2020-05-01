@@ -238,7 +238,7 @@ class _VideoScreenState extends State<VideoScreen> {
             ],
           ),
         ),
-        widget.hasComments ? CommentsList() : Container(),
+        widget.hasComments ? CommentsList(widget.item.id) : Container(),
       ]),
     );
   }
