@@ -20,14 +20,14 @@ class RepositoryItem extends StatelessWidget {
     final itemTitle = item.title;
     Map<String, dynamic> args = Provider.of<Auth>(context, listen: false)
             .isPatient
-        ? {"item": item, "group": Provider.of<Repository>(context).group}
+        ? {"itemId": item.id, "group": Provider.of<Repository>(context).group}
         : adminGroupId == null
-            ? {"item": item, "group": Provider.of<Repository>(context).group}
+            ? {"itemId": item.id, "group": Provider.of<Repository>(context).group}
             : (adminGroupId == "nogroup"
                 ? {
-                    "item": item,
+                    "itemId": item.id,
                   }
-                : {"item": item, "adminGroupId": adminGroupId});
+                : {"itemId": item.id, "adminGroupId": adminGroupId});
 
     return GestureDetector(
       child: itemMedia == "video"

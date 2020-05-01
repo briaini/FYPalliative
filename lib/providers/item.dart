@@ -27,6 +27,9 @@ class Item with ChangeNotifier {
     return id;
   }
 
+  String get videoId {
+    return linkUrl;
+  }
   List<Comment> get getComments {
     return [...comments];
   }

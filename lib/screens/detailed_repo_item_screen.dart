@@ -24,7 +24,8 @@ class DetailedRepoItemScreen extends StatelessWidget {
     Group group;
     var adminGroupId;
     if (args.containsKey("group")) group = args['group'] as Group;
-    final item = args['item'] as Item;
+    final itemId = args['itemId'] as int;
+    final item = Provider.of<Repository>(context).findById(itemId);
     if (args.containsKey("adminGroupId"))
       adminGroupId = args['adminGroupId'] as int;
     if (Provider.of<Auth>(context).isAdmin) {
@@ -38,29 +39,32 @@ class DetailedRepoItemScreen extends StatelessWidget {
               ChangeNotifierProvider.value(
                 value: group,
               ),
-              ChangeNotifierProvider.value(
-                value: item,
-              ),
+              // ChangeNotifierProvider.value(
+              //   value: itemId,
+              // ),
             ],
-            child: DetailedRepoItemScreenWithProv(true),
+            child: DetailedRepoItemScreenWithProv(item,true),
           )
         : group == null
-            ? (ChangeNotifierProvider.value(
-                value: item,
-                child: adminGroupId == null
-                    ? DetailedRepoItemScreenWithProv(false)
-                    : DetailedRepoItemScreenWithProv(true, adminGroupId),
-              ))
+            ? 
+              // ChangeNotifierProvider.value(
+              //   value: itemId,
+              //   child: 
+                adminGroupId == null
+                    ? DetailedRepoItemScreenWithProv(item, false)
+                    : DetailedRepoItemScreenWithProv(item, true, adminGroupId)
+              // )
+              
             : MultiProvider(
                 providers: [
                   ChangeNotifierProvider.value(
                     value: group,
                   ),
-                  ChangeNotifierProvider.value(
-                    value: item,
-                  ),
+                  // ChangeNotifierProvider.value(
+                  //   value: itemId,
+                  // ),
                 ],
-                child: DetailedRepoItemScreenWithProv(true),
+                child: DetailedRepoItemScreenWithProv(item, true),
               );
 
     // return ChangeNotifierProvider.value(
@@ -73,22 +77,24 @@ class DetailedRepoItemScreen extends StatelessWidget {
 class DetailedRepoItemScreenWithProv extends StatelessWidget {
   final hasComments;
   var groupId;
+  final item;
 
-  DetailedRepoItemScreenWithProv(this.hasComments, [this.groupId]);
+  DetailedRepoItemScreenWithProv(this.item, this.hasComments, [this.groupId]);
   @override
   Widget build(BuildContext context) {
-    final item = Provider.of<Item>(context);
+
+    // final item1 = Provider.of<Repository>(context).findById(itemId);
     final group = hasComments ? Provider.of<Group>(context) : null;
 
     return Scaffold(
       body: item.media == 'video'
           ? (groupId == null
               ? ChangeNotifierProvider.value(
-                  value: group, child: VideoScreen(hasComments))
-              : VideoScreen(hasComments, groupId))
+                  value: group, child: VideoScreen(item, hasComments))
+              : VideoScreen(item, hasComments, groupId))
           : (groupId == null
-              ? TextItemTabScreen(hasComments, group)
-              : TextItemTabScreen(hasComments, groupId)),
+              ? TextItemTabScreen(item, hasComments, group)
+              : TextItemTabScreen(item, hasComments, groupId)),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: hasComments
           ? FloatingActionButton(

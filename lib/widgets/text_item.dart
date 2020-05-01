@@ -5,24 +5,25 @@ import '../providers/item.dart';
 import './comments_list.dart';
 
 class TextItem extends StatelessWidget {
-  final hasComments;
+  final _item;
+  final _hasComments;
   
-  TextItem(this.hasComments);
+  TextItem(this._item, this._hasComments);
 
   @override
   Widget build(BuildContext context) {
-    final item = Provider.of<Item>(context);
+    // final item = Provider.of<Item>(context);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           SizedBox(
           ),
-          item.imageUrl != null
+          _item.imageUrl != null
               ? Container(
                   width: double.infinity,
                   height: 250,
                   child: Image.network(
-                    item.imageUrl,
+                    _item.imageUrl,
                     fit: BoxFit.cover,
                   ),
                 )
@@ -36,18 +37,18 @@ class TextItem extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Text(item.title, textAlign: TextAlign.center,),
+              Text(_item.title, textAlign: TextAlign.center,),
               SizedBox(
                 height: 10,
               ),
-              Text(item.description, textAlign: TextAlign.justify, ),
+              Text(_item.description, textAlign: TextAlign.justify, ),
               SizedBox(
                 height: 10,
               ),
             ],
           ),
         ),
-          hasComments ? CommentsList() : Container(),
+          _hasComments ? CommentsList() : Container(),
           // Expanded(
           //   child: CommentsList(),
           // ),

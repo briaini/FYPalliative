@@ -16,12 +16,13 @@ class VideoScreen extends StatefulWidget {
   static const routeName = '/video-screen';
 
   var groupId;
+  final item;
   //hasComments: display comments and visibility iconbutton
   final hasComments;
 
   //from DetailedRepoItemScreen
   // VideoScreen(hasComments) with group provider available
-  VideoScreen(this.hasComments, [this.groupId]);
+  VideoScreen(this. item, this.hasComments, [this.groupId]);
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -57,7 +58,8 @@ class _VideoScreenState extends State<VideoScreen> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: Provider.of<Item>(context, listen: false).linkUrl,
+      initialVideoId: widget.item.videoId,
+      // Provider.of<Item>(context, listen: false).linkUrl,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         forceHideAnnotation: true,
@@ -102,12 +104,12 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: false);
     final group = widget.hasComments ? Provider.of<Group>(context) : null;
-    final item = Provider.of<Item>(context);
+    // final item = Provider.of<Item>(context);
     final repoProvider = Provider.of<Repository>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(item.title),
+        title: Text(widget.item.title),
         actions: auth.isMDT || auth.isAdmin
             ? <Widget>[
                 IconButton(
@@ -117,13 +119,13 @@ class _VideoScreenState extends State<VideoScreen> {
                   ),
                   onPressed: () => Navigator.of(context).pushNamed(
                     EditRepositoryItemScreen.routeName,
-                    arguments: item.id,
+                    arguments: widget.item.id,
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.share),
                   onPressed: widget.groupId == null
-                      ? () => _goToShareWithPatientPage(item)
+                      ? () => _goToShareWithPatientPage(widget.item)
                       : () {
                           showDialog(
                             //returning showDialog returns Future for us
@@ -131,7 +133,7 @@ class _VideoScreenState extends State<VideoScreen> {
                             builder: (ctx) => AlertDialog(
                               title: Text('Are you sure?'),
                               content: Text(
-                                  'Do you want to share post(${item.id}) with group: :${widget.groupId}?'),
+                                  'Do you want to share post(${widget.item.id}) with group: :${widget.groupId}?'),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text('No'),
@@ -144,7 +146,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                   onPressed: () {
                                     Provider.of<Patients>(context)
                                         .linkPostToGroup(
-                                            widget.groupId, item.id);
+                                            widget.groupId, widget.item.id);
                                   },
                                 ),
                               ],
@@ -160,7 +162,7 @@ class _VideoScreenState extends State<VideoScreen> {
                           color: Theme.of(context).primaryIconTheme.color,
                         ),
                         onPressed: () {
-                          swapPostVisibility(item.id);
+                          swapPostVisibility(widget.item.id);
                           Navigator.of(context).pop();
                         })
                     //  setState(() {
@@ -183,7 +185,7 @@ class _VideoScreenState extends State<VideoScreen> {
                     color: Theme.of(context).primaryIconTheme.color,
                   ),
                   onPressed: () =>
-                      Provider.of<Patients>(context).hidePostFromGroup(item.id),
+                      Provider.of<Patients>(context).hidePostFromGroup(widget.item.id),
                 ),
               ],
       ),
@@ -220,14 +222,14 @@ class _VideoScreenState extends State<VideoScreen> {
                 height: 10,
               ),
               Text(
-                item.title,
+                widget.item.title,
                 textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
-                item.description,
+                widget.item.description,
                 textAlign: TextAlign.justify,
               ),
               SizedBox(

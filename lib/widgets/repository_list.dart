@@ -21,6 +21,15 @@ class _RepositoryListState extends State<RepositoryList> {
   //   'Stress': true
   // };
 
+  // @override
+  // void didChangeDependencies() {
+  //   if (_isInit) {
+      
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
+
   @override
   Widget build(BuildContext context) {
     print('build repository_list');
