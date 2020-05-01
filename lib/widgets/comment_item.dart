@@ -21,32 +21,34 @@ class _CommentItemState extends State<CommentItem> {
         padding: EdgeInsets.all(8),
         width: MediaQuery.of(context).size.width,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    CircleAvatar(
-                      maxRadius: 20,
-                      backgroundImage:
-                          AssetImage('assets/images/usertile16.bmp'),
-                    ),
+                    
                     Text(
                       'Name=${widget._comment.subjectId.toString()}',
-                      style: TextStyle(fontSize: 10),
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      
                     ),
+                    Text(widget._comment.textBody),
                   ],
                 ),
               ],
             ),
-            SizedBox(
-              width: 20,
-            ),
+            Expanded(child: Container()),
+
             Column(
               children: <Widget>[
-                Text(widget._comment.textBody),
+                CircleAvatar(
+                  maxRadius: 20,
+                  backgroundImage: AssetImage('assets/images/usertile16.bmp'),
+                ),
               ],
             ),
           ],
