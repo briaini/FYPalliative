@@ -109,8 +109,9 @@ class Auth extends ChangeNotifier {
 
       //Get jwt in header of http response
       _token = response.headers['authorization'];
-      //Parse jwt
-      if(_parsedToken == null) return 'Invalid login';
+      if(_token == null) return 'Invalid login';
+
+      // Parse jwt
       _parsedToken = parseJwt(_token);
 
       //Store jwt claims in local variables
