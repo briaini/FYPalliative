@@ -49,7 +49,8 @@ class _AdminTabsScreenState extends State<AdminTabsScreen> {
                 switch (_selectedPageIndex) {
                   case 0:
                     {
-                      Navigator.of(context).pushNamed(EditRepositoryItemScreen.routeName);
+                      Navigator.of(context)
+                          .pushNamed(EditRepositoryItemScreen.routeName);
                     }
                     break;
                   case 1:
@@ -59,7 +60,8 @@ class _AdminTabsScreenState extends State<AdminTabsScreen> {
                     break;
                   case 2:
                     {
-                      Navigator.of(context).pushNamed(EditGroupScreen.routeName);
+                      Navigator.of(context)
+                          .pushNamed(EditGroupScreen.routeName);
                     }
                     break;
                   default:

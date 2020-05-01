@@ -36,7 +36,7 @@ class _AdminAllUsersAddScreenState extends State<AdminAllUsersAddScreen> {
   @override
   Widget build(BuildContext context) {
     //{groupid:x}
-    final args =
+    final   args =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return DefaultTabController(
       length: 2,

@@ -43,22 +43,20 @@ class _UsersListState extends State<UsersList> {
     final prov = Provider.of<Patients>(context);
     final groupId = widget.args['groupId'] as int;
     final group = prov.findGroupById(groupId);
-
     final ids = group.members.map((e) => e.id).toList();
-
-    print('printing group posts');
-    print(group.posts);
-    print('finish');
-
+    final hasPatient =
+        group.members.any((element) => element.role == "PATIENT");
     final testArray = prov.mdtworkers;
-
-    final newArray = testArray.skipWhile((value) => ids.contains(value.id)).toList();
+    final newArray =
+        testArray.skipWhile((value) => ids.contains(value.id)).toList();
 
     // final mdtArr =  widget.isMdtWorker ? Provider.of<Patients>(context).mdtworkers : Provider.of<Patients>(context).unassignedPatientUsers;
     // final patientsArr = Provider.of<Patients>(context).unassignedPatientUsers;
     return widget.isMdtWorker
         ? _buildListView(newArray)
-        : _buildListView(prov.unassignedPatientUsers);
+        : hasPatient
+            ? Text('Already has patient', textAlign: TextAlign.center,)
+            : _buildListView(prov.unassignedPatientUsers);
     //         //isPatientUser
     //         patients.unassignedPatientUsers.isEmpty
     //             ? Align(
