@@ -25,7 +25,21 @@ class _NewCommentModalState extends State<NewCommentModal> {
       await Provider.of<Repository>(context)
           .saveComment(groupId, itemId, commentText);
       if (Provider.of<Auth>(context).isAdmin) {
-        Provider.of<Patients>(context).fetchGroups();
+        Provider.of<Patients>(context).fetchGroups().then(
+              (_) => setState(
+                () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
+      } else if (Provider.of<Auth>(context).isMDT) {
+        Provider.of<Patients>(context).fetchGroups().then(
+              (_) => setState(
+                () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
       } else {
         await Provider.of<Repository>(context).fetchGroup().then(
               (_) => setState(
