@@ -91,7 +91,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
             .createUser(_editedValues);
         await Provider.of<Patients>(context).fetchUsers();
         await Provider.of<Patients>(context)
-            .adminFetchUnassignedPatients()
+            .fetchGroups()
             .then((value) => setState(() {
                   _isLoading = false;
                   Navigator.of(context).pop();

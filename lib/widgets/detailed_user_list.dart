@@ -27,14 +27,14 @@ class _DetailedUserListState extends State<DetailedUserList> {
         ),
       )..addAll(
           List<Widget>.generate(
-            patientsProvider.newUnassignedPatientUsers.length,
+            patientsProvider.unassignedPatientUsers.length,
             (i) => ChangeNotifierProvider.value(
-              value: patientsProvider.newUnassignedPatientUsers[i],
+              value: patientsProvider.unassignedPatientUsers[i],
               child: GestureDetector(
                   child: ListTile(
                     leading: Icon(Icons.person_outline),
                     title: Text(
-                        patientsProvider.newUnassignedPatientUsers[i].name),
+                        patientsProvider.unassignedPatientUsers[i].name),
                   ),
                   onTap: () => Navigator.of(context)
                       .pushNamed(NoGroupUserScreen.routeName)

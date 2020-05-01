@@ -13,7 +13,7 @@ class Patients with ChangeNotifier {
   String _token;
   int _userId;
   List<UserDAO> _patients = [];
-  List<UserDAO> _unassignedPatients = [];
+  // List<UserDAO> _unassignedPatients = [];
   List<UserDAO> _users = [];
   List<Group> _groups;
   List<UserDAO> _mdtusers = [];
@@ -88,9 +88,9 @@ class Patients with ChangeNotifier {
         [];
   }
 
-  List<UserDAO> get newUnassignedPatientUsers {
-    return [..._unassignedPatients];
-  }
+  // List<UserDAO> get newUnassignedPatientUsers {
+  //   return [..._unassignedPatients];
+  // }
 
   List<UserDAO> get unassignedPatientUsers {
     final mdtGroupsWithPatient = _groups
@@ -157,38 +157,38 @@ class Patients with ChangeNotifier {
     }
   }
 
-  Future<void> adminFetchUnassignedPatients() async {
-    var url = 'http://10.0.2.2:8080/users/unassignedPatients';
-    print(url);
-    try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
-      final extractedData = json.decode(response.body) as List<dynamic>;
-      if (extractedData == null) {
-        print("extracted patients null");
-        _patients = [];
-        return;
-      }
-      final List<UserDAO> loadedPatients = [];
+  // Future<void> adminFetchUnassignedPatients() async {
+  //   var url = 'http://10.0.2.2:8080/users/unassignedPatients';
+  //   print(url);
+  //   try {
+  //     final response = await http.get(
+  //       url,
+  //       headers: tokenHeader,
+  //     );
+  //     final extractedData = json.decode(response.body) as List<dynamic>;
+  //     if (extractedData == null) {
+  //       print("extracted patients null");
+  //       _patients = [];
+  //       return;
+  //     }
+  //     final List<UserDAO> loadedPatients = [];
 
-      extractedData.forEach((patient) {
-        loadedPatients.add(
-          UserDAO(
-            patient['id'],
-            patient['name'],
-            'PATIENT',
-            patient['mdtId'],
-          ),
-        );
-      });
-      _unassignedPatients = loadedPatients;
-      notifyListeners();
-    } catch (error) {
-      print(error);
-    }
-  }
+  //     extractedData.forEach((patient) {
+  //       loadedPatients.add(
+  //         UserDAO(
+  //           patient['id'],
+  //           patient['name'],
+  //           'PATIENT',
+  //           patient['mdtId'],
+  //         ),
+  //       );
+  //     });
+  //     _unassignedPatients = loadedPatients;
+  //     notifyListeners();
+  //   } catch (error) {
+  //     print(error);
+  //   }
+  // }
 
   // Future<void> adminFetchAllPatients() async {
   //   var url = 'http://10.0.2.2:8080/users/patients';
