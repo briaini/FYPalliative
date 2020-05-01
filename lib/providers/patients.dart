@@ -49,7 +49,7 @@ class Patients with ChangeNotifier {
   List<UserDAO> get patients {
     return _patients;
   }
- 
+
   List<Group> get groups {
     return [..._groups] ?? [];
   }
@@ -59,12 +59,14 @@ class Patients with ChangeNotifier {
   }
 
   List<Group> get mdtGroupsWithPatient {
-    return groups == null ? [] : _groups
-            .where((group) =>
-                group.isMdt &&
-                group.members.any((user) => user.role == "PATIENT"))
-            .toList() ??
-        [];
+    return groups == null
+        ? []
+        : _groups
+                .where((group) =>
+                    group.isMdt &&
+                    group.members.any((user) => user.role == "PATIENT"))
+                .toList() ??
+            [];
   }
 
   Group findGroupById(id) {

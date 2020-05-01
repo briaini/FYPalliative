@@ -24,18 +24,15 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
   var _isLoading;
 
   Future<void> swapPostVisibility(itemId, groupId) async {
-    setState(() {
-      _isLoading = true;
-    });
     try {
+      
       await Provider.of<Patients>(context)
-                                  .mdtSwapGroupPostVisibility(
-                                      itemId, groupId);
+          .mdtSwapGroupPostVisibility(itemId, Provider.of<Patients>(context).findGroupById(groupId));
       await Provider.of<Patients>(context)
           .fetchMyGroups()
           .then((_) => setState(() {
                 // _isLoading = false;
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               }));
     } catch (e) {}
   }
@@ -93,7 +90,8 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                                               Navigator.of(ctx).pop(true);
                                               Provider.of<Patients>(context)
                                                   .linkPostToGroup(
-                                                      widget.groupId, widget.item.id);
+                                                      widget.groupId,
+                                                      widget.item.id);
                                             },
                                           ),
                                         ],
@@ -105,11 +103,15 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                             Icons.visibility_off,
                             color: Theme.of(context).primaryIconTheme.color,
                           ),
-                          onPressed: () => swapPostVisibility(widget.item.id, widget.groupId)
-                              // setState(() {
-                              // Provider.of<Patients>(context)
-                              //     .mdtSwapGroupPostVisibility(
-                              //         item.id, widget.groupId)
+                          onPressed: () {
+                            swapPostVisibility(widget.item.id, widget.groupId);
+                            Navigator.of(context).pop();
+                          }
+
+                          // setState(() {
+                          // Provider.of<Patients>(context)
+                          //     .mdtSwapGroupPostVisibility(
+                          //         item.id, widget.groupId)
                           // })
                           //  () => Provider.of<Patients>(context)
                           //     .mdtSwapGroupPostVisibility(item.id, widget.groupId)
@@ -123,7 +125,8 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                       color: Theme.of(context).primaryIconTheme.color,
                     ),
                     onPressed: () {
-                      Provider.of<Patients>(context).hidePostFromGroup(widget.item.id);
+                      Provider.of<Patients>(context)
+                          .hidePostFromGroup(widget.item.id);
                       Provider.of<Patients>(context)
                           .fetchMyGroups()
                           .then((_) => setState(() {
