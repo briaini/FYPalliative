@@ -527,4 +527,27 @@ class Patients with ChangeNotifier {
     notifyListeners();
     print('finish');
   }
+
+  Future<void> saveMessage(groupId, commentText) async {
+    final url = 'http://10.0.2.2:8080/groups/$groupId/messages';
+    try {
+      final response = await http.post(
+        url,
+        headers: tokenHeader,
+        body: json.encode(
+          {
+            "textBody": commentText,
+            "subjectId": _userId,
+          },
+        ),
+      );
+      // print(response.body.toString());
+      // fetchGroup();
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  
 }

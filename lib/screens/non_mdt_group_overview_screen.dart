@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
+import '../widgets/messages_list.dart';
+import '../widgets/new_message_modal.dart';
 
 class NonMdtGroupOverviewScreen extends StatelessWidget {
   static const routeName = '/non-mdt-group-overview-screen';
@@ -28,10 +30,24 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(children: <Widget>[
-          Text('Comments list'),
-          Text('Group Overview'),
-        ]),
+        body: ChangeNotifierProvider.value(
+          value: _group,
+          child: TabBarView(children: <Widget>[
+            Expanded(child: MessagesList()),
+            Text('Group Overview'),
+          ]),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => showModalBottomSheet(
+            context: context,
+            builder: (bCtx) {
+              return NewMessageModal(_group.id);
+            },
+          ),
+          backgroundColor: Theme.of(context).accentColor.withAlpha(225),
+        ),
       ),
     );
   }
