@@ -10,7 +10,7 @@ import '../screens/edit_group_screen.dart';
 import '../screens/patients_screen.dart';
 import '../screens/admin_read_groups_screen.dart';
 import '../screens/admin_all_user_detailed_screen.dart';
-import '../screens/edit_user_screen.dart';
+import '../screens/mdt_other_groups_screen.dart';
 import '../screens/test_provider_screen.dart';
 
 
@@ -105,30 +105,18 @@ class AppDrawer extends StatelessWidget {
                 .pushReplacementNamed(TabsScreen.routeName),
           ),
           Divider(),
-
           ListTile(
             leading: Icon(Icons.healing),
-            title: Text('Test Provider'),
-            onTap: () =>
-                Navigator.of(context).pushNamed(TestProviderScreen.routeName),
-          ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.healing),
-            title: Text('Patients'),
+            title: Text('Mdt Groups'),
             onTap: () =>
                 Navigator.of(context).pushNamed(PatientsScreen.routeName),
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Add Repo Item'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushNamed(EditRepositoryItemScreen.routeName);
-            },
+            leading: Icon(Icons.healing),
+            title: Text('Non-Mdt Groups'),
+            onTap: () =>
+                Navigator.of(context).pushNamed(MdtOtherGroupsScreen.routeName),
           ),
           Divider(),
           ListTile(

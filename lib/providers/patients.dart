@@ -15,7 +15,8 @@ class Patients with ChangeNotifier {
   List<UserDAO> _patients = [];
   // List<UserDAO> _unassignedPatients = [];
   List<UserDAO> _users = [];
-  List<Group> _groups;
+  List<Group> _groups = [];
+  List<Group> _nonMdtGroups = [];
   List<UserDAO> _mdtusers = [];
   List<UserDAO> _patientusers = [];
   String test = 'hello';
@@ -54,6 +55,10 @@ class Patients with ChangeNotifier {
     return [..._groups] ?? [];
   }
 
+  List<Group> get nonMdtGroups {
+    return [..._nonMdtGroups] ?? [];
+  }
+
   List<Group> get mdtGroups {
     return groups.where((group) => group.isMdt).toList() ?? [];
   }
@@ -70,19 +75,13 @@ class Patients with ChangeNotifier {
   }
 
   Group findGroupById(id) {
-    print('in patientsprov finder');
-    print(id);
-    print('done');
     return groups.firstWhere((group) => group.id == id);
+  }
+  Group findNonMdtGroupById(id) {
+    return nonMdtGroups.firstWhere((group) => group.id == id);
   }
 
   List<Group> findGroupsByMdtId(id) {
-    print(_groups
-        .where((group) =>
-            group.isMdt && group.members.any((user) => user.id == id))
-        .toList()
-        .toString());
-
     return _groups
             .where((group) =>
                 group.isMdt && group.members.any((user) => user.id == id))
@@ -427,7 +426,24 @@ class Patients with ChangeNotifier {
           ),
         );
       });
-      _groups = loadedGroups;
+
+      // _groups = loadedGroups;
+      //   print("\n\n");
+
+      //   print('in patient prov loadedGroups length ${loadedGroups.length}');
+
+      // loadedGroups.forEach((element) {
+      //   print(element.isMdt);
+      //   print("\n\n");
+      // });
+
+      // print(loadedGroups);
+        _groups = loadedGroups.where((group) => group.isMdt == true).toList();
+        print('in patient prov groups length ${_groups.length}');
+
+        _nonMdtGroups = loadedGroups.where((group) => group.isMdt == false).toList();
+        print('in patient prov nonmdtgroups length ${_nonMdtGroups.length}');
+
       notifyListeners();
     } catch (error) {
       print(error);

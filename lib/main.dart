@@ -3,6 +3,7 @@ import 'package:FlutterFYP/screens/admin_read_groups_screen.dart';
 import 'package:FlutterFYP/screens/admin_tabs_screen.dart';
 import 'package:FlutterFYP/screens/edit_group_screen.dart';
 import 'package:FlutterFYP/screens/edit_user_screen.dart';
+import 'package:FlutterFYP/screens/mdt_other_groups_screen.dart';
 import 'package:FlutterFYP/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ import './screens/splash_screen.dart';
 import './screens/test_provider_screen.dart';
 import './screens/no_group_user_screen.dart';
 import './screens/admin_tabs_groups_screen.dart';
+import './screens/non_mdt_group_overview_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -104,6 +106,8 @@ class MyApp extends StatelessWidget {
             MdtAllPostsAddScreen.routeName: (ctx) => MdtAllPostsAddScreen(),
             AdminReadGroupsScreen.routeName: (ctx) => AdminReadGroupsScreen(),
             AdminGroupDetailScreen.routeName: (ctx) => AdminGroupDetailScreen(),
+            MdtOtherGroupsScreen.routeName: (ctx) => MdtOtherGroupsScreen(),
+            NonMdtGroupOverviewScreen.routeName: (ctx) => NonMdtGroupOverviewScreen(),
             EditUserScreen.routeName: (ctx) => EditUserScreen(),
             SettingsScreen.routeName: (ctx) => SettingsScreen(),
             InfoWidget.routeName: (ctx) => InfoWidget(),

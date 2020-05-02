@@ -48,10 +48,10 @@ class _AdminSharePostScreenState extends State<AdminSharePostScreen> {
     final group = Provider.of<Patients>(context).findGroupById(groupId);
 
     return Scaffold(
-      appBar: AppBar(),
-      drawer: AppDrawer(),
-      body: 
-      _isLoading
+      appBar: AppBar(
+        title: Text('Add Post'),
+      ),
+      body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
