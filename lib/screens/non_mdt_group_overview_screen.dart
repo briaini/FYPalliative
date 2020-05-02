@@ -1,10 +1,10 @@
-import 'package:FlutterFYP/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
 import '../widgets/messages_list.dart';
 import '../widgets/new_message_modal.dart';
+import '../widgets/non_mdt_group_member_list.dart';
 
 class NonMdtGroupOverviewScreen extends StatelessWidget {
   static const routeName = '/non-mdt-group-overview-screen';
@@ -34,7 +34,7 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
           value: _group,
           child: TabBarView(children: <Widget>[
             MessagesList(),
-            Text('Group Overview'),
+            NonMdtGroupMemberList(),
           ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
