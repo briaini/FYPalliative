@@ -12,12 +12,26 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
     final _group = Provider.of<Patients>(context).findNonMdtGroupById(_groupId);
     // findGroupById(_groupId);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_group.name),
-      ),
-      body: Center(
-        child: Text(_group.name),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_group.name),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(Icons.comment),
+              ),
+              Tab(
+                icon: Icon(Icons.adjust),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(children: <Widget>[
+          Text('Comments list'),
+          Text('Group Overview'),
+        ]),
       ),
     );
   }

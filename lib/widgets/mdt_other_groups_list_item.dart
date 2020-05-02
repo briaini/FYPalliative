@@ -8,10 +8,16 @@ class MdtOtherGroupsListItem extends StatelessWidget {
   MdtOtherGroupsListItem(this._group);
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(_group.name),
-      onTap: () => Navigator.of(context)
-          .pushNamed(NonMdtGroupOverviewScreen.routeName, arguments: _group.id),
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: Text(_group.name),
+          onTap: () => Navigator.of(context).pushNamed(
+              NonMdtGroupOverviewScreen.routeName,
+              arguments: _group.id),
+        ),
+        Divider(),
+      ],
     );
   }
 }
