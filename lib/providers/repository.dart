@@ -208,7 +208,7 @@ class Repository with ChangeNotifier {
       final items = json.decode(response.body);
       final List<Item> _fetchedItems = [];
 
-      // url = 'http://10.0.2.2:8080/users/$_userId/comments';
+      // url = 'http://10.0.2.2:80';
 
       // response = await http.get(
       //   url,

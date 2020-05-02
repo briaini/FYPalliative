@@ -9,12 +9,16 @@ class NonMdtGroupMemberList extends StatelessWidget {
     final group = Provider.of<Group>(context);
     final users = group.members;
 
-    return Column(
-        children: List<Widget>.generate(
-      users.length,
-      (i) => Card(
-        child: Text(users[i].name),
-      ),
-    ).toList());
+    return users == null
+        ? Center(
+            child: Text('No Members'),
+          )
+        : Column(
+            children: List<Widget>.generate(
+            users.length,
+            (i) => Card(
+              child: Text(users[i].name),
+            ),
+          ).toList());
   }
 }
