@@ -33,7 +33,7 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
         body: ChangeNotifierProvider.value(
           value: _group,
           child: TabBarView(children: <Widget>[
-            Expanded(child: MessagesList()),
+            MessagesList(),
             Text('Group Overview'),
           ]),
         ),
