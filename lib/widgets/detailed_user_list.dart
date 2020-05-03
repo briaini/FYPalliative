@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../providers/patients.dart';
 import './detailed_user_list_item.dart';
 import '../screens/no_group_user_screen.dart';
+import '../screens/edit_user_screen.dart';
+
 
 class DetailedUserList extends StatefulWidget {
   DetailedUserList();
@@ -37,7 +39,11 @@ class _DetailedUserListState extends State<DetailedUserList> {
                         patientsProvider.unassignedPatientUsers[i].name),
                   ),
                   onTap: () => Navigator.of(context)
-                      .pushNamed(NoGroupUserScreen.routeName)
+                      .pushNamed(NoGroupUserScreen.routeName),
+                  onLongPress: () => Provider.of<Patients>(context)
+            .adminFetchUser(patientsProvider.unassignedPatientUsers[i].id)
+            .then((value) => Navigator.of(context)
+                .pushNamed(EditUserScreen.routeName, arguments: value)),
 
                   // Navigator.of(context).pushNamed(
                   //   MdtPatientScreen.routeName,

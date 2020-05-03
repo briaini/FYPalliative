@@ -77,6 +77,7 @@ class Patients with ChangeNotifier {
   Group findGroupById(id) {
     return groups.firstWhere((group) => group.id == id);
   }
+
   Group findNonMdtGroupById(id) {
     return nonMdtGroups.firstWhere((group) => group.id == id);
   }
@@ -126,6 +127,24 @@ class Patients with ChangeNotifier {
     return _users;
   }
 
+  Future<String> adminFetchUser(userId) async {
+    var url = 'http://10.0.2.2:8080/users/admin/$userId';
+    try {
+      final response = await http.get(
+        url,
+        headers: tokenHeader,
+      );
+      // final extractedData = json.decode(response.body) as List<dynamic>;
+      // if (extractedData == null) {
+      //   print("extracted patients null");
+      //   return "";
+      // }
+
+
+        return response.body;
+    } catch (e) {}
+  }
+
   Future<void> fetchUsers() async {
     var url = 'http://10.0.2.2:8080/users';
     try {
@@ -152,7 +171,6 @@ class Patients with ChangeNotifier {
         );
       });
       _users = loadedUsers;
-      print(_users);
     } catch (error) {
       print(error);
     }
@@ -225,7 +243,6 @@ class Patients with ChangeNotifier {
 
   Future<void> fetchPatients() async {
     var url = 'http://10.0.2.2:8080/mdt/$_userId/patients';
-    print(url);
     try {
       final response = await http.get(
         url,
@@ -269,7 +286,6 @@ class Patients with ChangeNotifier {
         ),
       );
       notifyListeners();
-      print(response.body.toString());
     } catch (e) {
       print("Error adding group");
     }
@@ -357,7 +373,6 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> fetchMyGroups() async {
-    print('fetchingMyGroups');
     var url = 'http://10.0.2.2:8080/mdt/$_userId/mygroups';
     final List<Group> loadedGroups = [];
     try {
@@ -431,22 +446,11 @@ class Patients with ChangeNotifier {
         );
       });
 
-      // _groups = loadedGroups;
-      //   print("\n\n");
+     
+      _groups = loadedGroups.where((group) => group.isMdt == true).toList();
 
-      //   print('in patient prov loadedGroups length ${loadedGroups.length}');
-
-      // loadedGroups.forEach((element) {
-      //   print(element.isMdt);
-      //   print("\n\n");
-      // });
-
-      // print(loadedGroups);
-        _groups = loadedGroups.where((group) => group.isMdt == true).toList();
-        print('in patient prov groups length ${_groups.length}');
-
-        _nonMdtGroups = loadedGroups.where((group) => group.isMdt == false).toList();
-        print('in patient prov nonmdtgroups length ${_nonMdtGroups.length}');
+      _nonMdtGroups =
+          loadedGroups.where((group) => group.isMdt == false).toList();
 
       notifyListeners();
     } catch (error) {
@@ -476,7 +480,6 @@ class Patients with ChangeNotifier {
       );
 
       notifyListeners();
-      print(response.body.toString());
     } catch (error) {
       throw error;
     }
@@ -513,7 +516,6 @@ class Patients with ChangeNotifier {
 
   Future<void> mdtSwapGroupPostVisibility(postId, Group g) async {
     var url = 'hi';
-    print(g.posts.any((post) => post.id == postId));
     if (g.posts.any((post) => post.id == postId)) {
       url = 'http://10.0.2.2:8080/groups/${g.id}/hiddenposts/$postId';
     } else {
@@ -524,12 +526,11 @@ class Patients with ChangeNotifier {
         url,
         headers: tokenHeader,
       );
-      print(response.body.toString());
+      // print(response.body.toString());
     } catch (error) {
       throw error;
     }
     notifyListeners();
-    print('finish');
   }
 
   Future<void> saveMessage(groupId, commentText) async {
@@ -552,6 +553,4 @@ class Patients with ChangeNotifier {
       throw error;
     }
   }
-
-  
 }

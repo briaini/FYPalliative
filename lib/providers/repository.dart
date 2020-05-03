@@ -33,7 +33,8 @@ class Repository with ChangeNotifier {
 
   var _repoFiltersMap = {'All': true};
 
-  Repository(this._token, this._userId, this._username, this._isMDT, this._repoItems);
+  Repository(
+      this._token, this._userId, this._username, this._isMDT, this._repoItems);
 
   Map<String, String> get tokenHeader {
     return {'authorization': _token};
@@ -42,7 +43,6 @@ class Repository with ChangeNotifier {
   Group get group {
     return _group;
   }
-
 
   List<Item> get items {
     // _repoItems.sort((a,b) => a.category.compareTo(b.category));
@@ -64,6 +64,31 @@ class Repository with ChangeNotifier {
       );
     } catch (e) {
       print("error creating user");
+    }
+  }
+
+  Future<void> updateUser(value) async {
+    final url = 'http://10.0.2.2:8080/users/';
+
+    try {
+      final response = await http.put(
+        url,
+        headers: tokenHeader,
+        body: json.encode(
+          {
+            "id": value['id'],
+            'username': value['username'],
+            'role': value['role'],
+            'accountNonExpired': value['accountNonExpired'],
+            'accountNonLocked': value['accountNonLocked'],
+            'credentialsNonExpired': value['credentialsNonExpired'],
+            'enabled': value['enabled'],
+          },
+        ),
+      );
+      notifyListeners();
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -116,7 +141,6 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> fetchGroup() async {
-    print('fetching group');
     var url = 'http://10.0.2.2:8080/users/$_userId/groups';
     try {
       final response = await http.get(
@@ -302,15 +326,11 @@ class Repository with ChangeNotifier {
     }
   }
 
-  
-
   Item findById(id) {
     // print('item prov item num: $id');
     // return items.first;
     return items.firstWhere((element) => element.id == id);
   }
-
-  
 
   // Future<void> getFetchRepoItems() async {
   //   var url = 'https://fyp-palliative-care.firebaseio.com/repoItems.json?auth=$authToken';

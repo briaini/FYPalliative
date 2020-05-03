@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +22,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
   final _form = GlobalKey<FormState>();
   final _passwordFocusNode = FocusNode();
   var _isLoading = false;
+  var _isInit = true;
+  var _existingUser = false;
 
   Role _roleValue = Role.patient;
   AccountNonLocked _accountNonLockedValue = AccountNonLocked.unlocked;
@@ -60,14 +64,34 @@ class _EditUserScreenState extends State<EditUserScreen> {
   void didChangeDependencies() {
     //implement for editing, just doings adding atm
 
-    // if (_isInit) {
+    if (_isInit) {
+      final existingUserMapString =
+          ModalRoute.of(context).settings.arguments as String;
+      _existingUser = existingUserMapString != null;
 
-    //   final groupId = ModalRoute.of(context).settings.arguments as int;
-    //   if (groupId != null) {
-    //     //user provider to obtain group by id. Load values into initvalues map
-    //   }
-    // }
-    // _isInit = false;
+      final existingUserMap = json.decode(existingUserMapString);
+      //     print(idkman['username']);
+
+      if (_existingUser) {
+        _initValues = existingUserMap;
+        _editedValues['id'] = existingUserMap['id'];
+        _roleValue = existingUserMap['role'] != 'MDT' ? Role.patient : Role.mdt;
+        _accountNonLockedValue = existingUserMap['accountNonLocked']
+            ? AccountNonLocked.unlocked
+            : AccountNonLocked.locked;
+        _accountNonExpiredValue = existingUserMap['accountNonExpired']
+            ? AccountNonExpired.nonexpired
+            : AccountNonExpired.expired;
+        _credentialsNonExpiredValue = existingUserMap['credentialsNonExpired']
+            ? CredentialsNonExpired.nonexpired
+            : CredentialsNonExpired.expired;
+        _accountEnabledValue = existingUserMap['enabled']
+            ? AccountEnabled.enabled
+            : AccountEnabled.disabled;
+      }
+    }
+    print(_initValues);
+    _isInit = false;
     super.didChangeDependencies();
   }
 
@@ -80,8 +104,17 @@ class _EditUserScreenState extends State<EditUserScreen> {
     // setState(() {
     //   _isLoading = true;
     // });
-    if (_editedValues['id'] != null) {
-      //implement update user
+    if (_existingUser) {
+      try {
+        await Provider.of<Repository>(context, listen: false)
+            .updateUser(_editedValues);
+        await Provider.of<Patients>(context)
+            .fetchUsers()
+            .then((value) => setState(() {
+                  _isLoading = false;
+                  Navigator.of(context).pop();
+                }));
+      } catch (e) {}
     } else {
       // print(_editedValues);
       //add user
@@ -158,22 +191,24 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   _editedValues['username'] = value;
                 },
               ),
-              TextFormField(
-                focusNode: _passwordFocusNode,
-                initialValue: _initValues['password'],
-                decoration: InputDecoration(labelText: 'Password'),
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (_) {
-                  Focus.of(context).requestFocus();
-                },
-                validator: (value) {
-                  if (value.isEmpty) return "Please enter value";
-                  return null;
-                },
-                onSaved: (value) {
-                  _editedValues['password'] = value;
-                },
-              ),
+              _existingUser
+                  ? Container()
+                  : TextFormField(
+                      focusNode: _passwordFocusNode,
+                      initialValue: _initValues['password'],
+                      decoration: InputDecoration(labelText: 'Password'),
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) {
+                        Focus.of(context).requestFocus();
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) return "Please enter value";
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _editedValues['password'] = value;
+                      },
+                    ),
               Column(
                 children: <Widget>[
                   Card(

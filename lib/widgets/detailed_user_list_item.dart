@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/group.dart';
+import '../providers/patients.dart';
+import '../screens/edit_user_screen.dart';
 import '../screens/mdt_patient_screen.dart';
 
 class DetailedUserListItem extends StatelessWidget {
@@ -22,7 +24,11 @@ class DetailedUserListItem extends StatelessWidget {
           title: Text(patient.name),
         ),
         onTap:() => Navigator.of(context)
-                .pushNamed(MdtPatientScreen.routeName, arguments: group.id)
+                .pushNamed(MdtPatientScreen.routeName, arguments: group.id),
+                onLongPress: () => Provider.of<Patients>(context)
+            .adminFetchUser(patient.id)
+            .then((value) => Navigator.of(context)
+                .pushNamed(EditUserScreen.routeName, arguments: value)),
             
         // Navigator.of(context).pushNamed(
         //   MdtPatientScreen.routeName,
