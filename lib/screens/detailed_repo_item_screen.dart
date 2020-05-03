@@ -117,7 +117,8 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
     }
 
     return Scaffold(
-      body: item.media == 'video'
+      body: 
+      item.media == 'video'
           ? (groupId == null
               ? ChangeNotifierProvider.value(
                   value: group, child: VideoScreen(item, hasComments))

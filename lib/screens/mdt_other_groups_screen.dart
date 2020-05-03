@@ -37,7 +37,7 @@ class _MdtOtherGroupsScreenState extends State<MdtOtherGroupsScreen> {
   Widget build(BuildContext context) {
     final patientsProv = Provider.of<Patients>(context);
     return _isLoading
-        ? CircularProgressIndicator()
+        ? Center(child: CircularProgressIndicator())
         : Scaffold(
             appBar: AppBar(title: Text("Non-Mdt Groups"),),
             body: ListView.builder(

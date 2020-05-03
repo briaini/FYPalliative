@@ -337,9 +337,11 @@ class Patients with ChangeNotifier {
                       (comment) => Comment(
                         comment['id'],
                         comment['subjectId'],
+                        comment['subjectName'],
                         comment['textBody'],
                         comment['postId'],
                         comment['parentCommentId'],
+                        comment['timestamp'],
                       ),
                     )
                     .toList(),
@@ -416,9 +418,11 @@ class Patients with ChangeNotifier {
                       (comment) => Comment(
                         comment['id'],
                         comment['subjectId'],
+                        comment['subjectName'],
                         comment['textBody'],
                         comment['postId'],
                         comment['parentCommentId'],
+                        comment['timestamp'],
                       ),
                     )
                     .toList(),

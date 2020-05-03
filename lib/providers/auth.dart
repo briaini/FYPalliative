@@ -53,6 +53,10 @@ class Auth extends ChangeNotifier {
     return _userId;
   }
 
+  String get username {
+    return _username;
+  }
+
   String get expiryDate {
     return _expiryDate.toString();
   }
@@ -188,6 +192,7 @@ class Auth extends ChangeNotifier {
 
     _token = extractedUserData['token'];
     _userId = extractedUserData['userId'];
+    _username = extractedUserData['username'];
     _expiryDate = expiryDate;
     _isMDT = extractedUserData['isMDT'];
     _isAdmin = extractedUserData['isAdmin'];

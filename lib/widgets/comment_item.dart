@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../providers/comment.dart';
+import '../providers/patients.dart';
 
 class CommentItem extends StatefulWidget {
   Comment _comment;
@@ -16,6 +19,8 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   Widget build(BuildContext context) {
+    // DateTime mytime =
+    //     new DateFormat("yyyy-MM-dd'T'H':'m':'s'").parse(widget._comment.time);
     return Card(
       child: Container(
         padding: EdgeInsets.all(8),
@@ -23,26 +28,33 @@ class _CommentItemState extends State<CommentItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(
+            Expanded(
               // crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    
-                    Text(
-                      'Name=${widget._comment.subjectId.toString()}',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-                      
-                    ),
-                    Text(widget._comment.textBody),
-                  ],
-                ),
-              ],
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        widget._comment.subjectName,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(child: Container()),
+                      Text(
+                        widget._comment.time,
+                        style: TextStyle(fontSize: 11, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Text(widget._comment.textBody,
+                      style: TextStyle(
+                        fontSize: 15,
+                      )),
+                ],
+              ),
             ),
-            Expanded(child: Container()),
-
+            // Expanded(child: Container()),
             Column(
               children: <Widget>[
                 CircleAvatar(

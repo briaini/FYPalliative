@@ -12,6 +12,7 @@ import '../widgets/new_comment_modal.dart';
 class Repository with ChangeNotifier {
   final _token;
   final _userId;
+  final _username;
   final Map<String, String> _mapToken = {};
   final _isMDT;
   List<Comment> _comments;
@@ -32,7 +33,7 @@ class Repository with ChangeNotifier {
 
   var _repoFiltersMap = {'All': true};
 
-  Repository(this._token, this._userId, this._isMDT, this._repoItems);
+  Repository(this._token, this._userId, this._username, this._isMDT, this._repoItems);
 
   Map<String, String> get tokenHeader {
     return {'authorization': _token};
@@ -171,9 +172,11 @@ class Repository with ChangeNotifier {
               (comment) => Comment(
                 comment['id'],
                 comment['subjectId'],
+                comment['subjectName'],
                 comment['textBody'],
                 comment['postId'],
                 comment['parentCommentId'],
+                comment['timestamp'],
               ),
             )
             .toList(),
@@ -276,7 +279,7 @@ class Repository with ChangeNotifier {
   //   );
   // }
 
-  Future<void> saveComment(groupId, itemId, commentText) async {
+  Future<void> saveComment(_username, groupId, itemId, commentText) async {
     final url = 'http://10.0.2.2:8080/groups/$groupId/comments';
     try {
       final response = await http.post(
@@ -287,6 +290,7 @@ class Repository with ChangeNotifier {
             "textBody": commentText,
             "postId": itemId,
             "subjectId": _userId,
+            "subjectName": _username,
           },
         ),
       );
