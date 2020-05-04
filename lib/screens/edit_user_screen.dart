@@ -70,7 +70,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
       _existingUser = existingUserMapString != null;
 
       final existingUserMap = json.decode(existingUserMapString);
-      //     print(idkman['username']);
 
       if (_existingUser) {
         _initValues = existingUserMap;

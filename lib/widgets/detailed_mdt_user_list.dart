@@ -13,8 +13,6 @@ class _DetailedMdtUserListState extends State<DetailedMdtUserList> {
   @override
   Widget build(BuildContext context) {
     final patients = Provider.of<Patients>(context);
-    print('detailedmdtuserlist rebuild');
-    print(patients.mdtworkers.length);
     return Container(
       child: ListView.separated(
         padding: EdgeInsets.all(8),

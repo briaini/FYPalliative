@@ -218,7 +218,7 @@ class Repository with ChangeNotifier {
       _group = loadedGroup;
       _repoItems = _group.posts;
     } catch (error) {
-      print(error);
+      print("error");
     }
     notifyListeners();
   }
@@ -290,7 +290,7 @@ class Repository with ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      print(error.toString());
+      print("error");
     }
   }
 

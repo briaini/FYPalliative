@@ -63,11 +63,7 @@ class _MdtAddPostListState extends State<MdtAddPostList> {
     final subitems = repo.items
         .skipWhile((value) => shareItemIds.contains(value.id))
         .toList();
-    print(shareItemIds.length);
-    print(repo.items.length);
-    print(subitems.length);
-    print(unshared.length);
-
+   
     return _isLoading
         ? CircularProgressIndicator()
         : Container(

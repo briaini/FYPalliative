@@ -17,7 +17,6 @@ class _PatientsListState extends State<PatientsList> {
     final patients = Provider.of<Patients>(context);
     final mdtGroups = patients.mdtGroupsWithPatient;
     // print(mdtGroups);
-    print('and here');
     return Container(
       child: ListView.separated(
         padding: EdgeInsets.all(8),

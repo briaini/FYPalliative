@@ -47,22 +47,22 @@ class Group with ChangeNotifier {
   }
 
   List<UserDAO> get members {
-    return _members;
+    return _members ?? [];
   }
 
   List<Item> get allPosts {
-    return [..._posts]..addAll([..._hiddenposts]);
+    return ([..._posts]..addAll([..._hiddenposts])) ?? [];
   }
 
   List<Item> get posts {
-    return [..._posts];
+    return [..._posts] ?? [];
   }
 
   List<Item> get hiddenposts {
-    return [..._hiddenposts];
+    return [..._hiddenposts] ?? [];
   }
 
   List<Comment>get comments {
-    return _comments ?? [];
+    return [..._comments] ?? [];
   }
 }

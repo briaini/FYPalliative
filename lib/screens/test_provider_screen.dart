@@ -13,7 +13,6 @@ class TestProviderScreen extends StatefulWidget {
 class _TestProviderScreenState extends State<TestProviderScreen> {
   @override
   Widget build(BuildContext context) {
-    print('building');
     final prov = Provider.of<Patients>(context);
 
     return Scaffold(

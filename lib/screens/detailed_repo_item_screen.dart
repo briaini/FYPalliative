@@ -29,7 +29,6 @@ class DetailedRepoItemScreen extends StatelessWidget {
     //  && Provider.of<Auth>(context).isPatient
 
     final itemId = args['itemId'] as int;
-    print('in detailedRepoitemscreen id: $itemId');
     // final item = Provider.of<Repository>(context).findById(itemId);
     if (args.containsKey("adminGroupId"))
       adminGroupId = args['adminGroupId'] as int;
@@ -111,7 +110,6 @@ class DetailedRepoItemScreenWithProv extends StatelessWidget {
     Group group;
     if (Provider.of<Auth>(context).isPatient) {
       group = Provider.of<Repository>(context).group;
-      print('rebuilding detailed repo item screen group= ${group.id}');
     } else if (groupId != null) {
       group = Provider.of<Patients>(context).findGroupById(groupId);
     }

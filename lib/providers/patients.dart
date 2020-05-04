@@ -268,7 +268,7 @@ class Patients with ChangeNotifier {
       });
       _patients = loadedPatients;
     } catch (error) {
-      print(error);
+      print("error");
     }
   }
 
@@ -368,7 +368,7 @@ class Patients with ChangeNotifier {
       _groups = loadedGroups;
       notifyListeners();
     } catch (error) {
-      print(error);
+      print("error");
     }
   }
 
@@ -454,7 +454,7 @@ class Patients with ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      print(error);
+      print("error");
     }
   }
 

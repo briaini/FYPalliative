@@ -139,7 +139,7 @@ class Auth extends ChangeNotifier {
       );
       _userId = int.tryParse(response.body);
       _role = roler;
-      print("userID is: $_userId");
+      // print("userID is: $_userId");
       // print("token is: \n" + _token + "\n");
 
       _expiryDate = DateTime.now().add(

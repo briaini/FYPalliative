@@ -18,13 +18,8 @@ class _NewCommentModalState extends State<NewCommentModal> {
   final _commentController = TextEditingController();
 
   Future<void> _submitComment(groupId, itemId) async {
-    print('99999999999999999999999999999');
-    print(Provider.of<Auth>(context).username);
-    print('99999999999999999999999999999');
-
     final commentText = _commentController.text;
     if (commentText.isEmpty) return;
-    // final comment = new Comment();
     try {
       await Provider.of<Repository>(context)
           .saveComment(Provider.of<Auth>(context).username, groupId, itemId, commentText);
@@ -85,10 +80,6 @@ class _NewCommentModalState extends State<NewCommentModal> {
 
                     _submitComment(widget.groupId, widget.itemId);
                   }
-
-                  // ()
-
-                  // => _submitComment(widget.groupId, widget.itemId),
                   ),
             ],
           ),

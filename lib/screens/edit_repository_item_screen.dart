@@ -48,7 +48,6 @@ class _EditRepositoryItemScreenState extends State<EditRepositoryItemScreen> {
     if (_isInit) {
       final itemId = ModalRoute.of(context).settings.arguments as int;
       if (itemId != null) {
-        print('item id is not null');
         _editedItem =
             Provider.of<Repository>(context, listen: false).findById(itemId);
         _initValues = {

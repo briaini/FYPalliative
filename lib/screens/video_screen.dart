@@ -40,7 +40,6 @@ class _VideoScreenState extends State<VideoScreen> {
     // setState(() {
     //   _isLoading = true;
     // });
-    print("swapping $itemId and ${Provider.of<Group>(context).id}");
     try {
       await Provider.of<Patients>(context)
           .mdtSwapGroupPostVisibility(itemId, Provider.of<Group>(context));

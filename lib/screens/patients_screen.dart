@@ -34,7 +34,6 @@ class _PatientsScreenState extends State<PatientsScreen> {
       } else {
         Provider.of<Patients>(context).fetchMyGroups().then(
           (_) {
-            print('fetchingmygroups patients screen');
             setState(() {
               _isLoading = false;
             });
