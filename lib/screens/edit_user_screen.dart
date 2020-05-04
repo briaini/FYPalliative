@@ -69,9 +69,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
           ModalRoute.of(context).settings.arguments as String;
       _existingUser = existingUserMapString != null;
 
-      final existingUserMap = json.decode(existingUserMapString);
 
       if (_existingUser) {
+      final existingUserMap = json.decode(existingUserMapString);
         _initValues = existingUserMap;
         _editedValues['id'] = existingUserMap['id'];
         _roleValue = existingUserMap['role'] != 'MDT' ? Role.patient : Role.mdt;

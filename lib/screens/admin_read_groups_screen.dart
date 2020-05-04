@@ -37,8 +37,8 @@ class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final optionalMdtWorker =
-    //     ModalRoute.of(context).settings.arguments as UserDAO;
+    final optionalMdtWorker =
+        ModalRoute.of(context).settings.arguments as UserDAO;
     return Scaffold(
         appBar: AppBar(
           // actions: <Widget>[
@@ -52,10 +52,10 @@ class _AdminReadGroupsScreenState extends State<AdminReadGroupsScreen> {
         ),
         body: _isLoading
             ? Center(child: CircularProgressIndicator())
-            // : optionalMdtWorker == null
-            // ?
-            : GroupsList()
-        // : GroupsList(optionalMdtWorker),
+            : optionalMdtWorker == null
+            ?
+            GroupsList()
+        : GroupsList(optionalMdtWorker),
         );
   }
 }

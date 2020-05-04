@@ -7,7 +7,6 @@ class NoGroupUserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: AppDrawer(),
       body: Center(
         child: Text('No Group. Assign To Group'),
       ),
