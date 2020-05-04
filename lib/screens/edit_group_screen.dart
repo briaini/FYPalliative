@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
 
+enum GroupType { md, mdt, admin }
+
 class EditGroupScreen extends StatefulWidget {
   static const routeName = '/edit-group-screen';
 
@@ -16,6 +18,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   var _isInit = true;
   var _isLoading = false;
+  var _isMdt = true;
 
   Map<String, dynamic> _initValues = {
     'name': '',
@@ -53,6 +56,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   }
 
   Future<void> _saveForm() async {
+    _editedGroup["isMdt"] = _isMdt;
     final isFormValid = _form.currentState.validate();
     if (!isFormValid) return;
     _form.currentState.save();
@@ -136,31 +140,40 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                     _editedGroup['name'] = value;
                   },
                 ),
-                TextFormField(
-                  focusNode: _isMdtFocusNode,
-                  initialValue: _initValues['isMdt'],
-                  decoration: InputDecoration(
-                    labelText: 'Is Mdt ("true" or "false")',
-                  ),
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    // var validMedia = ['true', 'false'];
-                    // if (!validMedia.contains(value)) {
-                    //   // return 'Please enter "true" or "false"';
-                    // }
-                    // return null;
-                    if (value.isEmpty) {
-                      return 'Please enter a title';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _editedGroup['isMdt'] = value;
-                  },
-                  onFieldSubmitted: (_) {
-                    _saveForm();
-                  },
-                ),
+                SwitchListTile(
+                    title: Text('Does group have a patient?'),
+                    onChanged: (boo) {
+                      setState(() {
+                        _isMdt = boo;
+                        _editedGroup['isMdt'] = boo;
+                      });
+                    },
+                    value: _isMdt),
+                // TextFormField(
+                //   focusNode: _isMdtFocusNode,
+                //   initialValue: _initValues['isMdt'],
+                //   decoration: InputDecoration(
+                //     labelText: 'Is Mdt ("true" or "false")',
+                //   ),
+                //   textInputAction: TextInputAction.next,
+                //   validator: (value) {
+                //     // var validMedia = ['true', 'false'];
+                //     // if (!validMedia.contains(value)) {
+                //     //   // return 'Please enter "true" or "false"';
+                //     // }
+                //     // return null;
+                //     if (value.isEmpty) {
+                //       return 'Please enter a title';
+                //     }
+                //     return null;
+                //   },
+                //   onSaved: (value) {
+                //     _editedGroup['isMdt'] = value;
+                //   },
+                //   onFieldSubmitted: (_) {
+                //     _saveForm();
+                //   },
+                // ),
               ],
             ),
           ),

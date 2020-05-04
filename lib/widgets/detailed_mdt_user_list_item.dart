@@ -12,18 +12,19 @@ class DetailedMdtUserListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final mdtWorker = Provider.of<UserDAO>(context);
     return GestureDetector(
-        child: ListTile(
-          leading: Icon(Icons.person),
-          title: Text(mdtWorker.name),
-        ),
-        onTap: () => Navigator.of(context)
-            .pushNamed(AdminReadGroupsScreen.routeName, arguments: mdtWorker),
-        onLongPress: () => Provider.of<Patients>(context)
-            .adminFetchUser(mdtWorker.id)
-            .then((value) => Navigator.of(context)
-                .pushNamed(EditUserScreen.routeName, arguments: value))
-        //  print(value))
-        // Navigator.of(context).pushNamed(EditUserScreen.routeName, arguments: mdtWorker.id),
-        );
+      child: ListTile(
+        leading: Icon(Icons.person),
+        title: Text(mdtWorker.name),
+      ),
+      onTap: () => Navigator.of(context)
+          .pushNamed(AdminReadGroupsScreen.routeName, arguments: mdtWorker),
+      onLongPress: () =>
+          Provider.of<Patients>(context).adminFetchUser(mdtWorker.id).then(
+                (value) => Navigator.of(context)
+                    .pushNamed(EditUserScreen.routeName, arguments: value),
+              ),
+      //  print(value))
+      // Navigator.of(context).pushNamed(EditUserScreen.routeName, arguments: mdtWorker.id),
+    );
   }
 }
