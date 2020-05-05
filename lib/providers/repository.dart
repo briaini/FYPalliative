@@ -1,13 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
+
 
 import './group.dart';
 import './item.dart';
 import './comment.dart';
 import '../models/user_dao.dart';
 import '../widgets/new_comment_modal.dart';
+import '../utils/http_service.dart';
 
 class Repository with ChangeNotifier {
   final _token;
@@ -17,6 +21,8 @@ class Repository with ChangeNotifier {
   final _isMDT;
   List<Comment> _comments;
   Group _group;
+  SingletonHttp singletonHttp;
+
   // _mapToken['authorization'] = 'token';
 
   //{'authorization': _token};
@@ -55,37 +61,42 @@ class Repository with ChangeNotifier {
 
   Future<void> createUser(userMap) async {
     // print(userMap);
-    final url = 'http://10.0.2.2:8080/users/';
+    singletonHttp = SingletonHttp();
+
+    final url = 'https://10.0.2.2:44301/users/';
+    // final url = 'http://10.0.2.2:8080/users/';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-        body: json.encode(userMap),
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+            body: json.encode(userMap),
+          );
     } catch (e) {
       print("error creating user");
     }
   }
 
   Future<void> updateUser(value) async {
-    final url = 'http://10.0.2.2:8080/users/';
+    final url = 'https://10.0.2.2:44301/users/';
+    // final url = 'http://10.0.2.2:8080/users/';
+    singletonHttp = SingletonHttp();
 
     try {
-      final response = await http.put(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "id": value['id'],
-            'username': value['username'],
-            'role': value['role'],
-            'accountNonExpired': value['accountNonExpired'],
-            'accountNonLocked': value['accountNonLocked'],
-            'credentialsNonExpired': value['credentialsNonExpired'],
-            'enabled': value['enabled'],
-          },
-        ),
-      );
+      final response = await singletonHttp.getIoc().put(
+            url,
+            headers: tokenHeader,
+            body: json.encode(
+              {
+                "id": value['id'],
+                'username': value['username'],
+                'role': value['role'],
+                'accountNonExpired': value['accountNonExpired'],
+                'accountNonLocked': value['accountNonLocked'],
+                'credentialsNonExpired': value['credentialsNonExpired'],
+                'enabled': value['enabled'],
+              },
+            ),
+          );
       notifyListeners();
     } catch (error) {
       throw error;
@@ -93,22 +104,22 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> addRepoItem(Item item) async {
-    final url = 'http://10.0.2.2:8080/posts/';
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/posts/';
+    // final url = 'http://10.0.2.2:8080/posts/';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "title": item.title,
-            "media": item.media,
-            "category": item.category,
-            "description": item.description,
-            "link_url": item.linkUrl,
-            "image_url": item.imageUrl,
-          },
-        ),
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+            body: json.encode({
+              "title": item.title,
+              "media": item.media,
+              "category": item.category,
+              "description": item.description,
+              "link_url": item.linkUrl,
+              "image_url": item.imageUrl,
+            }),
+          );
       notifyListeners();
     } catch (error) {
       throw error;
@@ -116,37 +127,55 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> updateRepoItem(Item item) async {
-    final url = 'http://10.0.2.2:8080/posts/';
-
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/posts/';
+    // final url = 'http://10.0.2.2:8080/posts/';
     try {
-      final response = await http.put(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "id": item.id,
-            "title": item.title,
-            "media": item.media,
-            "category": item.category,
-            "description": item.description,
-            "link_url": item.linkUrl,
-            "image_url": item.imageUrl,
-          },
-        ),
-      );
+      final response = await singletonHttp.getIoc().put(
+            url,
+            headers: tokenHeader,
+            body: json.encode(
+              {
+                "id": item.id,
+                "title": item.title,
+                "media": item.media,
+                "category": item.category,
+                "description": item.description,
+                "link_url": item.linkUrl,
+                "image_url": item.imageUrl,
+              },
+            ),
+          );
+
       notifyListeners();
     } catch (error) {
       throw error;
     }
   }
 
-  Future<void> fetchGroup() async {
-    var url = 'http://10.0.2.2:8080/users/$_userId/groups';
+  Future<void> deletePost(postId) async {
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/posts/$postId';
+    // var url = 'http://10.0.2.2:8080/posts/$postId';
     try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().delete(
+            url,
+            headers: tokenHeader,
+          );
+      print(response);
+      notifyListeners();
+    } catch (e) {}
+  }
+
+  Future<void> fetchGroup() async {
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/users/$_userId/groups';
+    // var url = 'http://10.0.2.2:8080/users/$_userId/groups';
+    try {
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
       final group = json.decode(response.body) as Map<String, dynamic>;
       if (group == null) {
         print("group is null");
@@ -224,17 +253,25 @@ class Repository with ChangeNotifier {
   }
 
   Future<void> fetchItems() async {
-    var url = 'http://10.0.2.2:8080/posts';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/posts';
+
+    // var url = 'http://10.0.2.2:8080/posts';
     // _isMDT
     // ? 'http://10.0.2.2:8080/posts'
     // :
     // 'http://10.0.2.2:8080/users/$_userId/posts';
 
     try {
-      var response = await http.get(url, headers: tokenHeader);
+
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
       final items = json.decode(response.body);
       final List<Item> _fetchedItems = [];
 
+      print(response);
       // url = 'http://10.0.2.2:80';
 
       // response = await http.get(
@@ -290,7 +327,7 @@ class Repository with ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      print("error");
+      print(error.toString());
     }
   }
 
@@ -304,20 +341,23 @@ class Repository with ChangeNotifier {
   // }
 
   Future<void> saveComment(_username, groupId, itemId, commentText) async {
-    final url = 'http://10.0.2.2:8080/groups/$groupId/comments';
+    singletonHttp = SingletonHttp();
+    
+    final url = 'https://10.0.2.2:44301/groups/$groupId/comments';
+
+    // final url = 'http://10.0.2.2:8080/groups/$groupId/comments';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "textBody": commentText,
-            "postId": itemId,
-            "subjectId": _userId,
-            "subjectName": _username,
-          },
-        ),
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+            body: json.encode({
+              "textBody": commentText,
+              "postId": itemId,
+              "subjectId": _userId,
+              "subjectName": _username,
+            }),
+          );
+
       // print(response.body.toString());
       // fetchGroup();
       notifyListeners();

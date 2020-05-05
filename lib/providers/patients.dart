@@ -8,6 +8,7 @@ import './comment.dart';
 import './item.dart';
 import './group.dart';
 import './patient.dart';
+import '../utils/http_service.dart';
 
 class Patients with ChangeNotifier {
   String _token;
@@ -21,6 +22,8 @@ class Patients with ChangeNotifier {
   List<UserDAO> _patientusers = [];
   String test = 'hello';
   List<String> testArray = ['hi', 'hallo', 'bye'];
+
+  SingletonHttp singletonHttp;
 
   Patients(this._token, this._userId, this._patients);
 
@@ -128,30 +131,41 @@ class Patients with ChangeNotifier {
   }
 
   Future<String> adminFetchUser(userId) async {
-    var url = 'http://10.0.2.2:8080/users/admin/$userId';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/users/admin/$userId';
     try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
+      var response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
+
+      // final response = await http.get(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       // final extractedData = json.decode(response.body) as List<dynamic>;
       // if (extractedData == null) {
       //   print("extracted patients null");
       //   return "";
       // }
 
-
-        return response.body;
+      return response.body;
     } catch (e) {}
   }
 
   Future<void> fetchUsers() async {
-    var url = 'http://10.0.2.2:8080/users';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/users';
     try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
+
+      // final response = await http.get(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       final extractedData = json.decode(response.body) as List<dynamic>;
       if (extractedData == null) {
         print("extracted patients null");
@@ -242,12 +256,17 @@ class Patients with ChangeNotifier {
   // }
 
   Future<void> fetchPatients() async {
-    var url = 'http://10.0.2.2:8080/mdt/$_userId/patients';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/mdt/$_userId/patients';
     try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.get(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       final extractedData = json.decode(response.body) as List<dynamic>;
       if (extractedData == null) {
         print("extracted patients null");
@@ -273,33 +292,64 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> addGroup(newGroup) async {
-    var url = 'http://10.0.2.2:8080/groups';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/groups';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "name": newGroup['name'],
-            "isMdt": newGroup['isMdt'],
-          },
-        ),
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+            body: json.encode({
+              "name": newGroup['name'],
+              "isMdt": newGroup['isMdt'],
+            }),
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      //   body: json.encode(
+      //     {
+      //       "name": newGroup['name'],
+      //       "isMdt": newGroup['isMdt'],
+      //     },
+      //   ),
+      // );
       notifyListeners();
     } catch (e) {
       print("Error adding group");
     }
   }
 
+  Future<void> deleteGroup(groupId) async {
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/groups/$groupId';
+    try {
+      final response = await singletonHttp.getIoc().delete(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.delete(
+      //   url,
+      //   headers: tokenHeader,
+      // );
+
+      print(response);
+    } catch (e) {}
+  }
+
 //TODO: implement user specific groups in backend, currently fetching all groups
   Future<void> fetchGroups() async {
-    var url = 'http://10.0.2.2:8080/mdt/$_userId/groups';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/mdt/$_userId/groups';
     final List<Group> loadedGroups = [];
     try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.get(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       final extractedData = json.decode(response.body) as List<dynamic>;
       if (extractedData == null) {
         _groups = [];
@@ -373,13 +423,18 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> fetchMyGroups() async {
-    var url = 'http://10.0.2.2:8080/mdt/$_userId/mygroups';
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/mdt/$_userId/mygroups';
     final List<Group> loadedGroups = [];
     try {
-      final response = await http.get(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.get(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       final extractedData = json.decode(response.body) as List<dynamic>;
       if (extractedData == null) {
         _groups = [];
@@ -446,7 +501,6 @@ class Patients with ChangeNotifier {
         );
       });
 
-     
       _groups = loadedGroups.where((group) => group.isMdt == true).toList();
 
       _nonMdtGroups =
@@ -459,12 +513,17 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkUserToGroup(groupId, userId) async {
-    final url = 'http://10.0.2.2:8080/groups/$groupId/users/$userId';
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/groups/$groupId/users/$userId';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       notifyListeners();
     } catch (error) {
       throw error;
@@ -472,12 +531,17 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkPostToPatient(patientId, postId) async {
-    final url = 'http://10.0.2.2:8080/users/$patientId/posts/$postId';
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/users/$patientId/posts/$postId';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      // );
 
       notifyListeners();
     } catch (error) {
@@ -486,12 +550,17 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> linkPostToGroup(groupId, postId) async {
-    final url = 'http://10.0.2.2:8080/groups/$groupId/posts/$postId';
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/groups/$groupId/posts/$postId';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().get(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      // );
 
       notifyListeners();
     } catch (error) {
@@ -500,12 +569,17 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> hidePostFromGroup(postId) async {
-    final url = 'http://10.0.2.2:8080/users/$_userId/hiddenposts/$postId';
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/users/$_userId/hiddenposts/$postId';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      // );
 
       notifyListeners();
       // print(response.body.toString());
@@ -515,17 +589,22 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> mdtSwapGroupPostVisibility(postId, Group g) async {
+    singletonHttp = SingletonHttp();
     var url = 'hi';
     if (g.posts.any((post) => post.id == postId)) {
-      url = 'http://10.0.2.2:8080/groups/${g.id}/hiddenposts/$postId';
+      url = 'https://10.0.2.2:44301/groups/${g.id}/hiddenposts/$postId';
     } else {
-      url = 'http://10.0.2.2:8080/groups/${g.id}/visibleposts/$postId';
+      url = 'https://10.0.2.2:44301/groups/${g.id}/visibleposts/$postId';
     }
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      // );
       // print(response.body.toString());
     } catch (error) {
       throw error;
@@ -534,18 +613,30 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> saveMessage(groupId, commentText) async {
-    final url = 'http://10.0.2.2:8080/groups/$groupId/messages';
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/groups/$groupId/messages';
     try {
-      final response = await http.post(
-        url,
-        headers: tokenHeader,
-        body: json.encode(
-          {
-            "textBody": commentText,
-            "subjectId": _userId,
-          },
-        ),
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            body: json.encode(
+              {
+                "textBody": commentText,
+                "subjectId": _userId,
+              },
+            ),
+            headers: tokenHeader,
+          );
+
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      //   body: json.encode(
+      //     {
+      //       "textBody": commentText,
+      //       "subjectId": _userId,
+      //     },
+      //   ),
+      // );
       // print(response.body.toString());
       // fetchGroup();
       notifyListeners();

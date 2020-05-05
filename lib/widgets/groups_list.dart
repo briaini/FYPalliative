@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/group.dart';
 import '../providers/patients.dart';
 import '../widgets/groups_list_item.dart';
+import '../screens/admin_group_detail_screen.dart';
 
 // import './group_list_item.dart';
 
@@ -42,7 +43,16 @@ class _GroupsListState extends State<GroupsList> {
                   itemCount: subsetGroups.length,
                   itemBuilder: (_, i) => ChangeNotifierProvider.value(
                     value: subsetGroups[i],
-                    child: GroupsListItem(),
+                    child: GestureDetector(
+                      child: ListTile(
+                        leading: Icon(Icons.group),
+                        title: Text(subsetGroups[i].name),
+                      ),
+                      onTap: () => Navigator.of(context).pushNamed(
+                        AdminGroupDetailScreen.routeName,
+                        arguments: subsetGroups[i].id,
+                      ),
+                    ),
                   ),
                   separatorBuilder: (_, i) => const Divider(),
                 ),

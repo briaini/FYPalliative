@@ -24,7 +24,7 @@ class _RepositoryListState extends State<RepositoryList> {
   // @override
   // void didChangeDependencies() {
   //   if (_isInit) {
-      
+
   //   }
   //   _isInit = false;
   //   super.didChangeDependencies();
@@ -34,6 +34,14 @@ class _RepositoryListState extends State<RepositoryList> {
   Widget build(BuildContext context) {
     final repoProv = Provider.of<Repository>(context);
     final categories = repoProv.repositoryFilters;
+    final isAdmin = Provider.of<Auth>(context, listen: false).isAdmin;
+
+    final localItems = Provider.of<Repository>(context).items
+        .where((item) => categories.keys
+            .where((element) => categories[element] == true)
+            .toList()
+            .contains(item.category))
+        .toList();
 
     return Column(
       children: <Widget>[
@@ -89,22 +97,70 @@ class _RepositoryListState extends State<RepositoryList> {
         Expanded(
           child: Container(
             child: ListView.separated(
-              itemCount: repoProv.items
-                  .where((item) => categories.keys
-                      .where((element) => categories[element] == true)
-                      .toList()
-                      .contains(item.category))
-                  .toList()
-                  .length,
+              itemCount: localItems.length,
               itemBuilder: (_, i) => ChangeNotifierProvider.value(
                 // value: repo.items[i],
-                value: repoProv.items
-                    .where((item) => categories.keys
-                        .where((element) => categories[element] == true)
-                        .toList()
-                        .contains(item.category))
-                    .toList()[i],
-                child: RepositoryItem("nogroup"),
+                value: localItems[i],
+                child: isAdmin
+                    ? Dismissible(
+                        key: UniqueKey(),
+                        background: Container(
+                          color: Theme.of(context).errorColor,
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(right: 20),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 4,
+                          ),
+                          child:
+                              Icon(Icons.delete, color: Colors.white, size: 40),
+                        ),
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (direction) {
+                          Provider.of<Repository>(context)
+                              .deletePost(localItems[i].id);
+                              // Navigator.of(context).pop();
+
+                          Provider.of<Repository>(context).fetchItems()
+                          .then(
+                            (_) {
+                              setState(() {
+                                // _isLoading = false;
+                              });
+                            });
+                          // );
+                          // Provider.of<Repository>(context)
+                          //     .fetchItems()
+                          //     .then((_) => setState(() {}));
+                          // localItems.(i);
+                        },
+                        confirmDismiss: (direction) {
+                          return showDialog(
+                            //returning showDialog returns Future for us
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Are you sure?'),
+                              content: Text('Do you want to delete repo item?'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('No'),
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop(false);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text('Yes'),
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop(true);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                          // return Future.value(true);
+                        },
+                        child: RepositoryItem("nogroup"))
+                    : RepositoryItem("nogroup"),
               ),
               separatorBuilder: (_, i) => const Divider(),
             ),

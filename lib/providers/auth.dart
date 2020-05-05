@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/http_service.dart';
 
 class Auth extends ChangeNotifier {
   String _username;
@@ -14,13 +17,14 @@ class Auth extends ChangeNotifier {
   bool _isAdmin = false;
   bool _isMDT = false;
   String _role;
+  SingletonHttp singletonHttp;
 
   bool get isAuth {
     return token != null;
   }
 
   String get role {
-    return _role ;
+    return _role;
   }
 
   bool get isAdmin {
@@ -30,7 +34,6 @@ class Auth extends ChangeNotifier {
   bool get isPatient {
     return (!(isAdmin || isMDT));
   }
-
 
   bool get isMDT {
     return _isMDT;
@@ -66,7 +69,7 @@ class Auth extends ChangeNotifier {
   }
 
   Future<void> signup(String username, String password) async {
-    final url = 'http://10.0.2.2:8080/users';
+    final url = 'https://10.0.2.2:44301/users';
     try {
       final response = await http.post(
         url,
@@ -97,31 +100,53 @@ class Auth extends ChangeNotifier {
   Future<String> authenticate(String username, String password) async {
     Map<String, dynamic> _parsedToken;
     String roler;
+    singletonHttp = SingletonHttp();
+
     try {
-      var url = 'http://10.0.2.2:8080/login';
-      var response = await http.post(
-        url,
-        headers: {
-          //           //error status 415 without headers
-          // "Accept": "application/json",
-          "content-type": "application/json"
-        },
-        body: json.encode(
-          {"username": username, "password": password},
-        ),
-      );
+      // HttpClient httpClient = HttpClient()
+      // ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+
+      // bool trustSelfSigned = true;
+      // HttpClient httpClient = new HttpClient()
+      //   ..badCertificateCallback =
+      //       ((X509Certificate cert, String host, int port) => trustSelfSigned);
+      // IOClient ioClient = new IOClient(httpClient);
+      var url = 'https://10.0.2.2:44301/login';
+
+      var response = await singletonHttp.getIoc().post(url,
+          body: json.encode({
+            "username": username,
+            "password": password,
+          }),
+          headers: {
+            //           //error status 415 without headers
+            // "Accept": "application/json",
+            "content-type": "application/json"
+          });
+
+      // var response = await http.post(
+      //   url,
+      //   headers: {
+      //     //           //error status 415 without headers
+      //     // "Accept": "application/json",
+      //     "content-type": "application/json"
+      //   },
+      //   body: json.encode(
+      //     {"username": username, "password": password},
+      //   ),
+      // );
 
       //Get jwt in header of http response
       _token = response.headers['authorization'];
-      if(_token == null) return 'Invalid login';
+      if (_token == null) return 'Invalid login';
 
       // Parse jwt
       _parsedToken = parseJwt(_token);
 
       //Store jwt claims in local variables
       _username = _parsedToken["sub"];
-      print("username is: \n" + _username + "\n");
-      print("token is: $_token");
+      // print("username is: \n" + _username + "\n");
+      // print("token is: $_token");
 
       if (_parsedToken["authorities"].toString().contains("ADMIN")) {
         roler = "ADMIN";
@@ -133,10 +158,20 @@ class Auth extends ChangeNotifier {
         roler = "PATIENT";
       }
 
-      response = await http.post(
-        'http://10.0.2.2:8080/users/userID',
-        body: _username,
-      );
+      
+      response = await singletonHttp.getIoc().post('https://10.0.2.2:44301/users/userID',
+          body: _username,
+          headers: {
+            //           //error status 415 without headers
+            // "Accept": "application/json",
+            // "content-type": "application/json"
+          });
+
+
+      // response = await http.post(
+      //   'https://10.0.2.2:44301/users/userID',
+      //   body: _username,
+      // );
       _userId = int.tryParse(response.body);
       _role = roler;
       // print("userID is: $_userId");
@@ -174,7 +209,6 @@ class Auth extends ChangeNotifier {
       // print("expiry: " + _expiryDate.toString());
     } catch (e) {
       print("ERROR Auth:  ${e.toString()}");
-      
     }
     // _role = "ADMIN";
   }
@@ -205,7 +239,7 @@ class Auth extends ChangeNotifier {
   }
 
   void logout() async {
-    print("logging out");
+    // print("logging out");
     _token = null;
     _userId = null;
     _expiryDate = null;
