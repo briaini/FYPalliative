@@ -57,15 +57,22 @@ class _GroupsListState extends State<GroupsList> {
                   separatorBuilder: (_, i) => const Divider(),
                 ),
               )
-        : Container(
-            child: ListView.separated(
-              itemCount: patientsProvider.groups.length,
-              itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                value: patientsProvider.groups[i],
-                child: GroupsListItem(),
-              ),
-              separatorBuilder: (_, i) => const Divider(),
-            ),
-          );
+        : patientsProvider.groups.isEmpty
+            ? Center(
+                child: Text(
+                  'No Assigned Groups',
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : Container(
+                child: ListView.separated(
+                  itemCount: patientsProvider.groups.length,
+                  itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                    value: patientsProvider.groups[i],
+                    child: GroupsListItem(),
+                  ),
+                  separatorBuilder: (_, i) => const Divider(),
+                ),
+              );
   }
 }

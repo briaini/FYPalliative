@@ -21,7 +21,7 @@ class _PatientsListState extends State<PatientsList> {
       child: ListView.separated(
         padding: EdgeInsets.all(8),
         itemCount: mdtGroups.length,
-        itemBuilder: (_, i) => ChangeNotifierProvider.value(
+        itemBuilder: (_, i) => ChangeNotifierProvider.value(  
           value: mdtGroups[i],
           child: GestureDetector(
             child: ListTile(

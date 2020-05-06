@@ -52,15 +52,17 @@ class _PatientsScreenState extends State<PatientsScreen> {
       // print(mdtGroups);
       // print('and here');
     
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Patients'),
-      ),
-      body: _isLoading
+    return 
+    // Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Patients'),
+    //   ),
+    //   body: 
+      _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : PatientsList(),
-    );
+          : PatientsList();
+    // );
   }
 }

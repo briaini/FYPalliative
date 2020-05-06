@@ -13,16 +13,22 @@ class _DetailedMdtUserListState extends State<DetailedMdtUserList> {
   @override
   Widget build(BuildContext context) {
     final patients = Provider.of<Patients>(context);
-    return Container(
-      child: ListView.separated(
-        padding: EdgeInsets.all(8),
-        itemCount: patients.mdtworkers.length,
-        itemBuilder: (_, i) => ChangeNotifierProvider.value(
-          value: patients.mdtworkers[i],
-          child: DetailedMdtUserListItem(),
-        ),
-        separatorBuilder: (_, i) => const Divider(),
-      ),
-    );
+    return patients.mdtworkers.isEmpty
+        ? Center(
+            child: Text(
+            'No Mdt Users',
+            textAlign: TextAlign.center,
+          ))
+        : Container(
+            child: ListView.separated(
+              padding: EdgeInsets.all(8),
+              itemCount: patients.mdtworkers.length,
+              itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                value: patients.mdtworkers[i],
+                child: DetailedMdtUserListItem(),
+              ),
+              separatorBuilder: (_, i) => const Divider(),
+            ),
+          );
   }
 }

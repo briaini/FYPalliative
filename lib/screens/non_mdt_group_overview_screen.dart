@@ -25,7 +25,7 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
                 icon: Icon(Icons.comment),
               ),
               Tab(
-                icon: Icon(Icons.adjust),
+                icon: Icon(Icons.contacts),
               ),
             ],
           ),

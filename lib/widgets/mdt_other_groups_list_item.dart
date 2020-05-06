@@ -16,7 +16,6 @@ class MdtOtherGroupsListItem extends StatelessWidget {
               NonMdtGroupOverviewScreen.routeName,
               arguments: _group.id),
         ),
-        Divider(),
       ],
     );
   }

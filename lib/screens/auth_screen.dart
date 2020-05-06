@@ -145,7 +145,12 @@ class _AuthCardState extends State<AuthCard> {
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
-          _authData['email'].replaceAll(new RegExp('@.*'), ''),
+          _authData['email'],
+          // .replaceAll(new RegExp('@.*'), ''),
+          _authData['password'],
+        );
+        await Provider.of<Auth>(context, listen: false).authenticate(
+          _authData['email'],
           _authData['password'],
         );
       }

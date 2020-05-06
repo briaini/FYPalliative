@@ -105,20 +105,20 @@ class AppDrawer extends StatelessWidget {
                 .pushReplacementNamed(TabsScreen.routeName),
           ),
           Divider(),
-          ListTile(
-            leading: Icon(Icons.healing),
-            title: Text('Mdt Groups'),
-            onTap: () =>
-                Navigator.of(context).pushNamed(PatientsScreen.routeName),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.healing),
-            title: Text('Non-Mdt Groups'),
-            onTap: () =>
-                Navigator.of(context).pushNamed(MdtOtherGroupsScreen.routeName),
-          ),
-          Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.healing),
+          //   title: Text('Mdt Groups'),
+          //   onTap: () =>
+          //       Navigator.of(context).pushNamed(PatientsScreen.routeName),
+          // ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.healing),
+          //   title: Text('Non-Mdt Groups'),
+          //   onTap: () =>
+          //       Navigator.of(context).pushNamed(MdtOtherGroupsScreen.routeName),
+          // ),
+          // Divider(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),

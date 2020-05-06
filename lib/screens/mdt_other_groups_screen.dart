@@ -38,12 +38,15 @@ class _MdtOtherGroupsScreenState extends State<MdtOtherGroupsScreen> {
     final patientsProv = Provider.of<Patients>(context);
     return _isLoading
         ? Center(child: CircularProgressIndicator())
-        : Scaffold(
-            appBar: AppBar(title: Text("Non-Mdt Groups"),),
-            body: ListView.builder(
+        :
+        //  Scaffold(
+        //     appBar: AppBar(title: Text("Non-Mdt Groups"),),
+        //     body: 
+            ListView.separated(
               itemCount: patientsProv.nonMdtGroups.length,
               itemBuilder: (_, i) => MdtOtherGroupsListItem(patientsProv.nonMdtGroups[i]),
-            ),
-          );
+              separatorBuilder: (_, i) => const Divider(),
+            );
+          // );
   }
 }

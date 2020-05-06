@@ -68,30 +68,28 @@ class Auth extends ChangeNotifier {
     return _authTimer.toString();
   }
 
-  Future<void> signup(String username, String password) async {
-    final url = 'https://10.0.2.2:44301/users';
+   Future<String> signup(String username, String password) async {
+    final _signUpValues = {
+      'username': username,
+      'password': password,
+      'role': 'PATIENT',
+      'accountNonExpired': 1,
+      'accountNonLocked': 1,
+      'credentialsNonExpired': 1,
+      'enabled': 0,
+    };
+
+    singletonHttp = SingletonHttp();
+    final url = 'https://10.0.2.2:44301/users/';
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          //           //error status 415 without headers
-          // "Accept": "application/json",
-          "content-type": "application/json"
-        },
-        body: json.encode(
-          {
-            "username": username,
-            "password": password,
-            "role": "PATIENT",
-            "accountNonExpired": 1,
-            "accountNonLocked": 1,
-            "credentialsNonExpired": 1,
-            "enabled": 1
-          }, //TODO: change static
-        ),
-      );
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+            body: json.encode(_signUpValues),
+          );
 
       await authenticate(username, password);
+      return(response.body);
     } catch (e) {
       e.toString();
     }

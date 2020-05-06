@@ -1,9 +1,13 @@
+import 'package:FlutterFYP/screens/patients_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import './repository_screen.dart';
 import './community_screen.dart';
 import './profile_screen.dart';
 import '../widgets/app_drawer.dart';
+import '../screens/mdt_other_groups_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   static const routeName = 'tabs-screen';
@@ -13,21 +17,7 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
-  final _pages = [
-      {
-        'page': RepositoryScreen(),
-        'title': 'Repository',
-      },
-      {
-        'page': CommunityScreen(),
-        'title': 'Community',
-      },
-      {
-        'page': ProfileScreen(),
-        'title': 'Profile',
-      },
-    ];
-
+  var _pages = [];
   void _selectPage(int index) {
     //automatically receives index of tab page
     setState(() {
@@ -37,13 +27,43 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMdt = Provider.of<Auth>(context).isMDT;
+    _pages = isMdt
+        ? [
+            {
+              'page': RepositoryScreen(),
+              'title': 'Repository',
+            },
+            {
+              'page': PatientsScreen(),
+              'title': 'Patients',
+            },
+            {
+              'page': MdtOtherGroupsScreen(),
+              'title': 'Social',
+            },
+          ]
+        : [
+            {
+              'page': RepositoryScreen(),
+              'title': 'Repository',
+            },
+            {
+              'page': CommunityScreen(),
+              'title': 'Community',
+            },
+            {
+              'page': ProfileScreen(),
+              'title': 'Profile',
+            },
+          ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title']),
       ),
       drawer: AppDrawer(),
-      body: 
-      _pages[_selectedPageIndex]['page'],
+      body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
           onTap: _selectPage,
           backgroundColor: Theme.of(context).primaryColor,
@@ -58,13 +78,13 @@ class _TabsScreenState extends State<TabsScreen> {
               backgroundColor: Theme.of(context).primaryColor,
             ),
             BottomNavigationBarItem(
-              title: Text('Community'),
-              icon: Icon(Icons.people),
+              title: Text(isMdt ? 'Patients' : 'Community'),
+              icon: Icon(isMdt ? Icons.healing : Icons.people),
               backgroundColor: Theme.of(context).primaryColor,
             ),
             BottomNavigationBarItem(
-              title: Text('Profile'),
-              icon: Icon(Icons.person),
+              title: Text(isMdt ? 'Social' : 'Profile'),
+              icon: Icon(isMdt ? Icons.people : Icons.person),
               backgroundColor: Theme.of(context).primaryColor,
             ),
           ]),
