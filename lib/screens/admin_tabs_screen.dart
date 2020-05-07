@@ -1,12 +1,20 @@
-import 'package:FlutterFYP/screens/admin_all_user_detailed_screen.dart';
-import 'package:FlutterFYP/screens/admin_tabs_groups_screen.dart';
-import 'package:FlutterFYP/screens/edit_repository_item_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/repository.dart';
+import './admin_all_user_detailed_screen.dart';
+import './admin_tabs_groups_screen.dart';
+import './edit_repository_item_screen.dart';
 import './edit_user_screen.dart';
 import './edit_group_screen.dart';
 import './repository_screen.dart';
 import '../widgets/app_drawer.dart';
+
+enum FilterOptions {
+  Category,
+  Title,
+  Media,
+}
 
 class AdminTabsScreen extends StatefulWidget {
   static const routeName = '/admin-tabs-screen';
@@ -38,11 +46,47 @@ class _AdminTabsScreenState extends State<AdminTabsScreen> {
     });
   }
 
+  FilterOptions fo = FilterOptions.Title;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
+          _selectedPageIndex != 0
+              ? Container()
+              : PopupMenuButton(
+                  onSelected: (FilterOptions selectedValue) {
+                    setState(
+                      () {
+                        if (selectedValue == FilterOptions.Category) {
+                          Provider.of<Repository>(context)
+                              .setFilterOptions(FilterOptions.Category);
+                        } else if (selectedValue == FilterOptions.Media) {
+                          Provider.of<Repository>(context)
+                              .setFilterOptions(FilterOptions.Media);
+                        } else {
+                          Provider.of<Repository>(context)
+                              .setFilterOptions(FilterOptions.Title);
+                        }
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.sort),
+                  itemBuilder: (_) => [
+                    PopupMenuItem(
+                      child: Text('Category'),
+                      value: FilterOptions.Category,
+                    ),
+                    PopupMenuItem(
+                      child: Text('Media'),
+                      value: FilterOptions.Media,
+                    ),
+                    PopupMenuItem(
+                      child: Text('Title'),
+                      value: FilterOptions.Title,
+                    ),
+                  ],
+                ),
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {

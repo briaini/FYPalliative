@@ -1,7 +1,9 @@
+import 'package:FlutterFYP/screens/admin_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import '../providers/item.dart';
 import './repository_item.dart';
 import '../providers/repository.dart';
 
@@ -36,12 +38,59 @@ class _RepositoryListState extends State<RepositoryList> {
     final categories = repoProv.repositoryFilters;
     final isAdmin = Provider.of<Auth>(context, listen: false).isAdmin;
 
-    final localItems = Provider.of<Repository>(context).items
-        .where((item) => categories.keys
-            .where((element) => categories[element] == true)
+    // final localItems = Provider.of<Repository>(context).items
+    //     .where((item) => categories.keys
+    //         .where((element) => categories[element] == true)
+    //         .toList()
+    //         .contains(item.category))
+    //     .toList()..sort((a,b)=> a.title.compareTo(b.title));
+
+    final test = Provider.of<Repository>(context).filterOptions;
+
+    List<Item> localItems = [];
+
+    switch (test) {
+      case FilterOptions.Title:
+        localItems = Provider.of<Repository>(context)
+            .items
+            .where((item) => categories.keys
+                .where((element) => categories[element] == true)
+                .toList()
+                .contains(item.category))
             .toList()
-            .contains(item.category))
-        .toList();
+              ..sort((a, b) => a.title.compareTo(b.title));
+        break;
+        case FilterOptions.Media:
+        localItems = Provider.of<Repository>(context)
+            .items
+            .where((item) => categories.keys
+                .where((element) => categories[element] == true)
+                .toList()
+                .contains(item.category))
+            .toList()
+              ..sort((a, b) => a.media.compareTo(b.media));
+        break;
+        case FilterOptions.Category:
+        localItems = Provider.of<Repository>(context)
+            .items
+            .where((item) => categories.keys
+                .where((element) => categories[element] == true)
+                .toList()
+                .contains(item.category))
+            .toList()
+              ..sort((a, b) => a.category.compareTo(b.category));
+        break;
+      default:
+    }
+
+    // final localItems = Provider.of<Repository>(context)
+    //     .items
+    //     .where((item) => categories.keys
+    //         .where((element) => categories[element] == true)
+    //         .toList()
+    //         .contains(item.category))
+    //     .toList()
+    //       ..sort((a, b) => a.title.compareTo(b.title));
 
     return Column(
       children: <Widget>[
@@ -119,15 +168,15 @@ class _RepositoryListState extends State<RepositoryList> {
                         onDismissed: (direction) {
                           Provider.of<Repository>(context)
                               .deletePost(localItems[i].id);
-                              // Navigator.of(context).pop();
+                          // Navigator.of(context).pop();
 
-                          Provider.of<Repository>(context).fetchItems()
-                          .then(
-                            (_) {
-                              setState(() {
-                                // _isLoading = false;
-                              });
+                          Provider.of<Repository>(context)
+                              .fetchItems()
+                              .then((_) {
+                            setState(() {
+                              // _isLoading = false;
                             });
+                          });
                           // );
                           // Provider.of<Repository>(context)
                           //     .fetchItems()

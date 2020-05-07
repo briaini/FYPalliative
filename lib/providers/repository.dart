@@ -11,6 +11,7 @@ import './comment.dart';
 import '../models/user_dao.dart';
 import '../widgets/new_comment_modal.dart';
 import '../utils/http_service.dart';
+import '../screens/admin_tabs_screen.dart';
 
 class Repository with ChangeNotifier {
   final _token;
@@ -21,6 +22,7 @@ class Repository with ChangeNotifier {
   List<Comment> _comments;
   Group _group;
   SingletonHttp singletonHttp;
+  FilterOptions _filterOptions = FilterOptions.Title;
 
   // _mapToken['authorization'] = 'token';
 
@@ -48,6 +50,15 @@ class Repository with ChangeNotifier {
   Group get group {
     return _group;
   }
+FilterOptions get filterOptions {
+    return _filterOptions;
+  }
+
+  void setFilterOptions (fo){
+     _filterOptions = fo;
+     notifyListeners();
+  }
+  
 
   List<Item> get items {
     // _repoItems.sort((a,b) => a.category.compareTo(b.category));
