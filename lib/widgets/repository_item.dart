@@ -43,12 +43,22 @@ class RepositoryItem extends StatelessWidget {
               leading: Icon(Icons.play_circle_outline),
               title:
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
+              trailing: Text(
+                item.category,
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
             )
           : ListTile(
               key: ValueKey(item.id),
               leading: Icon(Icons.import_contacts),
               title:
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
+              trailing: Text(
+                item.category,
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
       onTap: () => Navigator.of(context).pushNamed(
         DetailedRepoItemScreen.routeName,

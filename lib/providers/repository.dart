@@ -393,6 +393,31 @@ class Repository with ChangeNotifier {
     }
   }
 
+  Future<void> patientSwapGroupPostVisibility(postId) async {
+    singletonHttp = SingletonHttp();
+    var url = 'hi';
+    if (group.hiddenposts.any((post) => post.id == postId)) {
+      url = 'https://10.0.2.2:44301/users/$_userId/patientvisibleposts/$postId';
+
+    } else {
+      url = 'https://10.0.2.2:44301/users/$_userId/patienthiddenposts/$postId';
+    }
+    try {
+      final response = await singletonHttp.getIoc().post(
+            url,
+            headers: tokenHeader,
+          );
+      // final response = await http.post(
+      //   url,
+      //   headers: tokenHeader,
+      // );
+      // print(response.body.toString());
+    } catch (error) {
+      throw error;
+    }
+    notifyListeners();
+  }
+
   Item findById(id) {
     // print('item prov item num: $id');
     // return items.first;

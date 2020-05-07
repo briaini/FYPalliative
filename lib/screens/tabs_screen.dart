@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import '../providers/repository.dart';
 import './repository_screen.dart';
 import './community_screen.dart';
 import './profile_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../screens/mdt_other_groups_screen.dart';
+
+enum FilterOptions {
+  Category,
+  Title,
+  Media,
+}
 
 class TabsScreen extends StatefulWidget {
   static const routeName = 'tabs-screen';
@@ -61,6 +68,39 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title']),
+        actions: <Widget>[PopupMenuButton(
+                  onSelected: (FilterOptions selectedValue) {
+                    setState(
+                      () {
+                        if (selectedValue == FilterOptions.Category) {
+                          Provider.of<Repository>(context)
+                              .setFilterOptions(FilterOptions.Category);
+                        } else if (selectedValue == FilterOptions.Media) {
+                          Provider.of<Repository>(context)
+                              .setFilterOptions(FilterOptions.Media);
+                        } else {
+                          Provider.of<Repository>(context)
+                              .setFilterOptions(FilterOptions.Title);
+                        }
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.sort),
+                  itemBuilder: (_) => [
+                    PopupMenuItem(
+                      child: Text('Category'),
+                      value: FilterOptions.Category,
+                    ),
+                    PopupMenuItem(
+                      child: Text('Media'),
+                      value: FilterOptions.Media,
+                    ),
+                    PopupMenuItem(
+                      child: Text('Title'),
+                      value: FilterOptions.Title,
+                    ),
+                  ],
+                ),],
       ),
       drawer: AppDrawer(),
       body: _pages[_selectedPageIndex]['page'],

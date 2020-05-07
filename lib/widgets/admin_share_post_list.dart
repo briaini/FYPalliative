@@ -15,6 +15,7 @@ class _AdminSharePostListState extends State<AdminSharePostList> {
   var _isLoading = false;
   
   Future<void> addPostToGroup(groupId, itemId) async {
+    print('calling add post to group $groupId  $itemId');
     setState(() {
       _isLoading = true;
     });

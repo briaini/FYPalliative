@@ -23,7 +23,7 @@ class _NewMessageModalState extends State<NewMessageModal> {
     // final comment = new Comment();
     try {
       await Provider.of<Patients>(context)
-          .saveMessage(groupId, messageText);
+          .saveMessage(groupId, messageText, Provider.of<Auth>(context).username);
       if (Provider.of<Auth>(context).isAdmin) {
         Provider.of<Patients>(context).fetchGroups().then(
               (_) => setState(

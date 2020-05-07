@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import './edit_repository_item_screen.dart';
 import '../providers/auth.dart';
 import '../providers/patients.dart';
-import '../providers/item.dart';
+import '../providers/repository.dart';
 import '../widgets/text_item_web_view.dart';
 import '../widgets/text_item.dart';
 
@@ -25,11 +25,23 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
 
   Future<void> swapPostVisibility(itemId, groupId) async {
     try {
-      
-      await Provider.of<Patients>(context)
-          .mdtSwapGroupPostVisibility(itemId, Provider.of<Patients>(context).findGroupById(groupId));
+      await Provider.of<Patients>(context).mdtSwapGroupPostVisibility(
+          itemId, Provider.of<Patients>(context).findGroupById(groupId));
       await Provider.of<Patients>(context)
           .fetchMyGroups()
+          .then((_) => setState(() {
+                // _isLoading = false;
+                // Navigator.of(context).pop();
+              }));
+    } catch (e) {}
+  }
+
+  Future<void> patientSwapPostVisibility(itemId) async {
+    try {
+      await Provider.of<Repository>(context).patientSwapGroupPostVisibility(
+          itemId);
+      await Provider.of<Repository>(context)
+          .fetchGroup()
           .then((_) => setState(() {
                 // _isLoading = false;
                 // Navigator.of(context).pop();
@@ -125,14 +137,8 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
                       color: Theme.of(context).primaryIconTheme.color,
                     ),
                     onPressed: () {
-                      Provider.of<Patients>(context)
-                          .hidePostFromGroup(widget.item.id);
-                      Provider.of<Patients>(context)
-                          .fetchMyGroups()
-                          .then((_) => setState(() {
-                                // _isLoading = false;
-                                Navigator.of(context).pop();
-                              }));
+                      patientSwapPostVisibility(widget.item.id);
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],

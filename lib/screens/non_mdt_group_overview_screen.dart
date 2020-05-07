@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/patients.dart';
+import '../screens/admin_all_users_add_screen.dart';
 import '../widgets/messages_list.dart';
 import '../widgets/new_message_modal.dart';
 import '../widgets/non_mdt_group_member_list.dart';
@@ -21,6 +22,16 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(_group.name),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.person_add),
+              onPressed: () => Navigator.of(context).pushNamed(
+                AdminAllUsersAddScreen.routeName,
+                arguments: {"groupId": _group.id},
+              ),
+            )
+            // Provider.of<Patients>(context, listen:false).linkUserToGroup(group.id, userId);
+          ],
           bottom: TabBar(
             tabs: <Widget>[
               Tab(

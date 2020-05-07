@@ -19,20 +19,19 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   Widget build(BuildContext context) {
+    print('this comment ${widget._comment}');
     // DateTime mytime =
     //     new DateFormat("yyyy-MM-dd'T'H':'m':'s'").parse(widget._comment.time);
     return Card(
-      child: Container(
-        padding: EdgeInsets.all(8),
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Expanded(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              child: Column(
+        child: Container(
+            padding: EdgeInsets.all(8),
+            width: MediaQuery.of(context).size.width- 200,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Row(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+
+                  Column(
                     children: <Widget>[
                       Text(
                         widget._comment.subjectName,
@@ -40,33 +39,35 @@ class _CommentItemState extends State<CommentItem> {
                         style: TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold),
                       ),
-                      Expanded(child: Container()),
                       Text(
                         widget._comment.time,
                         style: TextStyle(fontSize: 11, color: Colors.grey),
                       ),
                     ],
                   ),
-                  Text(widget._comment.textBody,
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      CircleAvatar(
+                        maxRadius: 20,
+                        backgroundImage:
+                            AssetImage('assets/images/usertile16.bmp'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width:10),
+
+                  Expanded(
+                    child: Text(
+                      widget._comment.textBody,
                       style: TextStyle(
                         fontSize: 15,
-                      )),
-                ],
-              ),
-            ),
-            // Expanded(child: Container()),
-            Column(
-              children: <Widget>[
-                CircleAvatar(
-                  maxRadius: 20,
-                  backgroundImage: AssetImage('assets/images/usertile16.bmp'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+                      ),
+                    ),
+                  ),
+                ])));
 
     // ListTile(
     //   leading: Chip(

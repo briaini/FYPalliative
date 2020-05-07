@@ -80,7 +80,7 @@ class _AdminGroupDetailScreenInfoState
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
-                icon: Icon(Icons.supervised_user_circle),
+                icon: Icon(Icons.contacts),
               ),
               Tab(
                 icon: Icon(Icons.description),

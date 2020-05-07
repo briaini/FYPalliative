@@ -570,7 +570,7 @@ class Patients with ChangeNotifier {
     singletonHttp = SingletonHttp();
     final url = 'https://10.0.2.2:44301/groups/$groupId/posts/$postId';
     try {
-      final response = await singletonHttp.getIoc().get(
+      final response = await singletonHttp.getIoc().post(
             url,
             headers: tokenHeader,
           );
@@ -606,6 +606,7 @@ class Patients with ChangeNotifier {
   }
 
   Future<void> mdtSwapGroupPostVisibility(postId, Group g) async {
+    print('in patients swap $postId ${g.id}');
     singletonHttp = SingletonHttp();
     var url = 'hi';
     if (g.posts.any((post) => post.id == postId)) {
@@ -629,7 +630,7 @@ class Patients with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveMessage(groupId, commentText) async {
+  Future<void> saveMessage(groupId, commentText, username) async {
     singletonHttp = SingletonHttp();
     final url = 'https://10.0.2.2:44301/groups/$groupId/messages';
     try {
@@ -639,6 +640,7 @@ class Patients with ChangeNotifier {
               {
                 "textBody": commentText,
                 "subjectId": _userId,
+                "subjectName": username,
               },
             ),
             headers: tokenHeader,

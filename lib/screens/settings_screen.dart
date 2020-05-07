@@ -15,7 +15,7 @@ class SettingsScreen extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               child: Text('Name'),
-              backgroundImage: AssetImage('assets/images/usertile16.bmp'),
+              backgroundImage: AssetImage('assets/images/usertile32.bmp'),
             ),
             Chip(
               label: Text('Name'),
@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
               avatar: Container(
                 child: CircleAvatar(
                   radius: 10,
-                  backgroundImage: AssetImage('assets/images/usertile16.bmp'),
+                  backgroundImage: AssetImage('assets/images/usertile32.bmp'),
                 ),
               ),
             ),

@@ -166,12 +166,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
       Navigator.of(context).pop();
       Provider.of<Patients>(context).fetchGroups();
       // Provider.of<Patients>(context).adminFetchUnassignedPatients();
-      Provider.of<Patients>(context).fetchUsers().then(
-        (_) {
-          setState(() {
-          });
-        },
-      );
+      setState(() {
+        Provider.of<Patients>(context).fetchUsers();
+      });
     } catch (e) {}
   }
 

@@ -1,4 +1,5 @@
 import 'package:FlutterFYP/screens/admin_group_detail_screen.dart';
+import 'package:FlutterFYP/screens/non_mdt_group_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +14,10 @@ class GroupsListItem extends StatelessWidget {
     final group = Provider.of<Group>(context);
     final List<UserDAO> members = group.members;
 
+    print('grouplistitem ${group.isMdt}');
+
     return Dismissible(
-      key: ValueKey(group.id),
+      key: UniqueKey(),
       background: Container(
         color: Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
@@ -56,15 +59,19 @@ class GroupsListItem extends StatelessWidget {
         // return Future.value(true);
       },
       child: GestureDetector(
-        child: ListTile(
-          leading: group.isMdt ? Icon(Icons.healing) : Icon(Icons.group),
-          title: Text(group.name),
-        ),
-        onTap: () => Navigator.of(context).pushNamed(
-          AdminGroupDetailScreen.routeName,
-          arguments: group.id,
-        ),
-      ),
+          child: ListTile(
+            leading: group.isMdt ? Icon(Icons.healing) : Icon(Icons.group),
+            title: Text(group.name),
+          ),
+          onTap: group.isMdt
+              ? () => Navigator.of(context).pushNamed(
+                    AdminGroupDetailScreen.routeName,
+                    arguments: group.id,
+                  )
+              : () => Navigator.of(context).pushNamed(
+                    NonMdtGroupOverviewScreen.routeName,
+                    arguments: group.id,
+                  )),
     );
   }
 }

@@ -37,7 +37,7 @@ class _GroupsListState extends State<GroupsList> {
         ? subsetGroups.isEmpty
             ? Center(
                 child: Text(
-                'No Assigned Groups',
+                'No Groups',
                 textAlign: TextAlign.center,
               ))
             : Container(
@@ -71,7 +71,7 @@ class _GroupsListState extends State<GroupsList> {
         : patientsProvider.groups.isEmpty
             ? Center(
                 child: Text(
-                  'No Assigned Groups',
+                  'No Groups',
                   textAlign: TextAlign.center,
                 ),
               )
