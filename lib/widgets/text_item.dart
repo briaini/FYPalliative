@@ -20,8 +20,8 @@ class TextItem extends StatelessWidget {
           _item.imageUrl != null
               ? ClipRRect(
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(45),
-                    bottomRight: Radius.circular(45),
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
                   ),
                   child: Image.network(
                     _item.imageUrl,

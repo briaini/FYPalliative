@@ -41,6 +41,7 @@ class _DetailedUserListState extends State<DetailedUserList> {
                     value: patientsProvider.unassignedPatientUsers[i],
                     child: GestureDetector(
                       child: ListTile(
+                        key: ValueKey(patientsProvider.unassignedPatientUsers[i].id),
                         leading: Icon(Icons.person_outline),
                         title: Text(
                             patientsProvider.unassignedPatientUsers[i].name),

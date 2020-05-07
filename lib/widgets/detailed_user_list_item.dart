@@ -20,6 +20,7 @@ class DetailedUserListItem extends StatelessWidget {
 
     return GestureDetector(
         child: ListTile(
+          key: ValueKey(patient.id),
           leading: Icon(Icons.person),
           title: Text(patient.name),
         ),
