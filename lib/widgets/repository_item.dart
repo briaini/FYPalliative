@@ -19,25 +19,33 @@ class RepositoryItem extends StatelessWidget {
     final item = Provider.of<Item>(context);
     final itemMedia = item.media;
     final itemTitle = item.title;
-    Map<String, dynamic> args = Provider.of<Auth>(context, listen: false)
-            .isPatient
-        ? {"itemId": item.id, "groupId": Provider.of<Repository>(context).group.id}
-        : adminGroupId == null
-            ? {"itemId": item.id, "groupId": Provider.of<Repository>(context).group.id}
-            : (adminGroupId == "nogroup"
+    Map<String, dynamic> args =
+        Provider.of<Auth>(context, listen: false).isPatient
+            ? {
+                "itemId": item.id,
+                "groupId": Provider.of<Repository>(context).group.id
+              }
+            : adminGroupId == null
                 ? {
                     "itemId": item.id,
+                    "groupId": Provider.of<Repository>(context).group.id
                   }
-                : {"itemId": item.id, "adminGroupId": adminGroupId});
+                : (adminGroupId == "nogroup"
+                    ? {
+                        "itemId": item.id,
+                      }
+                    : {"itemId": item.id, "adminGroupId": adminGroupId});
 
     return GestureDetector(
       child: itemMedia == "video"
           ? ListTile(
+              key: ValueKey(item.id),
               leading: Icon(Icons.play_circle_outline),
               title:
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
             )
           : ListTile(
+              key: ValueKey(item.id),
               leading: Icon(Icons.import_contacts),
               title:
                   Text(itemTitle, style: Theme.of(context).textTheme.headline5),
