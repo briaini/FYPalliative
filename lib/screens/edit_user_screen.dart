@@ -69,9 +69,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
           ModalRoute.of(context).settings.arguments as String;
       _existingUser = existingUserMapString != null;
 
-
       if (_existingUser) {
-      final existingUserMap = json.decode(existingUserMapString);
+        final existingUserMap = json.decode(existingUserMapString);
         _initValues = existingUserMap;
         _editedValues['id'] = existingUserMap['id'];
         _roleValue = existingUserMap['role'] != 'MDT' ? Role.patient : Role.mdt;
@@ -161,12 +160,48 @@ class _EditUserScreenState extends State<EditUserScreen> {
     }
   }
 
+  Future<void> _deleteUser(userId) async {
+    try {
+      await Provider.of<Patients>(context, listen: false).deleteUser(userId);
+      Navigator.of(context).pop();
+      Provider.of<Patients>(context).fetchGroups();
+      // Provider.of<Patients>(context).adminFetchUnassignedPatients();
+      Provider.of<Patients>(context).fetchUsers().then(
+        (_) {
+          setState(() {
+          });
+        },
+      );
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit User'),
         actions: <Widget>[
+          _existingUser
+              ? IconButton(
+                  icon: Icon(
+                    Icons.delete_forever,
+                    color: Theme.of(context).buttonColor,
+                  ),
+                  onPressed: () {
+                    // Provider.of<Patients>(context)
+                    //     .deleteUser(_editedValues['id']);
+                    // Navigator.of(context).pop();
+
+                    // Provider.of<Patients>(context).fetchUsers().then((_) {
+                    //   setState(() {
+                    //     // _isLoading = false;
+                    //   });
+                    // });
+
+                    _deleteUser(_editedValues['id']);
+                  },
+                )
+              : Container(),
           IconButton(icon: Icon(Icons.save), onPressed: _saveForm),
         ],
       ),

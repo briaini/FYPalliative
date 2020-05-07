@@ -190,6 +190,18 @@ class Patients with ChangeNotifier {
     }
   }
 
+  Future<void> deleteUser(userId) async {
+    singletonHttp = SingletonHttp();
+    var url = 'https://10.0.2.2:44301/users/$userId';
+    try {
+      final response = await singletonHttp.getIoc().delete(
+            url,
+            headers: tokenHeader,
+          );
+          notifyListeners();
+    } catch (e) {}
+  }
+
   // Future<void> adminFetchUnassignedPatients() async {
   //   var url = 'http://10.0.2.2:8080/users/unassignedPatients';
   //   print(url);
