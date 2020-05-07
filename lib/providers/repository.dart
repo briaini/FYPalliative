@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
-
 import './group.dart';
 import './item.dart';
 import './comment.dart';
@@ -181,58 +180,73 @@ class Repository with ChangeNotifier {
         print("group is null");
         return;
       }
+      final groupmembers = group['members'] as List<dynamic>;
+      final groupposts = group['posts'] as List<dynamic>;
+      final grouphiddenposts = group['grouphiddenposts'] as List<dynamic>;
+      var groupcomments;
+      if (group['recipient'] != null) {
+        groupcomments = group['recipient']['comments'] as List<dynamic>;
+      }
       var loadedGroup = Group(
         group['id'],
         group['name'],
-        (group['members'] as List<dynamic>)
-            .map(
-              (user) => UserDAO(
-                user['id'],
-                user['name'],
-                user['role'],
-                null,
-              ),
-            )
-            .toList(),
-        (group['posts'] as List<dynamic>)
-            .map(
-              (item) => Item(
-                id: item['id'],
-                media: item['media'],
-                category: item['category'],
-                title: item['title'],
-                description: item['description'],
-                linkUrl: item['link_url'],
-                imageUrl: item['image_url'],
-              ),
-            )
-            .toList(),
-        (group['hiddenposts'] as List<dynamic>)
-            .map(
-              (item) => Item(
-                id: item['id'],
-                media: item['media'],
-                category: item['category'],
-                title: item['title'],
-                description: item['description'],
-                linkUrl: item['link_url'],
-                imageUrl: item['image_url'],
-              ),
-            )
-            .toList(),
-        (group['recipient']['comments'] as List<dynamic>)
-            .map(
-              (comment) => Comment(
-                comment['id'],
-                comment['subjectId'],
-                comment['subjectName'],
-                comment['textBody'],
-                comment['postId'],
-                comment['parentCommentId'],
-                comment['timestamp'],
-              ),
-            )
-            .toList(),
+        groupmembers == null
+            ? []
+            : groupmembers
+                .map(
+                  (user) => UserDAO(
+                    user['id'],
+                    user['name'],
+                    user['role'],
+                    null,
+                  ),
+                )
+                .toList(),
+        groupposts == null
+            ? []
+            : groupposts
+                .map(
+                  (item) => Item(
+                    id: item['id'],
+                    media: item['media'],
+                    category: item['category'],
+                    title: item['title'],
+                    description: item['description'],
+                    linkUrl: item['link_url'],
+                    imageUrl: item['image_url'],
+                  ),
+                )
+                .toList(),
+        grouphiddenposts == null
+            ? []
+            : grouphiddenposts
+                .map(
+                  (item) => Item(
+                    id: item['id'],
+                    media: item['media'],
+                    category: item['category'],
+                    title: item['title'],
+                    description: item['description'],
+                    linkUrl: item['link_url'],
+                    imageUrl: item['image_url'],
+                  ),
+                )
+                .toList(),
+        groupcomments == null
+            ? []
+            : groupcomments
+                .map(
+                  (comment) => Comment(
+                    comment['id'],
+                    comment['subjectId'],
+                    comment['subjectName'],
+                    comment['textBody'],
+                    comment['postId'],
+                    comment['parentCommentId'],
+                    comment['timestamp'],
+                  ),
+                )
+                .toList(),
         group['mdt'],
       );
 
@@ -263,7 +277,6 @@ class Repository with ChangeNotifier {
     // 'http://10.0.2.2:8080/users/$_userId/posts';
 
     try {
-
       final response = await singletonHttp.getIoc().get(
             url,
             headers: tokenHeader,
@@ -342,7 +355,7 @@ class Repository with ChangeNotifier {
 
   Future<void> saveComment(_username, groupId, itemId, commentText) async {
     singletonHttp = SingletonHttp();
-    
+
     final url = 'https://10.0.2.2:44301/groups/$groupId/comments';
 
     // final url = 'http://10.0.2.2:8080/groups/$groupId/comments';

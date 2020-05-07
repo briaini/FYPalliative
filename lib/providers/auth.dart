@@ -141,10 +141,16 @@ class Auth extends ChangeNotifier {
       // Parse jwt
       _parsedToken = parseJwt(_token);
 
+      print('printing parsed token ${_parsedToken.keys}');
+      print('printing parsed token ${_parsedToken}');
+      // print('printing parsed token ${_parsedToken[auth]}');
+
+
+
       //Store jwt claims in local variables
       _username = _parsedToken["sub"];
-      // print("username is: \n" + _username + "\n");
-      // print("token is: $_token");
+      print("username is: \n" + _username + "\n");
+      print("token is: $_token");
 
       if (_parsedToken["authorities"].toString().contains("ADMIN")) {
         roler = "ADMIN";
