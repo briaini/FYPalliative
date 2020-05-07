@@ -82,13 +82,15 @@ class Patients with ChangeNotifier {
   }
 
   Group findNonMdtGroupById(id) {
+    print('in findnonmdtgroupbyid id: $id ');
+    print(nonMdtGroups.map((e) => e.id).toList());
     return nonMdtGroups.firstWhere((group) => group.id == id);
   }
 
   List<Group> findGroupsByMdtId(id) {
     return _groups
             .where((group) =>
-                group.isMdt && group.members.any((user) => user.id == id))
+                group.members.any((user) => user.id == id))
             .toList() ??
         [];
   }
@@ -428,6 +430,9 @@ class Patients with ChangeNotifier {
         );
       });
       _groups = loadedGroups;
+
+      _nonMdtGroups =
+          loadedGroups.where((group) => group.isMdt == false).toList();
       notifyListeners();
     } catch (error) {
       print("error");

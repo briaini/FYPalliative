@@ -151,7 +151,7 @@ class _TextItemTabScreen extends State<TextItemTabScreen> {
         body: TabBarView(
           children: <Widget>[
             TextItem(widget.item, widget.hasComments),
-            TextItemWebView(),
+            TextItemWebView(widget.item.linkUrl),
           ],
         ),
       ),

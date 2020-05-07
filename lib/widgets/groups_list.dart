@@ -5,6 +5,8 @@ import '../providers/group.dart';
 import '../providers/patients.dart';
 import '../widgets/groups_list_item.dart';
 import '../screens/admin_group_detail_screen.dart';
+import '../screens/non_mdt_group_overview_screen.dart';
+
 
 // import './group_list_item.dart';
 
@@ -44,14 +46,23 @@ class _GroupsListState extends State<GroupsList> {
                   itemBuilder: (_, i) => ChangeNotifierProvider.value(
                     value: subsetGroups[i],
                     child: GestureDetector(
-                      child: ListTile(
-                        leading: Icon(Icons.group),
-                        title: Text(subsetGroups[i].name),
-                      ),
-                      onTap: () => Navigator.of(context).pushNamed(
+                      child: subsetGroups[i].isMdt
+                          ? ListTile(
+                              leading: Icon(Icons.healing),
+                              title: Text(subsetGroups[i].name),
+                            )
+                          : ListTile(
+                              leading: Icon(Icons.group),
+                              title: Text(subsetGroups[i].name),
+                            ),
+                      onTap: subsetGroups[i].isMdt
+                          ? () => Navigator.of(context).pushNamed(
                         AdminGroupDetailScreen.routeName,
                         arguments: subsetGroups[i].id,
-                      ),
+                      ) : () => Navigator.of(context).pushNamed(
+                        NonMdtGroupOverviewScreen.routeName,
+                        arguments: subsetGroups[i].id,
+                      )
                     ),
                   ),
                   separatorBuilder: (_, i) => const Divider(),

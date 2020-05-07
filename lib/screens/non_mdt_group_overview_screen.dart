@@ -11,6 +11,8 @@ class NonMdtGroupOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _groupId = ModalRoute.of(context).settings.arguments as int;
+    print('passed group id ${_groupId}');
+
     final _group = Provider.of<Patients>(context).findNonMdtGroupById(_groupId);
     // findGroupById(_groupId);
 

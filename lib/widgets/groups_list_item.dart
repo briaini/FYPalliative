@@ -57,7 +57,7 @@ class GroupsListItem extends StatelessWidget {
       },
       child: GestureDetector(
         child: ListTile(
-          leading: Icon(Icons.group),
+          leading: group.isMdt ? Icon(Icons.healing) : Icon(Icons.group),
           title: Text(group.name),
         ),
         onTap: () => Navigator.of(context).pushNamed(
