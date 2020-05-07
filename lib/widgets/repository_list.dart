@@ -60,7 +60,7 @@ class _RepositoryListState extends State<RepositoryList> {
             .toList()
               ..sort((a, b) => a.title.compareTo(b.title));
         break;
-        case FilterOptions.Media:
+      case FilterOptions.Media:
         localItems = Provider.of<Repository>(context)
             .items
             .where((item) => categories.keys
@@ -70,7 +70,7 @@ class _RepositoryListState extends State<RepositoryList> {
             .toList()
               ..sort((a, b) => a.media.compareTo(b.media));
         break;
-        case FilterOptions.Category:
+      case FilterOptions.Category:
         localItems = Provider.of<Repository>(context)
             .items
             .where((item) => categories.keys
@@ -91,7 +91,8 @@ class _RepositoryListState extends State<RepositoryList> {
     //         .contains(item.category))
     //     .toList()
     //       ..sort((a, b) => a.title.compareTo(b.title));
-
+    var localfilters = repoProv.repositoryFilters.keys.toList();
+    localfilters.sort((a, b) => a.compareTo(b));
     return Column(
       children: <Widget>[
         Container(
@@ -101,47 +102,116 @@ class _RepositoryListState extends State<RepositoryList> {
           height: 25,
           // color: Theme.of(context).primaryColor,
           child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: categories.keys
-                .map((category) => GestureDetector(
-                      child: Container(
-                        child: Text(
-                          category,
-                          textAlign: TextAlign.center,
+              scrollDirection: Axis.horizontal,
+              children: List<Widget>.generate(
+                  localfilters.length,
+                  (i) => InkWell(
+                        // highlightElevation: 12,
+                        // focusNode: Focu,
+                        child: GestureDetector(
+                          // color: Colors.white,
+
+                          onTap: () {
+                            setState(() {
+                              if (localfilters[i].contains('All')) {
+                                categories[localfilters[i]] =
+                                    !categories[localfilters[i]];
+                                categories.updateAll((key, value) =>
+                                    categories[key] =
+                                        categories[localfilters[i]]);
+                              } else
+                                categories[localfilters[i]] =
+                                    !categories[localfilters[i]];
+                              if (categories.values.elementAt(0) == false &&
+                                  categories.values
+                                          .where((val) => val == false)
+                                          .length ==
+                                      1)
+                                categories['All'] = true;
+                              else if (categories.containsValue(false))
+                                categories['All'] = false;
+                              Provider.of<Repository>(context)
+                                  .saveRepositoryFilters(categories);
+                            });
+                          },
+                          // disabledBorderColor: Colors.white,
+                          // disabledTextColor: Colors.white,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.8),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 8,
+                                  color: Colors.black38,
+                                  offset: Offset(0, 2),
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              localfilters[i],
+                              style: TextStyle(
+                                color: categories[localfilters[i]]
+                                    ? Colors.white
+                                    : Colors.black45,
+                              ),
+                            ),
+                            // decoration: BoxDecoration(
+                            //   color: categories[localfilters[i]]
+                            //       ? Theme.of(context).primaryColor
+                            //       : Colors.blueGrey,
+                            // ),
+
+                            // color: Colors.white,
+                            padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                            color: categories[category]
-                                ? Theme.of(context).accentColor
-                                : Theme.of(context).primaryColorLight,
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: kElevationToShadow[1]),
-                        height: 20,
-                        width: 75,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          if (category.contains('All')) {
-                            categories[category] = !categories[category];
-                            categories.updateAll((key, value) =>
-                                categories[key] = categories[category]);
-                          } else
-                            categories['$category'] = !categories['$category'];
-                          if (categories.values.elementAt(0) == false &&
-                              categories.values
-                                      .where((val) => val == false)
-                                      .length ==
-                                  1)
-                            categories['All'] = true;
-                          else if (categories.containsValue(false))
-                            categories['All'] = false;
-                          Provider.of<Repository>(context)
-                              .saveRepositoryFilters(categories);
-                        });
-                      },
-                    ))
-                .toList(),
-          ),
+                      ))
+
+              // localfilters
+              //     .map(
+              //       (category) => InkWell(
+              //         // highlightElevation: 12,
+              //         // focusNode: Focu,
+              //         child: GestureDetector(
+              //           // color: Colors.white,
+
+              //           onTap: () {
+              //             setState(() {
+              //               if (category.contains('All')) {
+              //                 categories[category] = !categories[category];
+              //                 categories.updateAll((key, value) =>
+              //                     categories[key] = categories[category]);
+              //               } else
+              //                 categories['$category'] = !categories['$category'];
+              //               if (categories.values.elementAt(0) == false &&
+              //                   categories.values
+              //                           .where((val) => val == false)
+              //                           .length ==
+              //                       1)
+              //                 categories['All'] = true;
+              //               else if (categories.containsValue(false))
+              //                 categories['All'] = false;
+              //               Provider.of<Repository>(context)
+              //                   .saveRepositoryFilters(categories);
+              //             });
+              //           },
+              //           // disabledBorderColor: Colors.white,
+              //           // disabledTextColor: Colors.white,
+              //           child: Chip(
+              //             label: Text(category),
+              //             backgroundColor: Colors.white,
+              //             // color: Colors.white,
+              //             padding: EdgeInsets.all(10),
+              //           ),
+              //         ),
+              //       ),
+              //     )
+              //     .toList(),
+
+              ),
         ),
         Expanded(
           child: Container(
@@ -168,15 +238,17 @@ class _RepositoryListState extends State<RepositoryList> {
                         onDismissed: (direction) {
                           Provider.of<Repository>(context)
                               .deletePost(localItems[i].id);
+                          Provider.of<Repository>(context).fetchItems();
                           // Navigator.of(context).pop();
 
-                          Provider.of<Repository>(context)
-                              .fetchItems()
-                              .then((_) {
-                            setState(() {
-                              // _isLoading = false;
-                            });
+                          // Provider.of<Repository>(context)
+                          //     .fetchItems()
+                          //     .then((_) {
+                          setState(() {
+                            // _isLoading = false;
                           });
+                          // }
+                          // );
                           // );
                           // Provider.of<Repository>(context)
                           //     .fetchItems()

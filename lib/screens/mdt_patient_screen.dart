@@ -130,7 +130,7 @@ class _InfoWidgetState extends State<InfoWidget> {
             ),
           ),
           body: _isLoading
-              ? CircularProgressIndicator()
+              ? Center(child: CircularProgressIndicator())
               : TabBarView(
                   children: <Widget>[
                     MdtOverview(),

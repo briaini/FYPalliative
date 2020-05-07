@@ -50,15 +50,15 @@ class Repository with ChangeNotifier {
   Group get group {
     return _group;
   }
-FilterOptions get filterOptions {
+
+  FilterOptions get filterOptions {
     return _filterOptions;
   }
 
-  void setFilterOptions (fo){
-     _filterOptions = fo;
-     notifyListeners();
+  void setFilterOptions(fo) {
+    _filterOptions = fo;
+    notifyListeners();
   }
-  
 
   List<Item> get items {
     // _repoItems.sort((a,b) => a.category.compareTo(b.category));
@@ -317,7 +317,7 @@ FilterOptions get filterOptions {
       //     ),
       //   );
       // });
-
+      _categories.clear();
       items.forEach((post) {
         _fetchedItems.add(
           Item(
@@ -348,6 +348,9 @@ FilterOptions get filterOptions {
       _categories.forEach((category) {
         _repoFiltersMap[category] = true;
       });
+      
+      _repoFiltersMap.removeWhere((key, value) => !_categories.contains(key));
+      _repoFiltersMap['All'] = true;
 
       notifyListeners();
     } catch (error) {

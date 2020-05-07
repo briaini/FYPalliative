@@ -86,7 +86,7 @@ class _AdminAllUserDetailedScreenState
         ),
 
         body: _isLoading
-            ? CircularProgressIndicator()
+            ? Center(child: CircularProgressIndicator())
             : TabBarView(
                 children: <Widget>[
                   DetailedMdtUserList(), //Mdt will be list of PatientUsers

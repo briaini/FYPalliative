@@ -16,12 +16,12 @@ class AdminUserOverviewScreen extends StatefulWidget {
 }
 
 class _AdminUserOverviewScreenState extends State<AdminUserOverviewScreen> {
-  final categories = {
-    'All': true,
-    'Excercise': true,
-    'Pain': true,
-    'Stress': true
-  };
+  // final categories = {
+  //   'All': true,
+  //   'Excercise': true,
+  //   'Pain': true,
+  //   'Stress': true
+  // };
   @override
   Widget build(BuildContext context) {
     final user = ModalRoute.of(context).settings.arguments as UserDAO;
